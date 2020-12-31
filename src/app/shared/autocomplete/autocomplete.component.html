@@ -1,0 +1,15 @@
+<mat-form-field>
+    <input type="text" [placeholder]="options?.placeholder" autocomplete="off" #autocompleteInput
+        (input)="onInputSubject.next(autocompleteInput.value)" (blur)="onBlur()" (focus)="onFocus()" matInput
+        [matAutocomplete]="auto">
+
+    <button mat-icon-button matSuffix (click)="clear()">
+        <mat-icon>close</mat-icon>
+    </button>
+
+    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onSelectItem($event)">
+        <mat-option *ngFor="let item of items" [value]="item.value">
+            {{ item.label }}
+        </mat-option>
+    </mat-autocomplete>
+</mat-form-field>

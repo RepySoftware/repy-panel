@@ -1,0 +1,56 @@
+@import "assets/fonts/alata/stylesheet.css";
+@import "~@angular/material/theming";
+@include mat-core();
+
+$custom-color: (
+  200: #2e3192,
+  500: #f1592a,
+  contrast: (
+    200: #fff,
+    500: #fff,
+  ),
+);
+
+$primary: mat-palette($custom-color, 500);
+$accent: mat-palette($custom-color, 200);
+
+$theme: mat-light-theme($primary, $accent);
+
+$custom-typography: mat-typography-config(
+  $font-family: "Alata Regular",
+);
+
+@include angular-material-typography($custom-typography);
+@include angular-material-theme($theme);
+
+:root {
+  --primary-color: #2e3192;
+  --primary-color-light: #484dc7;
+  --primary-color-dark: #1d2066;
+
+  --secondary-color: #f1592a;
+  --secondary-color-light: #ff7449;
+  --secondary-color-dark: #c7461f;
+
+  /* custom colors */
+  --color-turquoise: #1abc9c;
+  --color-emerland: #2ecc71;
+  --color-peterriver: #3498db;
+  --color-amethyst: #9b59b6;
+  --color-wetasphalt: #34495e;
+  --color-greensea: #16a085;
+  --color-nephritis: #27ae60;
+  --color-belizehole: #2980b9;
+  --color-wisteria: #8e44ad;
+  --color-midnightblue: #2c3e50;
+  --color-sunflower: #f1c40f;
+  --color-carrot: #e67e22;
+  --color-alizarin: #e74c3c;
+  --color-clouds: #ecf0f1;
+  --color-concrete: #95a5a6;
+  --color-orange: #f39c12;
+  --color-pumpkin: #d35400;
+  --color-pomegranate: #c0392b;
+  --color-silver: #bdc3c7;
+  --color-asbestos: #7f8c8d;
+}

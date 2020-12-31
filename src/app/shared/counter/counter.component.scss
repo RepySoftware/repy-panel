@@ -1,0 +1,39 @@
+.counter {
+  background: rgb(255, 255, 255);
+
+  .row {
+    border: #eaeaea solid 1px;
+    border-radius: 4px;
+    color: var(--wlc-dark-color);
+
+    .value {
+      text-align: center;
+      padding: 7px;
+      font-size: 15px;
+      width: 60%;
+    }
+
+    .button {
+      background: gray;
+      color: white;
+      cursor: pointer;
+      width: 20%;
+    }
+
+    .button:first-child {
+      border-radius: 4px 0 0 4px;
+    }
+
+    .button:last-child {
+      border-radius: 0 4px 4px 0;
+    }
+  }
+}
+
+.counter ::selection {
+  background: none;
+}
+
+mat-icon {
+  padding: 6px;
+}

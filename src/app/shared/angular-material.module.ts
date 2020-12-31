@@ -1,0 +1,72 @@
+import { NgModule } from '@angular/core';
+import { MatMenuModule, MatToolbarModule, MatInputModule, MatSnackBarModule, MatProgressBarModule, MatDialogModule, MatGridListModule, MatCardModule, MatIconModule, MatListModule, MatChipsModule, MatBadgeModule, MatDividerModule, MatButtonModule, MatSelectModule, MatSidenavModule, MatStepperModule, MatRadioModule, MatTabsModule, MatAutocompleteModule, MatDatepickerModule, MatNativeDateModule, MatProgressSpinnerModule, MatCheckboxModule, MatTableModule, MatSlideToggleModule, MatExpansionModule, MatTreeModule } from '@angular/material';
+
+@NgModule({
+    declarations: [
+    ],
+    imports: [
+        MatToolbarModule,
+        MatInputModule,
+        MatSnackBarModule,
+        MatProgressBarModule,
+        MatProgressSpinnerModule,
+        MatDialogModule,
+        MatGridListModule,
+        MatCardModule,
+        MatIconModule,
+        MatListModule,
+        MatChipsModule,
+        MatBadgeModule,
+        MatDividerModule,
+        MatButtonModule,
+        MatMenuModule,
+        MatSelectModule,
+        MatSidenavModule,
+        MatRadioModule,
+        MatTabsModule,
+        MatSelectModule,
+        MatAutocompleteModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+        MatStepperModule,
+        MatCheckboxModule,
+        MatSlideToggleModule,
+        MatExpansionModule,
+        MatTreeModule,
+        MatTableModule
+    ],
+    exports: [
+        MatToolbarModule,
+        MatInputModule,
+        MatSnackBarModule,
+        MatProgressBarModule,
+        MatProgressSpinnerModule,
+        MatDialogModule,
+        MatGridListModule,
+        MatCardModule,
+        MatIconModule,
+        MatListModule,
+        MatChipsModule,
+        MatBadgeModule,
+        MatDividerModule,
+        MatButtonModule,
+        MatMenuModule,
+        MatSelectModule,
+        MatSidenavModule,
+        MatRadioModule,
+        MatTabsModule,
+        MatSelectModule,
+        MatAutocompleteModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+        MatStepperModule,
+        MatCheckboxModule,
+        MatSlideToggleModule,
+        MatExpansionModule,
+        MatTreeModule,
+        MatTableModule
+    ],
+    entryComponents: [
+    ]
+})
+export class AngularMaterialModule { }

@@ -1,0 +1,74 @@
+@import url("https://fonts.googleapis.com/css?family=Open+Sans");
+@import "~bootstrap/dist/css/bootstrap.min.css";
+
+@import "./theme/default.scss";
+
+html {
+  height: 100%;
+  outline: none !important;
+}
+
+body {
+  margin: 0;
+  font-family: "Open Sans", sans-serif;
+}
+
+.center {
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+.row {
+  margin: 0 !important;
+}
+
+// .mat-card {
+//   border-radius: 15px !important;
+//   box-shadow: 2px 2px 19px rgba(0, 0, 0, 0.16) !important;
+//   margin: 8px !important;
+// }
+
+::selection {
+  color: #fff;
+  background: var(--primary-color-light);
+  text-shadow: none;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+.mat-form-field {
+  line-height: 1.5 !important;
+}
+
+a[mat-button],
+a[mat-raised-button],
+a[mat-flat-button],
+a[mat-stroked-button] {
+  text-decoration: none;
+}
+
+.bold {
+  font-weight: bold;
+}

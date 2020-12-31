@@ -1,0 +1,30 @@
+<div class="bg">
+    <div class="row">
+        <div class="col-md-4 offset-md-4">
+            <mat-card class="login-card">
+                <mat-card-title>Repy Panel</mat-card-title>
+                <mat-card-subtitle style="font-size: 18px; font-weight: bold;">Login</mat-card-subtitle>
+
+                <form [formGroup]="loginForm" (ngSubmit)="login()">
+
+                    <mat-form-field>
+                        <input #email type="email" matInput placeholder="E-mail" formControlName="email">
+                        <mat-error *ngIf="!email.valid">
+                            Este campo contém erros
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field>
+                        <input #password matInput placeholder="Senha" formControlName="password" type="password">
+                        <mat-error *ngIf="!password.valid">
+                            Este campo é obrigatório
+                        </mat-error>
+                    </mat-form-field>
+
+                    <button style="width: 100%;" mat-flat-button color="primary">Entrar</button>
+
+                </form>
+            </mat-card>
+        </div>
+    </div>
+</div>

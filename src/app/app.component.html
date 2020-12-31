@@ -1,0 +1,89 @@
+<div *ngIf="loaderState"
+     class="loader">
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+</div>
+
+<ng-template #content>
+
+  <mat-sidenav-container class="sidenav-container">
+    <mat-sidenav #sidenav
+                 mode="over"
+                 position="start">
+
+      <mat-list>
+
+        <mat-list-item style="margin: 16px 0;">
+          <img matListAvatar
+               [src]="userService.getAvatarImageNameInitials(loggedUser.name)"
+               [alt]="loggedUser.name">
+          <h3 style="font-weight: bold;"
+              matLine>{{ loggedUser.name }}</h3>
+        </mat-list-item>
+
+        <mat-divider></mat-divider>
+
+        <mat-list-item class="menu-item"
+                       *ngFor="let item of menuItens"
+                       (click)="menuClick(item.onClick)"
+                       routerLink="{{ item.route }}">
+          <mat-icon mat-list-icon>{{ item.icon }}</mat-icon>
+          <h4 mat-line>{{ item.title }}</h4>
+          <mat-divider></mat-divider>
+        </mat-list-item>
+
+        <mat-list-item class="menu-item"
+                       (click)="logout()"
+                       style="position: absolute;bottom: 0;">
+          <mat-icon mat-list-icon>exit_to_app</mat-icon>
+          <h4 mat-line>Sair</h4>
+        </mat-list-item>
+
+      </mat-list>
+
+    </mat-sidenav>
+    <mat-sidenav-content>
+
+      <mat-toolbar color="primary"
+                   [style.display]="isLogin ? 'none' : 'flex'">
+
+        <button (click)="sidenav.toggle()"
+                mat-icon-button>
+          <mat-icon>menu</mat-icon>
+        </button>
+
+        <a class="toolbar-link"
+           routerLink="/home">
+          <img style="height: 18px; margin-bottom: 7px;;"
+               src="assets/images/logo-white.png">
+        </a>
+
+        <ul>
+          <li><a routerLink="/home"
+               routerLinkActive="active">Home</a></li>
+          <li><a routerLink="/products"
+               routerLinkActive="active">Produtos</a></li>
+        </ul>
+
+        <span class="spacer"></span>
+
+        <strong style="font-size: 14px;">{{ loggedUser.name }}</strong>
+
+      </mat-toolbar>
+      <div class="main-top"></div>
+
+      <router-outlet></router-outlet>
+
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+
+</ng-template>
+
+<div *ngIf="!isLogin && loggedUser">
+  <ng-container *ngTemplateOutlet="content"></ng-container>
+</div>
+
+<div *ngIf="isLogin">
+  <router-outlet></router-outlet>
+</div>
+
+<footer></footer>
