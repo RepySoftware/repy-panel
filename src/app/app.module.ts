@@ -8,6 +8,7 @@ import { HttpClientModule, HttpClientJsonpModule, HTTP_INTERCEPTORS } from '@ang
 import { UserService } from './services/user.service';
 import { AuthService } from './services/auth.service';
 import { LoaderService } from './services/loader.service';
+import { DeviceService } from './services/device.service';
 import { ToastService } from './services/toast.service';
 import { OnlyLoggedGuard } from './guards/only-logged.guard';
 import * as moment from 'moment';
@@ -34,6 +35,7 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
     UserService,
     AuthService,
     StorageService,
+    DeviceService,
 
     LoaderService,
     ToastService,

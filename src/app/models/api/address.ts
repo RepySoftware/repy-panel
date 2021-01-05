@@ -9,6 +9,6 @@ export interface Address extends ApiModel {
     country: string;
     number: string;
     referencePoint: string;
-    latitude: string;
-    longitude: string;
+    latitude: number;
+    longitude: number;
 }

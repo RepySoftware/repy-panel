@@ -1,6 +1,6 @@
-export abstract class FilterHelper {
+export abstract class HttpQueryParamsHelper {
 
-    public static objectToFilter(obj: any): any {
+    public static objectToParams(obj: any): { [key: string]: string } {
 
         let newObj = {};
 

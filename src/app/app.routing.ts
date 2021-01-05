@@ -16,6 +16,11 @@ const routes: Routes = [
     path: 'home',
     loadChildren: () => import('./pages/home/home.module').then(x => x.HomeModule),
     canActivate: [OnlyLoggedGuard]
+  },
+  {
+    path: 'devices',
+    loadChildren: () => import('./pages/devices/devices.module').then(x => x.DevicesModule),
+    canActivate: [OnlyLoggedGuard]
   }
 ];
 

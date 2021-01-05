@@ -13,6 +13,7 @@ export interface User extends ApiModel, TimeStamps {
     type: UserType;
     supplierEmployee?: SupplierEmployee;
     customer?: Customer;
+    isAdmin: boolean;
     isActive: boolean;
     userDevices: UserDevice[];
 }
