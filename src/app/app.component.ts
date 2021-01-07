@@ -1,6 +1,6 @@
 import { Component, ViewChild, OnInit, ChangeDetectorRef } from '@angular/core';
 import { UserService } from './services/user.service';
-import { MatSidenav } from '@angular/material';
+import { MatSidenav } from '@angular/material/sidenav';
 import { SidenavItem } from './models/ui/sidenav-item';
 import { Router } from '@angular/router';
 import { LoaderService } from './services/loader.service';

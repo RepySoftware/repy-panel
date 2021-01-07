@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DevicesViewService } from './devices-view.service';
 
 @Component({
@@ -6,7 +7,7 @@ import { DevicesViewService } from './devices-view.service';
   templateUrl: './devices.component.html',
   styleUrls: ['./devices.component.scss']
 })
-export class DevicesComponent implements OnInit {
+export class DevicesComponent implements OnInit, OnDestroy {
 
   constructor(
     public devicesViewService: DevicesViewService
@@ -16,4 +17,6 @@ export class DevicesComponent implements OnInit {
     this.devicesViewService.refreshDevices();
   }
 
+  ngOnDestroy() {
+  }
 }

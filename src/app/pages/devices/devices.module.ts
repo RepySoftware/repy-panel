@@ -24,7 +24,7 @@ import { DevicesViewService } from './devices-view.service';
           {
             path: '',
             pathMatch: 'full',
-            redirectTo: 'map'
+            redirectTo: 'list'
           },
           {
             path: 'map',

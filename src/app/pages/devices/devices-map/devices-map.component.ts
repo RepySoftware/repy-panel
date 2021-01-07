@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import * as mapboxgl from 'mapbox-gl';
 import { environment } from '../../../../environments/environment';
-import { Device } from '../../../models/api/device';
+import { Device, deviceToHtml } from '../../../models/api/device';
 import { LoaderService } from '../../../services/loader.service';
 import { ToastService } from '../../../services/toast.service';
 import { DevicesViewService } from '../devices-view.service';
@@ -84,27 +84,19 @@ export class DevicesMapComponent implements OnInit, AfterViewInit, OnDestroy {
       this._markers.forEach(x => bounds.extend(x.marker.getLngLat()));
       this._map.fitBounds(bounds, { padding: 100 });
 
-      this.refreshInterval.interval = setInterval(() => {
-        this._devicesViewService.refreshDevices().then(devices => {
-          devices.forEach(d => {
-            const marker = this._markers.find(x => x.id == `deviceMarker_${d.id}`);
-            marker.popup.setHTML(this.buildMarkerHtml(d));
-          });
-        });
-      }, this.refreshInterval.time);
+      // this.refreshInterval.interval = setInterval(() => {
+      //   this._devicesViewService.refreshDevices().then(devices => {
+      //     devices.forEach(d => {
+      //       const marker = this._markers.find(x => x.id == `deviceMarker_${d.id}`);
+      //       marker.popup.setHTML(this.buildMarkerHtml(d));
+      //     });
+      //   });
+      // }, this.refreshInterval.time);
     });
   }
 
   private buildMarkerHtml(device: Device): string {
-
-    return /*html*/`
-        <div>
-            <span>${device.address.description}</span>
-            <br>
-            <strong>${device.name}</strong>
-            <a style="float: right" class="btn btn-primary btn-sm" href="/devices/${device.id}/detail">Ver detalhes</a>
-        </div>
-    `;
+    return deviceToHtml(device);
   }
 
   private createMarker(options: {

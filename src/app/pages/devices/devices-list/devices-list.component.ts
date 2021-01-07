@@ -12,10 +12,11 @@ export class DevicesListComponent implements OnInit {
   public devices: Device[] = [];
 
   constructor(
-    private _devicesViewService: DevicesViewService
+    public devicesViewService: DevicesViewService
   ) { }
 
   ngOnInit() {
+    this.devicesViewService.refreshDevices({ showLoader: true });
   }
 
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { DialogMessageOptions } from 'src/app/models/ui/dialog-message-options';
 import { DialogMessagButton } from 'src/app/models/ui/dialog-message-button';
 

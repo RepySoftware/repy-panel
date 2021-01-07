@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { ButtonDialogCloseComponent } from './button-dialog-close.component';
 
@@ -6,7 +6,7 @@ describe('ButtonDialogCloseComponent', () => {
   let component: ButtonDialogCloseComponent;
   let fixture: ComponentFixture<ButtonDialogCloseComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ ButtonDialogCloseComponent ]
     })

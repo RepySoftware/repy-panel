@@ -3,7 +3,7 @@ import { AutocompleteOptions } from 'src/app/models/ui/autocomplete-options';
 import { AutocompleteItem } from 'src/app/models/ui/autocomplete-item';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
-import { MatAutocompleteSelectedEvent } from '@angular/material';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 
 @Component({
   selector: 'app-autocomplete',

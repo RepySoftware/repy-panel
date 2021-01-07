@@ -4,6 +4,7 @@ import { Device } from '../models/api/device';
 import { Observable } from 'rxjs';
 import { URLS } from './urls';
 import { HttpQueryParamsHelper } from '../helpers/filter-helper';
+import { map } from 'rxjs/operators';
 
 export enum DevicesGetStrategy {
     all = 'all',

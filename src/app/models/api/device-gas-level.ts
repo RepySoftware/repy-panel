@@ -1,5 +1,6 @@
 import { ApiModel } from "../abstraction/api-model";
 import { Cylinder } from "./cylinder";
+import { Device } from "./device";
 
 export interface DeviceGasLevel extends ApiModel {
 
@@ -10,4 +11,6 @@ export interface DeviceGasLevel extends ApiModel {
     percentageToNotify?: number;
     setTare: boolean;
     lastWeightUpdate: string;
+
+    percentage: number;
 }

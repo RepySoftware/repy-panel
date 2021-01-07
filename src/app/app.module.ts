@@ -12,7 +12,7 @@ import { DeviceService } from './services/device.service';
 import { ToastService } from './services/toast.service';
 import { OnlyLoggedGuard } from './guards/only-logged.guard';
 import * as moment from 'moment';
-import { MAT_DIALOG_DATA } from '@angular/material';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { StorageService } from './services/storage.service';
 import { NgxMaskModule } from 'ngx-mask';
 import { environment } from '../environments/environment';
