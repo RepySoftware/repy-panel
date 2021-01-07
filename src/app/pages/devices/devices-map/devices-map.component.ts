@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import * as mapboxgl from 'mapbox-gl';
 import { environment } from '../../../../environments/environment';
 import { Device } from '../../../models/api/device';
@@ -11,9 +11,14 @@ import { DevicesViewService } from '../devices-view.service';
   templateUrl: './devices-map.component.html',
   styleUrls: ['./devices-map.component.scss']
 })
-export class DevicesMapComponent implements OnInit, AfterViewInit {
+export class DevicesMapComponent implements OnInit, AfterViewInit, OnDestroy {
 
-  public devicesMapId = 'devicesMap';
+  public readonly devicesMapId = 'devicesMap';
+
+  public readonly refreshInterval = {
+    interval: null,
+    time: 3000
+  };
 
   private _map: mapboxgl.Map;
 
@@ -35,6 +40,15 @@ export class DevicesMapComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
+    this.initMap();
+    this.initDevicesData();
+  }
+
+  ngOnDestroy() {
+    clearInterval(this.refreshInterval.interval);
+  }
+
+  private initMap(): void {
     this._map = new mapboxgl.Map({
       accessToken: environment.mapbox.accessToken,
       container: this.devicesMapId,
@@ -44,6 +58,9 @@ export class DevicesMapComponent implements OnInit, AfterViewInit {
     });
 
     this._map.addControl(new mapboxgl.NavigationControl());
+  }
+
+  private initDevicesData(): void {
 
     this.getData({ showLoader: true }).then(devices => {
       devices.forEach(d => {
@@ -66,16 +83,16 @@ export class DevicesMapComponent implements OnInit, AfterViewInit {
       const bounds = new mapboxgl.LngLatBounds();
       this._markers.forEach(x => bounds.extend(x.marker.getLngLat()));
       this._map.fitBounds(bounds, { padding: 100 });
-    });
 
-    setInterval(() => {
-      this.getData().then(devices => {
-        devices.forEach(d => {
-          const marker = this._markers.find(x => x.id == `deviceMarker_${d.id}`);
-          marker.popup.setHTML(this.buildMarkerHtml(d));
+      this.refreshInterval.interval = setInterval(() => {
+        this.getData().then(devices => {
+          devices.forEach(d => {
+            const marker = this._markers.find(x => x.id == `deviceMarker_${d.id}`);
+            marker.popup.setHTML(this.buildMarkerHtml(d));
+          });
         });
-      });
-    }, 3000);
+      }, this.refreshInterval.time);
+    });
   }
 
   private buildMarkerHtml(device: Device): string {
@@ -89,7 +106,6 @@ export class DevicesMapComponent implements OnInit, AfterViewInit {
         </div>
     `;
   }
-
 
   private createMarker(options: {
     id: string;
