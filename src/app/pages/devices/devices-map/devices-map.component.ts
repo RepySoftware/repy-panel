@@ -62,7 +62,7 @@ export class DevicesMapComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private initDevicesData(): void {
 
-    this.getData({ showLoader: true }).then(devices => {
+    this._devicesViewService.refreshDevices({ showLoader: true }).then(devices => {
       devices.forEach(d => {
 
         this.createMarker({
@@ -85,7 +85,7 @@ export class DevicesMapComponent implements OnInit, AfterViewInit, OnDestroy {
       this._map.fitBounds(bounds, { padding: 100 });
 
       this.refreshInterval.interval = setInterval(() => {
-        this.getData().then(devices => {
+        this._devicesViewService.refreshDevices().then(devices => {
           devices.forEach(d => {
             const marker = this._markers.find(x => x.id == `deviceMarker_${d.id}`);
             marker.popup.setHTML(this.buildMarkerHtml(d));
@@ -150,26 +150,4 @@ export class DevicesMapComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  private getData(options: { showLoader?: boolean } = {}): Promise<Device[]> {
-
-    return new Promise<Device[]>((resolve, reject) => {
-
-      if (options.showLoader)
-        this._loader.show();
-
-      this._devicesViewService.getDevices().subscribe(response => {
-
-        if (options.showLoader)
-          this._loader.dismiss();
-
-        resolve(response);
-      }, error => {
-
-        if (options.showLoader)
-          this._loader.dismiss();
-
-        this._toast.showError(error);
-      });
-    });
-  }
 }

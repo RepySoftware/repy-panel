@@ -9,11 +9,11 @@ import { DevicesViewService } from './devices-view.service';
 export class DevicesComponent implements OnInit {
 
   constructor(
-    private _devicesViewService: DevicesViewService
+    public devicesViewService: DevicesViewService
   ) { }
 
   ngOnInit() {
-    this._devicesViewService.getDevices();
+    this.devicesViewService.refreshDevices();
   }
 
 }

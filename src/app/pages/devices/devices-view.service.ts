@@ -2,6 +2,8 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { Device } from "../../models/api/device";
 import { DeviceService } from "../../services/device.service";
+import { LoaderService } from "../../services/loader.service";
+import { ToastService } from "../../services/toast.service";
 
 @Injectable()
 export class DevicesViewService {
@@ -9,16 +11,34 @@ export class DevicesViewService {
     public devices: Device[] = [];
 
     constructor(
+        private _loader: LoaderService,
+        private _toast: ToastService,
         private _deviceService: DeviceService
     ) { }
 
-    public getDevices(): Observable<Device[]> {
-        return new Observable<Device[]>(observer => {
+    public refreshDevices(options: { showLoader?: boolean } = {}): Promise<Device[]> {
+
+        if (options.showLoader)
+            this._loader.show();
+
+        return new Promise<Device[]>((resolve, reject) => {
             this._deviceService.getDefault().subscribe(response => {
+
+                if (options.showLoader)
+                    this._loader.dismiss();
+
                 this.devices = response;
-                observer.next(response);
-                observer.complete();
-            }, error => observer.error(error));
+                resolve(response);
+
+            }, error => {
+
+                if (options.showLoader)
+                    this._loader.dismiss();
+
+                this._toast.showError(error);
+
+                reject(error);
+            });
         });
     }
 }
