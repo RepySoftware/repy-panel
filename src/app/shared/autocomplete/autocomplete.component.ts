@@ -12,7 +12,7 @@ import { MatAutocompleteSelectedEvent } from '@angular/material';
 })
 export class AutocompleteComponent implements OnInit {
 
-  @ViewChild('autocompleteInput', { static: false }) public autocompleteInput: ElementRef;
+  @ViewChild('autocompleteInput') public autocompleteInput: ElementRef;
 
   @Input() public options: AutocompleteOptions;
 

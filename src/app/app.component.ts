@@ -15,7 +15,7 @@ import { User } from './models/api/user';
 })
 export class AppComponent implements OnInit {
 
-  @ViewChild('sidenav', { static: false }) public sidenav: MatSidenav;
+  @ViewChild('sidenav') public sidenav: MatSidenav;
 
   public loaderState: boolean = false;
 
