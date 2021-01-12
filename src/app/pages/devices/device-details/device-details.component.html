@@ -1,12 +1,27 @@
-<div class="row">
-    <div class="col-12 header">
-        <h1>{{ device?.name || 'Dispositivo' }}</h1>
-        <span>#{{ device?.deviceKey || '0000' }}</span>
-    </div>
-</div>
+<div class="container">
 
-<div class="row">
-    <div class="col-12">
-        <ng-container #deviceContainer></ng-container>
+    <div class="row">
+        <div class="col-12 header default-margin-top">
+
+            <h1 class="title">{{ device?.name || 'Dispositivo' }}</h1>
+
+            <span class="device-key">#{{ device?.deviceKey || '0000' }}</span>
+
+            <span class="last-update">Última atualização {{ device ? ((device.deviceGasLevel.lastWeightUpdate |
+                momentCalendar) | lowercase) : '-' }}</span>
+
+            <span *ngIf="device"
+                  class="is-online"
+                  [style.color]="device?.isOnline ? 'var(--color-nephritis)' : 'var(--color-pomegranate)'">
+                {{device?.isOnline ? 'Online' : 'Offline' }}
+            </span>
+        </div>
     </div>
+
+    <div class="row">
+        <div class="col-12">
+            <ng-container #deviceContainer></ng-container>
+        </div>
+    </div>
+
 </div>

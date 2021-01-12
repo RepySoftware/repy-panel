@@ -15,6 +15,7 @@ export interface Device extends ApiModel, TimeStamps {
     supplier: Supplier;
     type: DeviceType;
     notificationConfiguration: NotificationConfiguration;
+    isOnline: boolean;
 
     deviceGasLevel?: DeviceGasLevel;
 }

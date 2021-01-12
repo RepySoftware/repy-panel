@@ -1,0 +1,104 @@
+*,
+*:before,
+*:after {
+    box-sizing: border-box;
+    outline: none;
+}
+$bgColor: var(--secondary-color-dark);
+$boxColor: var(--secondary-color-dark);
+$waterFColor: var(--primary-color);
+$waterBColor: var(--primary-color-extra-light);
+
+body {
+    background: $bgColor;
+    -webkit-font-smoothing: antialiased;
+}
+
+.box {
+    margin: 0 auto;
+
+    height: 180px;
+    width: 180px;
+    transform: translate(0%, 0%);
+    background: $boxColor;
+    border-radius: 100%;
+    overflow: hidden;
+
+    .percent {
+        position: absolute;
+        left: 0;
+        top: 0;
+        z-index: 3;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        display: -webkit-flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-size: 38px;
+        font-weight: bold;
+    }
+
+    .water {
+        position: absolute;
+        left: 0;
+        top: 0;
+        z-index: 2;
+        width: 100%;
+        height: 100%;
+        transform: translate(0, 100%);
+        background: $waterFColor;
+        transition: all 0.3s;
+
+        &_wave {
+            width: 200%;
+            position: absolute;
+            bottom: 100%;
+
+            &_back {
+                right: 0;
+                fill: $waterBColor;
+                animation: wave-back 2.8s infinite linear;
+            }
+
+            &_front {
+                left: 0;
+                fill: $waterFColor;
+                margin-bottom: -1px;
+                animation: wave-front 1.4s infinite linear;
+            }
+        }
+    }
+}
+
+@keyframes wave-front {
+    100% {
+        transform: translate(-50%, 0);
+    }
+}
+
+@keyframes wave-back {
+    100% {
+        transform: translate(50%, 0);
+    }
+}
+
+.infos {
+    margin-top: 37px;
+    margin-bottom: 41px;
+}
+
+.card-info {
+
+    margin-bottom: 10px;
+
+    h5 {
+        font-size: 27px;
+        font-weight: bold;
+    }
+
+    span {
+        font-size: 19px;
+    }
+}
