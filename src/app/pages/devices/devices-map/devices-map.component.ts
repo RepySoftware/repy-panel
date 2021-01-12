@@ -1,7 +1,8 @@
 import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import * as mapboxgl from 'mapbox-gl';
 import { environment } from '../../../../environments/environment';
-import { Device, deviceToHtml } from '../../../models/api/device';
+import { DeviceType } from '../../../enums/device-type';
+import { Device } from '../../../models/api/device';
 import { LoaderService } from '../../../services/loader.service';
 import { ToastService } from '../../../services/toast.service';
 import { DevicesViewService } from '../devices-view.service';
@@ -96,7 +97,28 @@ export class DevicesMapComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private buildMarkerHtml(device: Device): string {
-    return deviceToHtml(device);
+    let html = '';
+
+    html += /*html*/`<div>`;
+
+    html += /*html*/`
+        <span>${device.address.description}</span>
+        <br>
+        <strong>${device.name}</strong>
+        <a style="float: right" class="btn btn-primary btn-sm" href="/devices/${device.deviceKey}/details">Ver detalhes</a>
+    `;
+
+    switch (device.type) {
+      case DeviceType.gasLevel:
+        html += /*html*/`
+                <strong>${device.deviceGasLevel.percentage}%</strong>
+            `;
+        break;
+    }
+
+    html += /*html*/`</div>`;
+
+    return html;
   }
 
   private createMarker(options: {

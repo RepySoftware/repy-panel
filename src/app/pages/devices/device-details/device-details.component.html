@@ -1,5 +1,12 @@
 <div class="row">
+    <div class="col-12 header">
+        <h1>{{ device?.name || 'Dispositivo' }}</h1>
+        <span>#{{ device?.deviceKey || '0000' }}</span>
+    </div>
+</div>
+
+<div class="row">
     <div class="col-12">
-        <h1>{{ device?.name }}</h1>
+        <ng-container #deviceContainer></ng-container>
     </div>
 </div>

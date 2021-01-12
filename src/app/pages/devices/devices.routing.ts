@@ -23,7 +23,7 @@ const routes: Routes = [
                 component: DevicesListComponent
             },
             {
-                path: ':deviceId/details',
+                path: ':deviceKey/details',
                 loadChildren: () => import('./device-details/device-details.module').then(m => m.DeviceDetailsModule)
             }
         ]

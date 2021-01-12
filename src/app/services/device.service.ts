@@ -42,7 +42,7 @@ export class DeviceService {
         return this.get({ strategy: DevicesGetStrategy.user });
     }
 
-    public getById(id: number): Observable<Device> {
-        return this._http.get<Device>(`${URLS.api.devices}/${id}`);
+    public getByKey(deviceKey: string): Observable<Device> {
+        return this._http.get<Device>(`${URLS.api.devices}/getByKey/${deviceKey}`);
     }
 }
