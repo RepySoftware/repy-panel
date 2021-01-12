@@ -12,23 +12,26 @@
     </div>
 </div>
 
-<div class="row" style="margin-top: 10px !important;">
+<div class="row"
+     style="margin-top: 10px !important;">
     <div class="col-md-4"
          *ngFor="let d of devicesViewService.devices">
 
-        <mat-card>
-            <mat-card-content>
+        <a routerLink="/devices/{{ d.id }}/details" style="text-decoration: none;">
+            <mat-card>
+                <mat-card-content>
 
-                <mat-card-title>{{ d.name }}</mat-card-title>
-                <mat-card-subtitle>{{ d.address.description }}</mat-card-subtitle>
+                    <mat-card-title>{{ d.name }}</mat-card-title>
+                    <mat-card-subtitle>{{ d.address.description }}</mat-card-subtitle>
 
-                <p>
-                    The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan.
-                    A small, agile dog that copes very well with mountainous terrain.
-                </p>
+                    <p>
+                        The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan.
+                        A small, agile dog that copes very well with mountainous terrain.
+                    </p>
 
-            </mat-card-content>
-        </mat-card>
+                </mat-card-content>
+            </mat-card>
+        </a>
 
     </div>
 </div>

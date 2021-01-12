@@ -41,4 +41,8 @@ export class DeviceService {
     public getByUser(): Observable<Device[]> {
         return this.get({ strategy: DevicesGetStrategy.user });
     }
+
+    public getById(id: number): Observable<Device> {
+        return this._http.get<Device>(`${URLS.api.devices}/${id}`);
+    }
 }

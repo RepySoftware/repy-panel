@@ -1,5 +1,4 @@
 import { Injectable } from "@angular/core";
-import { Observable } from "rxjs";
 import { Device } from "../../models/api/device";
 import { DeviceService } from "../../services/device.service";
 import { LoaderService } from "../../services/loader.service";
