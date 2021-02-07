@@ -18,7 +18,7 @@ export class DeviceDetailsComponent implements OnInit, OnDestroy {
   @ViewChild('deviceContainer', { read: ViewContainerRef }) public deviceContainer: ViewContainerRef;
 
   private readonly deviceTypeComponent = {
-    [DeviceType.gasLevel]: DeviceGasLevelComponent
+    [DeviceType.GAS_LEVEL]: DeviceGasLevelComponent
   }
 
   private _deviceRefreshInterval = {
@@ -59,7 +59,7 @@ export class DeviceDetailsComponent implements OnInit, OnDestroy {
         () => this.deviceDetailsService.getDevice(),
         this._deviceRefreshInterval.time
       );
-      
+
     });
   }
 

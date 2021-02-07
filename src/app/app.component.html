@@ -14,10 +14,10 @@
 
         <mat-list-item style="margin: 16px 0;">
           <img matListAvatar
-               [src]="userService.getAvatarImageNameInitials(loggedUser.name)"
-               [alt]="loggedUser.name">
+               [src]="userService.getAvatarImageNameInitials(loggedUser.username)"
+               [alt]="loggedUser.username">
           <h3 style="font-weight: bold;"
-              matLine>{{ loggedUser.name }}</h3>
+              matLine>{{ loggedUser.username }}</h3>
         </mat-list-item>
 
         <mat-divider></mat-divider>
@@ -61,13 +61,16 @@
           <li><a routerLink="/home"
                routerLinkActive="active">Home</a></li>
 
+          <li><a routerLink="/customers"
+               routerLinkActive="active">Clientes</a></li>
+
           <li><a routerLink="/devices"
                routerLinkActive="active">Dispositivos</a></li>
         </ul>
 
         <span class="spacer"></span>
 
-        <strong style="font-size: 14px;">{{ loggedUser.name }}</strong>
+        <strong style="font-size: 14px;">{{ loggedUser.username }}</strong>
 
       </mat-toolbar>
       <div class="main-top"></div>

@@ -12,12 +12,12 @@
                       (ngSubmit)="login()">
 
                     <mat-form-field>
-                        <input #email
-                               type="email"
+                        <input #username
+                               type="text"
                                matInput
-                               placeholder="E-mail"
-                               formControlName="email">
-                        <mat-error *ngIf="!email.valid">
+                               placeholder="Nome de usuário"
+                               formControlName="username">
+                        <mat-error *ngIf="!username.valid">
                             Este campo contém erros
                         </mat-error>
                     </mat-form-field>

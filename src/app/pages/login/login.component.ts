@@ -25,7 +25,7 @@ export class LoginComponent implements OnInit {
     private _router: Router
   ) {
     this.loginForm = new FormGroup({
-      email: new FormControl(null, [Validators.required, Validators.email]),
+      username: new FormControl(null, [Validators.required]),
       password: new FormControl(null, Validators.required)
     });
   }
@@ -44,7 +44,7 @@ export class LoginComponent implements OnInit {
     }
 
     const l: LoginOutput = {
-      email: this.loginForm.get('email').value,
+      username: this.loginForm.get('username').value,
       password: this.loginForm.get('password').value
     };
 

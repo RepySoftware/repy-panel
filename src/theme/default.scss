@@ -3,8 +3,8 @@
 @include mat-core();
 
 $custom-color: (
-  200: #006aff,
-  500: #002d63,
+  200: #152b50,
+  500: #263a5e,
   contrast: (
     200: #fff,
     500: #fff,
@@ -24,14 +24,14 @@ $custom-typography: mat-typography-config(
 @include angular-material-theme($theme);
 
 :root {
-  --primary-color: #006aff;
-  --primary-color-light: #2a83ff;
-  --primary-color-extra-light: #87b9ff;
-  --primary-color-dark: #0049af;
+  --primary-color: #152b50;
+  --primary-color-light: #23447e;
+  --primary-color-extra-light: #3867b8;
+  --primary-color-dark: #08101f;
 
-  --secondary-color: #002d63;
-  --secondary-color-light: #003c85;
-  --secondary-color-dark: #001630;
+  --secondary-color: #263a5e;
+  --secondary-color-light: #405d92;
+  --secondary-color-dark: #162137;
 
   /* custom colors */
   --color-turquoise: #1abc9c;

@@ -1,10 +1,10 @@
 import { ApiModel } from "../abstraction/api-model";
 import { TimeStamps } from "../abstraction/time-stamps";
 import { Address } from "./address";
-import { Supplier } from "./supplier";
 import { DeviceGasLevel } from "./device-gas-level";
 import { NotificationConfiguration } from "./notification-configuration";
 import { DeviceType } from "../../enums/device-type";
+import { Person } from "./person";
 
 export interface Device extends ApiModel, TimeStamps {
 
@@ -12,10 +12,10 @@ export interface Device extends ApiModel, TimeStamps {
     token: string;
     name: string;
     address: Address;
-    supplier: Supplier;
+    person: Person;
     type: DeviceType;
     notificationConfiguration: NotificationConfiguration;
     isOnline: boolean;
 
-    deviceGasLevel?: DeviceGasLevel;
+    deviceGasLevel: DeviceGasLevel;
 }

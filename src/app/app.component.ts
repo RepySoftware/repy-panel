@@ -59,15 +59,14 @@ export class AppComponent implements OnInit {
         route: '/home'
       },
       {
-        title: 'Produtos',
-        icon: 'shopping_basket',
-        route: '/products'
+        title: 'Dispositivos',
+        icon: 'devices_other',
+        route: '/devices'
       },
       {
-        title: 'Pedidos',
-        icon: 'description',
-        route: '/purchase-orders',
-        showCondition: () => true
+        title: 'Clientes',
+        icon: 'people',
+        route: '/customers'
       }
     ]
   }

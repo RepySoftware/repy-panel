@@ -109,7 +109,7 @@ export class DevicesMapComponent implements OnInit, AfterViewInit, OnDestroy {
     `;
 
     switch (device.type) {
-      case DeviceType.gasLevel:
+      case DeviceType.GAS_LEVEL:
         html += /*html*/`
                 <strong>${device.deviceGasLevel.percentage}%</strong>
             `;

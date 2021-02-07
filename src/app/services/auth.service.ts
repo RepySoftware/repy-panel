@@ -21,7 +21,7 @@ export class AuthService {
 
     public login(l: LoginOutput): Observable<void> {
         return new Observable(observer => {
-            this._httpClient.post<UserToken>(`${URLS.api.auth}/login?strategy=admin`, l).subscribe(response => {
+            this._httpClient.post<UserToken>(`${URLS.api.auth}/login?strategy=supplierEmployee`, l).subscribe(response => {
                 this.saveIntoStorage(response);
                 observer.next();
             }, error => {
@@ -68,7 +68,7 @@ export class AuthService {
                 };
 
                 this._storageService.saveData();
-                
+
                 observer.next(response);
             }, error => {
                 observer.error(error);

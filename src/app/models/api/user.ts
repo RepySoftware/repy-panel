@@ -1,19 +1,12 @@
-import { UserType } from "../../enums/user-type";
 import { ApiModel } from "../abstraction/api-model";
 import { TimeStamps } from "../abstraction/time-stamps";
-import { Customer } from "./customer";
-import { SupplierEmployee } from "./supplier-employee";
-import { UserDevice } from "./user-device";
+import { Person } from "./person";
 
 export interface User extends ApiModel, TimeStamps {
 
-    name: string;
+    person: Person;
     username: string;
-    email: string;
-    type: UserType;
-    supplierEmployee?: SupplierEmployee;
-    customer?: Customer;
+    password: string;
     isAdmin: boolean;
     isActive: boolean;
-    userDevices: UserDevice[];
 }
