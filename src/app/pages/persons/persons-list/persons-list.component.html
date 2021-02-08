@@ -1,0 +1,79 @@
+<div class="row">
+    <div class="col-sm-12">
+        <mat-form-field style="width: 100%;">
+            <input #searchInput
+                   matInput
+                   placeholder="Faça sua busca"
+                   (keyup.enter)="search(searchInput.value)">
+        </mat-form-field>
+    </div>
+</div>
+
+<table mat-table
+       [dataSource]="persons">
+
+    <ng-container matColumnDef="id">
+        <th mat-header-cell
+            *matHeaderCellDef>#</th>
+        <td mat-cell
+            *matCellDef="let element">{{element.id}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="name">
+        <th mat-header-cell
+            *matHeaderCellDef>Nome</th>
+        <td mat-cell
+            *matCellDef="let element">{{element.name}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="type">
+        <th mat-header-cell
+            *matHeaderCellDef>Tipo</th>
+        <td mat-cell
+            *matCellDef="let element">{{element.type | personType}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="documentNumber">
+        <th mat-header-cell
+            *matHeaderCellDef>Documento</th>
+        <td mat-cell
+            *matCellDef="let element">{{element.documentNumber | cpfCnpj}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="address">
+        <th mat-header-cell
+            *matHeaderCellDef>Endereço</th>
+        <td mat-cell
+            *matCellDef="let element">{{element.address.description}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="options">
+        <th mat-header-cell
+            *matHeaderCellDef>Opções</th>
+        <td mat-cell
+            *matCellDef="let element">
+            <a [routerLink]="'/persons/' + element.id + '/form'">
+                <mat-icon>edit</mat-icon>
+            </a>
+        </td>
+    </ng-container>
+
+    <tr mat-header-row
+        *matHeaderRowDef="tableColumns"></tr>
+    <tr mat-row
+        *matRowDef="let row; columns: tableColumns;"></tr>
+</table>
+
+<div style="text-align: center; padding: 10px;">
+    <button mat-flat-button
+            *ngIf="persons.length >= personFilter.limit"
+            color="primary"
+            (click)="loadMore()">Mais...</button>
+</div>
+
+<button routerLink="/persons/form"
+        mat-fab
+        color="primary"
+        class="btn-add">
+    <mat-icon>add</mat-icon>
+</button>

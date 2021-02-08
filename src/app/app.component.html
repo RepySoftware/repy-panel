@@ -23,7 +23,7 @@
         <mat-divider></mat-divider>
 
         <mat-list-item class="menu-item"
-                       *ngFor="let item of menuItens"
+                       *ngFor="let item of sidenavMenus"
                        (click)="menuClick(item.onClick)"
                        routerLink="{{ item.route }}">
           <mat-icon mat-list-icon>{{ item.icon }}</mat-icon>
@@ -58,14 +58,10 @@
         </a>
 
         <ul>
-          <li><a routerLink="/home"
-               routerLinkActive="active">Home</a></li>
-
-          <li><a routerLink="/customers"
-               routerLinkActive="active">Clientes</a></li>
-
-          <li><a routerLink="/devices"
-               routerLinkActive="active">Dispositivos</a></li>
+          <li *ngFor="let menu of toolbarMenus">
+            <a [routerLink]="menu.route"
+               routerLinkActive="active">{{ menu.title }}</a>
+          </li>
         </ul>
 
         <span class="spacer"></span>

@@ -56,17 +56,20 @@ export class AppComponent implements OnInit {
       {
         title: 'Home',
         icon: 'home',
-        route: '/home'
+        route: '/home',
+        showInToolbar: true
+      },
+      {
+        title: 'Pessoas',
+        icon: 'people',
+        route: '/persons',
+        showInToolbar: true
       },
       {
         title: 'Dispositivos',
         icon: 'devices_other',
-        route: '/devices'
-      },
-      {
-        title: 'Clientes',
-        icon: 'people',
-        route: '/customers'
+        route: '/devices',
+        showInToolbar: true
       }
     ]
   }
@@ -103,5 +106,13 @@ export class AppComponent implements OnInit {
 
   public get loggedUser(): User {
     return this._storageService.data && this._storageService.data.user ? this._storageService.data.user : null;
+  }
+
+  public get sidenavMenus(): SidenavItem[] {
+    return this.menuItens.filter(mi => mi.showCondition ? mi.showCondition() === true : true);
+  }
+
+  public get toolbarMenus(): SidenavItem[] {
+    return this.menuItens.filter(mi => mi.showInToolbar);
   }
 }

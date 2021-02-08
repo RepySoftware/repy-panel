@@ -17,6 +17,7 @@ import { StorageService } from './services/storage.service';
 import { NgxMaskModule } from 'ngx-mask';
 import { environment } from '../environments/environment';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
+import { PersonService } from './services/person.service';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
     AuthService,
     StorageService,
     DeviceService,
+    PersonService,
 
     LoaderService,
     ToastService,
