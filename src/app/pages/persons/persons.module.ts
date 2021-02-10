@@ -7,6 +7,8 @@ import { PersonsRoutingModule } from './persons.routing';
 import { PersonsListComponent } from './persons-list/persons-list.component';
 import { PersonFormComponent } from './person-form/person-form.component';
 import { PipesModule } from '../../pipes/pipes.module';
+import { ReactiveFormsModule } from '@angular/forms';
+import { DirectivesModule } from '../../directives/directives.module';
 
 @NgModule({
   declarations: [
@@ -16,6 +18,8 @@ import { PipesModule } from '../../pipes/pipes.module';
   ],
   imports: [
     CommonModule,
+    DirectivesModule,
+    ReactiveFormsModule,
     AngularMaterialModule,
     SharedModule,
     PipesModule,

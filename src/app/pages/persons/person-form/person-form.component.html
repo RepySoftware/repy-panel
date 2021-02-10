@@ -1,1 +1,156 @@
-<p>customer-details works!</p>
+<button-dialog-close *ngIf="isModal"></button-dialog-close>
+
+<div class="row">
+    <div class="col-sm-12">
+        <h3 class="title"
+            *ngIf="!person">Nova pessoa</h3>
+        <h3 class="title"
+            *ngIf="person">Edição {{ person.name }} - {{ person.documentNumber | cpfCnpj }}</h3>
+    </div>
+</div>
+
+<form [formGroup]="personForm">
+
+    <div class="row">
+        <div class="col-12">
+            <h5>Geral</h5>
+        </div>
+    </div>
+
+    <div class="row">
+
+        <div class="col-md-3">
+            <mat-form-field>
+                <mat-label>Tipo</mat-label>
+                <mat-select #type
+                            formControlName="type">
+                    <mat-option *ngFor="let t of personTypes"
+                                [value]="t">
+                        {{ t | personType }}
+                    </mat-option>
+                </mat-select>
+                <mat-error *ngIf="!personForm.get('type').valid">
+                    Este campo é obrigatório
+                </mat-error>
+            </mat-form-field>
+        </div>
+
+        <div class="col-md-3">
+            <mat-form-field>
+                <input #documentNumber
+                       matInput
+                       placeholder="CPF/CNPJ"
+                       autocomplete="off"
+                       formControlName="documentNumber"
+                       [mask]="documentNumberMasks[type.value]">
+                <mat-error *ngIf="!documentNumber.valid">
+                    Este campo é obrigatório
+                </mat-error>
+            </mat-form-field>
+        </div>
+
+        <div class="col-md-6">
+            <mat-form-field>
+                <input #name
+                       matInput
+                       placeholder="Nome"
+                       autocomplete="off"
+                       formControlName="name">
+                <mat-error *ngIf="!name.valid">
+                    Este campo é obrigatório
+                </mat-error>
+            </mat-form-field>
+        </div>
+
+        <div class="col-md-6">
+            <mat-form-field>
+                <input #tradeName
+                       matInput
+                       placeholder="Nome Fantasia"
+                       autocomplete="off"
+                       formControlName="tradeName">
+            </mat-form-field>
+        </div>
+
+        <div class="col-md-6"
+             style="padding-top: 30px;">
+
+            <mat-checkbox class="role-checkbox"
+                          formControlName="isSupplier">Fornecedor</mat-checkbox>
+
+            <mat-checkbox class="role-checkbox"
+                          formControlName="isManager">Administrador</mat-checkbox>
+
+            <mat-checkbox class="role-checkbox"
+                          formControlName="isCustomer">Cliente</mat-checkbox>
+
+            <mat-checkbox class="role-checkbox"
+                          formControlName="isDriver">Motorista</mat-checkbox>
+        </div>
+
+    </div>
+
+    <hr>
+
+    <div class="row">
+        <div class="col-12">
+            <h5>Endereço</h5>
+        </div>
+    </div>
+
+    <app-address-config [address]="addressConfig"></app-address-config>
+
+    <hr>
+
+    <div class="row">
+        <div class="col-12">
+            <h5>Telefones</h5>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+
+        <mat-list>
+            <mat-list-item *ngFor="let p of phones; let i = index"
+                           class="phone-item">
+
+                <span>
+                    {{ p.phone }}
+                </span>
+
+                <mat-icon class="close"
+                          (click)="removePhone(i)">close</mat-icon>
+            </mat-list-item>
+
+            <mat-divider></mat-divider>
+        </mat-list>
+
+        <mat-form-field>
+            <input matInput
+                   #phone
+                   placeholder="Novo telefone"
+                   mask="(00) 000000000"
+                   autocomplete="off"
+                   (keyup.enter)="addPhone(phone)">
+        </mat-form-field>
+
+        <button type="button"
+                [disabled]="!phone.value"
+                mat-stroked-button
+                (click)="addPhone(phone)">Adicionar</button>
+    </div>
+
+    <hr>
+
+    <div class="row">
+
+        <div class="col-sm-12">
+            <button mat-flat-button
+                    color="primary"
+                    (click)="save()"
+                    style="margin: 24px 0;">Salvar</button>
+        </div>
+
+    </div>
+
+</form>

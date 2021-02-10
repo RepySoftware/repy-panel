@@ -23,7 +23,12 @@
         <th mat-header-cell
             *matHeaderCellDef>Nome</th>
         <td mat-cell
-            *matCellDef="let element">{{element.name}}</td>
+            *matCellDef="let element">
+            <a href="javascript:;"
+               (click)="openForm(element.id)">
+                {{element.name}}
+            </a>
+        </td>
     </ng-container>
 
     <ng-container matColumnDef="type">
@@ -47,14 +52,17 @@
             *matCellDef="let element">{{element.address.description}}</td>
     </ng-container>
 
-    <ng-container matColumnDef="options">
+    <ng-container matColumnDef="roles">
         <th mat-header-cell
-            *matHeaderCellDef>Opções</th>
+            *matHeaderCellDef>Funções</th>
         <td mat-cell
             *matCellDef="let element">
-            <a [routerLink]="'/persons/' + element.id + '/form'">
-                <mat-icon>edit</mat-icon>
-            </a>
+            <mat-chip-list>
+                <mat-chip *ngIf="element.isCustomer">Cliente</mat-chip>
+                <mat-chip *ngIf="element.isSupplier">Fornecedor</mat-chip>
+                <mat-chip *ngIf="element.isManager">Administrador</mat-chip>
+                <mat-chip *ngIf="element.isDriver">Motorista</mat-chip>
+            </mat-chip-list>
         </td>
     </ng-container>
 
@@ -71,7 +79,8 @@
             (click)="loadMore()">Mais...</button>
 </div>
 
-<button routerLink="/persons/form"
+<button href="javascript:;"
+        (click)="openForm()"
         mat-fab
         color="primary"
         class="btn-add">

@@ -19,4 +19,8 @@ export class PersonService {
             params: HttpQueryParamsHelper.objectToParams(filter)
         });
     }
+
+    public getById(personId: number): Observable<Person> {
+        return this._http.get<Person>(`${URLS.api.persons}/${personId}`);
+    }
 }

@@ -3,6 +3,10 @@ export enum PersonType {
     LEGAL = 'LEGAL'
 }
 
+export function PersonTypeValues(): string[] {
+    return Object.values(PersonType);
+}
+
 export function PersonTypeName(value: string): string {
 
     if (value == PersonType.LEGAL)

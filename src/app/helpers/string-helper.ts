@@ -14,4 +14,8 @@ export abstract class StringHelper {
             return value;
         }
     };
+
+    public static getOnlyNumbers(value: string): string {
+        return value.replace(/[^0-9\\.]+/g, '');
+    }
 }

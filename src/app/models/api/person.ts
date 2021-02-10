@@ -1,21 +1,22 @@
-import { PersonRole } from "../../enums/person-role";
 import { PersonType } from "../../enums/person-type";
 import { ApiModel } from "../abstraction/api-model";
 import { TimeStamps } from "../abstraction/time-stamps";
 import { Address } from "./address";
-import { PersonDevice } from "./person-device";
+import { Device } from "./device";
+import { PersonPhone } from "./person-phone";
 
 export interface Person extends ApiModel, TimeStamps {
 
     type: PersonType;
-    roles: PersonRole[];
     documentNumber: string;
     name: string;
     tradeName: string;
     email: string;
-    phones: string[];
-    addressId: number;
+    phones: PersonPhone[];
     address: Address;
-    personSupplier: Person;
-    personDevices: PersonDevice;
+    isSupplier: boolean;
+    isCustomer: boolean;
+    isManager: boolean;
+    isDriver: boolean;
+    devices: Device;
 }

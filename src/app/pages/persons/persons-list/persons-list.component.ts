@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Person } from '../../../models/api/person';
 import { PersonFilter } from '../../../models/output/filters/person.filter';
 import { LoaderService } from '../../../services/loader.service';
 import { PersonService } from '../../../services/person.service';
 import { ToastService } from '../../../services/toast.service';
+import { PersonFormComponent, PersonFormInputData } from '../person-form/person-form.component';
 
 @Component({
   selector: 'app-persons-list',
@@ -25,13 +27,14 @@ export class PersonsListComponent implements OnInit {
     'type',
     'documentNumber',
     'address',
-    'options'
+    'roles'
   ]
 
   constructor(
     private _personService: PersonService,
     private _loader: LoaderService,
-    private _toast: ToastService
+    private _toast: ToastService,
+    private _dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
@@ -72,6 +75,17 @@ export class PersonsListComponent implements OnInit {
 
     this.getPersons({ reset: true }).then(() => {
       this.personFilter.q = null;
+    });
+  }
+
+  public openForm(personId?: number): void {
+
+    const data: PersonFormInputData = { personId };
+
+    this._dialog.open(PersonFormComponent, {
+      width: '90%',
+      height: '90%',
+      data
     });
   }
 
