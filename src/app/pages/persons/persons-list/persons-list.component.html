@@ -3,6 +3,7 @@
         <mat-form-field style="width: 100%;">
             <input #searchInput
                    matInput
+                   autocomplete="off"
                    placeholder="Faça sua busca"
                    (keyup.enter)="search(searchInput.value)">
         </mat-form-field>

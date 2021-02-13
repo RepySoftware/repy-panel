@@ -73,19 +73,21 @@ export class PersonsListComponent implements OnInit {
     this.personFilter.q = query;
     this.personFilter.index = 0;
 
-    this.getPersons({ reset: true }).then(() => {
-      this.personFilter.q = null;
-    });
+    this.getPersons({ reset: true });
   }
 
   public openForm(personId?: number): void {
 
     const data: PersonFormInputData = { personId };
 
-    this._dialog.open(PersonFormComponent, {
+    const dialog = this._dialog.open(PersonFormComponent, {
       width: '90%',
       height: '90%',
       data
+    });
+
+    dialog.afterClosed().subscribe(() => {
+      this.getPersons({ reset: true });
     });
   }
 

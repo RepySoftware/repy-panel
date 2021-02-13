@@ -1,7 +1,4 @@
-import { ApiModel } from "../abstraction/api-model";
-
-export interface Address extends ApiModel {
-
+export interface AddressOutput {
     description: string;
     zipCode: string;
     city: string;
