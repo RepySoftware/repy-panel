@@ -1,5 +1,5 @@
 import { PipeTransform, Pipe } from '@angular/core';
-import { PersonTypeName } from '../enums/person-type';
+import { PersonTypeLabel } from '../enums/person-type';
 
 @Pipe({
     name: 'personType'
@@ -7,7 +7,7 @@ import { PersonTypeName } from '../enums/person-type';
 export class PersonTypePipe implements PipeTransform {
 
     transform(value: string) {
-        return PersonTypeName(value);
+        return PersonTypeLabel(value);
     }
 
 }

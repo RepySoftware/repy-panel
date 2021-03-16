@@ -5,9 +5,37 @@
 
 <ng-template #content>
 
+  <mat-toolbar color="primary"
+               [style.display]="isLogin ? 'none' : 'flex'">
+
+    <button (click)="sidenav.toggle()"
+            mat-icon-button>
+      <mat-icon>menu</mat-icon>
+    </button>
+
+    <a class="toolbar-link"
+       routerLink="/home">
+      <img style="height: 18px; margin-bottom: 7px;;"
+           src="assets/images/logo-white.png">
+    </a>
+
+    <ul>
+      <li *ngFor="let menu of toolbarMenus">
+        <a [routerLink]="menu.route"
+           routerLinkActive="active">{{ menu.title }}</a>
+      </li>
+    </ul>
+
+    <span class="spacer"></span>
+
+    <strong style="font-size: 14px;">{{ loggedUser.username }}</strong>
+
+  </mat-toolbar>
+
   <mat-sidenav-container class="sidenav-container">
     <mat-sidenav #sidenav
-                 mode="over"
+                 [opened]="true"
+                 mode="side"
                  position="start">
 
       <mat-list>
@@ -42,33 +70,6 @@
 
     </mat-sidenav>
     <mat-sidenav-content>
-
-      <mat-toolbar color="primary"
-                   [style.display]="isLogin ? 'none' : 'flex'">
-
-        <button (click)="sidenav.toggle()"
-                mat-icon-button>
-          <mat-icon>menu</mat-icon>
-        </button>
-
-        <a class="toolbar-link"
-           routerLink="/home">
-          <img style="height: 18px; margin-bottom: 7px;;"
-               src="assets/images/logo-white.png">
-        </a>
-
-        <ul>
-          <li *ngFor="let menu of toolbarMenus">
-            <a [routerLink]="menu.route"
-               routerLinkActive="active">{{ menu.title }}</a>
-          </li>
-        </ul>
-
-        <span class="spacer"></span>
-
-        <strong style="font-size: 14px;">{{ loggedUser.username }}</strong>
-
-      </mat-toolbar>
       <div class="main-top"></div>
 
       <router-outlet></router-outlet>

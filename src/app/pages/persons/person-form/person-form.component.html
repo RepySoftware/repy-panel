@@ -79,13 +79,67 @@
                           formControlName="isSupplier">Fornecedor</mat-checkbox>
 
             <mat-checkbox class="role-checkbox"
-                          formControlName="isManager">Administrador</mat-checkbox>
-
-            <mat-checkbox class="role-checkbox"
                           formControlName="isCustomer">Cliente</mat-checkbox>
 
-            <mat-checkbox class="role-checkbox"
-                          formControlName="isDriver">Motorista</mat-checkbox>
+            <mat-slide-toggle formControlName="isActive">Ativo</mat-slide-toggle>
+        </div>
+
+        <div class="col-md-6">
+            <mat-form-field>
+                <mat-label>Regime tributário</mat-label>
+                <mat-select #taxRegime
+                            formControlName="taxRegime">
+                    <mat-option *ngFor="let tr of personTaxRegimes"
+                                [value]="tr">
+                        {{ tr | personTaxRegime }}
+                    </mat-option>
+                </mat-select>
+                <mat-error *ngIf="!personForm.get('taxRegime').valid">
+                    Este campo é obrigatório
+                </mat-error>
+            </mat-form-field>
+        </div>
+
+        <div class="col-md-6">
+            <mat-form-field>
+                <mat-label>Contribuinte</mat-label>
+                <mat-select #icmsContributorType
+                            formControlName="icmsContributorType">
+                    <mat-option *ngFor="let ict of personIcmsContributorTypes"
+                                [value]="ict">
+                        {{ ict | personIcmsContributorType }}
+                    </mat-option>
+                </mat-select>
+                <mat-error *ngIf="!personForm.get('icmsContributorType').valid">
+                    Este campo é obrigatório
+                </mat-error>
+            </mat-form-field>
+        </div>
+
+        <div class="col-md-6">
+            <mat-form-field>
+                <input #stateRegistration
+                       matInput
+                       placeholder="Inscrição estadual"
+                       autocomplete="off"
+                       formControlName="stateRegistration">
+                <mat-error *ngIf="!stateRegistration.valid">
+                    Este campo é obrigatório
+                </mat-error>
+            </mat-form-field>
+        </div>
+
+        <div class="col-md-6">
+            <mat-form-field>
+                <input #municipalRegistration
+                       matInput
+                       placeholder="Inscrição municipal"
+                       autocomplete="off"
+                       formControlName="municipalRegistration">
+                <mat-error *ngIf="!municipalRegistration.valid">
+                    Este campo é obrigatório
+                </mat-error>
+            </mat-form-field>
         </div>
 
     </div>
@@ -130,8 +184,7 @@
                    #phone
                    placeholder="Novo telefone"
                    mask="(00) 000000000"
-                   autocomplete="off"
-                   (keyup.enter)="addPhone(phone)">
+                   autocomplete="off">
         </mat-form-field>
 
         <button type="button"

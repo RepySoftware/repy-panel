@@ -3,16 +3,15 @@ export enum PersonType {
     LEGAL = 'LEGAL'
 }
 
-export function PersonTypeValues(): string[] {
+export function PersonTypeList(): string[] {
     return Object.values(PersonType);
 }
 
-export function PersonTypeName(value: string): string {
+const labels = {
+    [PersonType.LEGAL]: 'Jurídica',
+    [PersonType.NORMAL]: 'Física',
+}
 
-    if (value == PersonType.LEGAL)
-        return 'Jurídica';
-    else if (value == PersonType.NORMAL)
-        return 'Física';
-    else
-        return value;
+export function PersonTypeLabel(value: PersonType | string): string {
+    return labels[value];
 }

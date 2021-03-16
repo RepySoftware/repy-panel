@@ -1,3 +1,5 @@
+import { PersonIcmsContributorType } from "../../enums/person-icms-contributor.type";
+import { PersonTaxRegime } from "../../enums/person-tax-regime";
 import { PersonType } from "../../enums/person-type";
 import { AddressOutput } from "./address.output";
 import { PersonPhoneOutput } from "./person-phone.output";
@@ -11,7 +13,11 @@ export interface PersonOutput {
     email: string;
     address: AddressOutput;
     isCustomer: boolean;
-    isManager: boolean;
-    isDriver: boolean;
+    isSupplier: boolean;
+    taxRegime: PersonTaxRegime;
+    icmsContributorType: PersonIcmsContributorType;
+    stateRegistration: string;
+    municipalRegistration: string;
+    isActive: boolean;
     personPhones: PersonPhoneOutput[];
 }

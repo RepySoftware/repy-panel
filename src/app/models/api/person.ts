@@ -1,3 +1,5 @@
+import { PersonIcmsContributorType } from "../../enums/person-icms-contributor.type";
+import { PersonTaxRegime } from "../../enums/person-tax-regime";
 import { PersonType } from "../../enums/person-type";
 import { ApiModel } from "../abstraction/api-model";
 import { TimeStamps } from "../abstraction/time-stamps";
@@ -7,6 +9,7 @@ import { PersonPhone } from "./person-phone";
 
 export interface Person extends ApiModel, TimeStamps {
 
+    id: number;
     type: PersonType;
     documentNumber: string;
     name: string;
@@ -16,7 +19,12 @@ export interface Person extends ApiModel, TimeStamps {
     address: Address;
     isSupplier: boolean;
     isCustomer: boolean;
-    isManager: boolean;
-    isDriver: boolean;
-    devices: Device;
+    taxRegime: PersonTaxRegime;
+    icmsContributorType: PersonIcmsContributorType;
+    stateRegistration: string;
+    municipalRegistration: string;
+    isActive: boolean;
+    devices: Device[];
+    createdAt: string;
+    updatedAt: string;
 }

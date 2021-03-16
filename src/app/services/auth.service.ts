@@ -21,7 +21,11 @@ export class AuthService {
 
     public login(l: LoginOutput): Observable<void> {
         return new Observable(observer => {
-            this._httpClient.post<UserToken>(`${URLS.api.auth}/login?strategy=manager`, l).subscribe(response => {
+            this._httpClient.post<UserToken>(`${URLS.api.auth}/login`, l, {
+                params: {
+                    strategy: 'employee'
+                }
+            }).subscribe(response => {
                 this.saveIntoStorage(response);
                 observer.next();
             }, error => {

@@ -3,17 +3,16 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { PersonType, PersonTypeValues } from '../../../enums/person-type';
+import { PersonIcmsContributorTypeList } from '../../../enums/person-icms-contributor.type';
+import { PersonTaxRegime, PersonTaxRegimeList } from '../../../enums/person-tax-regime';
+import { PersonType, PersonTypeList } from '../../../enums/person-type';
 import { StringHelper } from '../../../helpers/string-helper';
 import { Person } from '../../../models/api/person';
-import { PersonPhone } from '../../../models/api/person-phone';
-import { AddressConfig } from '../../../models/others/address-config';
 import { PersonOutput } from '../../../models/output/person.output';
 import { PersonPhoneView } from '../../../models/ui/person-phone-view';
 import { LoaderService } from '../../../services/loader.service';
 import { PersonService } from '../../../services/person.service';
 import { ToastService } from '../../../services/toast.service';
-import { AddressConfigComponent } from '../../../shared/address-config/address-config.component';
 import { AddressConfigService } from '../../../shared/address-config/address-config.service';
 
 export interface PersonFormInputData {
@@ -36,7 +35,9 @@ export class PersonFormComponent implements OnInit {
 
   public personForm: FormGroup;
 
-  public personTypes: string[] = PersonTypeValues();
+  public personTypes: string[] = PersonTypeList();
+  public personTaxRegimes: string[] = PersonTaxRegimeList();
+  public personIcmsContributorTypes: string[] = PersonIcmsContributorTypeList();
 
   public documentNumberMasks = {
     [PersonType.NORMAL]: '000.000.000-00',
@@ -69,14 +70,17 @@ export class PersonFormComponent implements OnInit {
 
     this.personForm = new FormGroup({
       type: new FormControl(PersonType.NORMAL, Validators.required),
-      documentNumber: new FormControl(null, Validators.required),
+      documentNumber: new FormControl(null),
       name: new FormControl(null, Validators.required),
       tradeName: new FormControl(null),
       email: new FormControl(null, Validators.email),
-      isSupplier: new FormControl({ value: null, disabled: true }),
+      isSupplier: new FormControl(null),
       isCustomer: new FormControl(true),
-      isManager: new FormControl(null),
-      isDriver: new FormControl(null)
+      taxRegime: new FormControl(PersonTaxRegime.UNDEFINED, Validators.required),
+      icmsContributorType: new FormControl(null),
+      stateRegistration: new FormControl(null),
+      municipalRegistration: new FormControl(null),
+      isActive: new FormControl(true)
     });
   }
 
@@ -88,8 +92,11 @@ export class PersonFormComponent implements OnInit {
     this.personForm.get('email').setValue(this.person.email);
     this.personForm.get('isSupplier').setValue(this.person.isSupplier);
     this.personForm.get('isCustomer').setValue(this.person.isCustomer);
-    this.personForm.get('isManager').setValue(this.person.isManager);
-    this.personForm.get('isDriver').setValue(this.person.isDriver);
+    this.personForm.get('taxRegime').setValue(this.person.taxRegime);
+    this.personForm.get('icmsContributorType').setValue(this.person.icmsContributorType);
+    this.personForm.get('stateRegistration').setValue(this.person.stateRegistration);
+    this.personForm.get('municipalRegistration').setValue(this.person.municipalRegistration);
+    this.personForm.get('isActive').setValue(this.person.isActive);
 
     this._addressConfigService.address = this.person.address;
     this._addressConfigService.setFormValues();
@@ -156,9 +163,13 @@ export class PersonFormComponent implements OnInit {
         latitude: this._addressConfigService.address.latitude,
         longitude: this._addressConfigService.address.longitude
       } : null,
+      isSupplier: this.personForm.get('isSupplier').value,
       isCustomer: this.personForm.get('isCustomer').value,
-      isManager: this.personForm.get('isManager').value,
-      isDriver: this.personForm.get('isDriver').value,
+      taxRegime: this.personForm.get('taxRegime').value,
+      icmsContributorType: this.personForm.get('icmsContributorType').value,
+      stateRegistration: this.personForm.get('stateRegistration').value,
+      municipalRegistration: this.personForm.get('municipalRegistration').value,
+      isActive: this.personForm.get('isActive').value,
       personPhones: this.phones
     }
 

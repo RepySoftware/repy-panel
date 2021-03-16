@@ -45,7 +45,7 @@ export class AppComponent implements OnInit {
   }
 
   public menuClick(action?: () => void): void {
-    this.sidenav.close();
+    // this.sidenav.close();
 
     if (action)
       action();
@@ -69,6 +69,12 @@ export class AppComponent implements OnInit {
         title: 'Dispositivos',
         icon: 'devices_other',
         route: '/devices',
+        showInToolbar: true
+      },
+      {
+        title: 'PDV',
+        icon: 'point_of_sale',
+        route: '/sales/pos',
         showInToolbar: true
       }
     ]

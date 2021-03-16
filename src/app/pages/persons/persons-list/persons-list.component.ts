@@ -27,7 +27,7 @@ export class PersonsListComponent implements OnInit {
     'type',
     'documentNumber',
     'address',
-    'roles'
+    'options'
   ]
 
   constructor(

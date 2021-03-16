@@ -26,6 +26,11 @@ const routes: Routes = [
     path: 'persons',
     loadChildren: () => import('./pages/persons/persons.module').then(x => x.PersonsModule),
     canActivate: [OnlyLoggedGuard]
+  },
+  {
+    path: 'sales',
+    loadChildren: () => import('./pages/sales/sales.module').then(x => x.SalesModule),
+    canActivate: [OnlyLoggedGuard]
   }
 ];
 
