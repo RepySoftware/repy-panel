@@ -86,8 +86,10 @@ export class PersonsListComponent implements OnInit {
       data
     });
 
-    dialog.afterClosed().subscribe(() => {
-      this.getPersons({ reset: true });
+    dialog.afterClosed().subscribe(result => {
+      if (result && result.hasUpdate) {
+        this.getPersons({ reset: true });
+      }
     });
   }
 

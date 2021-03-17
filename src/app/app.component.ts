@@ -32,6 +32,9 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
+
+    document.body.style.zoom = '80%';
+
     this._loaderService.loaderEmitter.subscribe(
       state => {
         this.loaderState = state;

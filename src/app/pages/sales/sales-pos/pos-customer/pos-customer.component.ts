@@ -1,9 +1,14 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { copyToClipboard } from '../../../../functions/copy-to-clipboard';
 import { Person } from '../../../../models/api/person';
+import { PersonSearch } from '../../../../models/api/person-search';
 import { PersonSearchFilter } from '../../../../models/output/filters/person-search.filter';
 import { LoaderService } from '../../../../services/loader.service';
 import { PersonService } from '../../../../services/person.service';
 import { ToastService } from '../../../../services/toast.service';
+import { PersonFormComponent, PersonFormInputData } from '../../../persons/person-form/person-form.component';
+import { SalesPosService } from '../sales-pos.service';
 
 @Component({
   selector: 'app-pos-customer',
@@ -18,7 +23,6 @@ export class PosCustomerComponent implements OnInit {
   @ViewChild('addressSearch') public addressSearchElement: ElementRef;
 
   public persons: Person[] = [];
-  public selectedPerson: Person;
 
   public personSearchFilter: PersonSearchFilter = {
     limit: 30,
@@ -36,7 +40,9 @@ export class PosCustomerComponent implements OnInit {
   constructor(
     private _personService: PersonService,
     private _loader: LoaderService,
-    private _toast: ToastService
+    private _toast: ToastService,
+    private _dialog: MatDialog,
+    public salesPosService: SalesPosService
   ) { }
 
   ngOnInit(): void {
@@ -50,8 +56,10 @@ export class PosCustomerComponent implements OnInit {
       this._personService.search(this.personSearchFilter).subscribe(response => {
         this._loader.dismiss();
 
-        if (options.reset)
+        if (options.reset){
+          this.personSearchFilter.index = 0;
           this.persons = [];
+        }
 
         this.persons = this.persons.concat(response);
 
@@ -86,6 +94,46 @@ export class PosCustomerComponent implements OnInit {
 
     this.personSearchFilter.index = 0;
     this.getPersons({ reset: true });
+  }
+
+  public openPersonForm(personId?: number): void {
+    const data: PersonFormInputData = { personId };
+
+    const dialog = this._dialog.open(PersonFormComponent, {
+      width: '90%',
+      height: '90%',
+      data
+    });
+
+    dialog.afterClosed().subscribe(result => {
+      if (result && result.hasUpdate) {
+        this.getPersons({ reset: true });
+      }
+    });
+  }
+
+  public selectPersonCustomer(person: PersonSearch): void {
+    this.salesPosService.personCustomer = person;
+  }
+
+  public unselectPersonCustomer(): void {
+    this.salesPosService.personCustomer = null;
+  }
+
+  public copyAddressLink(person: PersonSearch): void {
+
+    const addressLink = person.addressDescription;
+
+    const addressComplete = `${person.addressDescription}${person.addressComplement ? ' (compl:' + person.addressComplement + ')' : ''}${person.addressReferencePoint ? ' - ' + person.addressReferencePoint : ''}`;
+
+    let content = `https://www.google.com.br/maps?q=${encodeURI(addressLink)}\n${addressComplete}`;
+
+    const copyResult = copyToClipboard(content);
+    if (copyResult)
+      this._toast.open('Copiado para sua área de transferência!');
+    else {
+      this._toast.open('Erro ao copiar :(');
+    }
   }
 
 }

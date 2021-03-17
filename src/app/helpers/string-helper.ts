@@ -2,6 +2,9 @@ export abstract class StringHelper {
 
     public static toCpfCnpj(value: string): string {
 
+        if (!value)
+            return null;
+
         if (value.length == 11) {
             // cpf
             return value.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/g, "\$1.\$2.\$3\-\$4");

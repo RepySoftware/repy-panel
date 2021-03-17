@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { PersonIcmsContributorTypeList } from '../../../enums/person-icms-contributor.type';
@@ -50,6 +50,7 @@ export class PersonFormComponent implements OnInit {
     private _loader: LoaderService,
     private _toast: ToastService,
     private _addressConfigService: AddressConfigService,
+    private _dialogRef: MatDialogRef<PersonFormComponent>,
     @Inject(MAT_DIALOG_DATA) public inputData: PersonFormInputData
   ) {
     this.initForm();
@@ -142,6 +143,7 @@ export class PersonFormComponent implements OnInit {
   public save(): void {
 
     if (!this.personForm.valid) {
+      this.personForm.markAllAsTouched();
       this._toast.open('Preencha todos os campos obrigatórios');
       throw new Error('Invalid form');
     }
@@ -191,6 +193,8 @@ export class PersonFormComponent implements OnInit {
 
       this.initForm();
       this.setFormValues();
+
+      this._dialogRef.close({ hasUpdate: true });
     }, error => {
       this._loader.dismiss();
       this._toast.showError(error);

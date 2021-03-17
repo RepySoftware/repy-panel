@@ -6,6 +6,7 @@ export interface PersonSearch {
     isSupplier: string;
     isCustomer: string;
     isActive: string;
+    phones: string[];
     addressDescription: string;
     addressComplement: string;
     addressReferencePoint: string;
