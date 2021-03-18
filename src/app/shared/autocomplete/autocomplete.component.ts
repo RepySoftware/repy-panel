@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
 import { AutocompleteOptions } from 'src/app/models/ui/autocomplete-options';
 import { AutocompleteItem } from 'src/app/models/ui/autocomplete-item';
 import { Subject } from 'rxjs';
@@ -14,13 +14,13 @@ export class AutocompleteComponent implements OnInit {
 
   @ViewChild('autocompleteInput') public autocompleteInput: ElementRef;
 
-  @Input() public options: AutocompleteOptions;
+  @Input() public options: AutocompleteOptions<any>;
   @Input() public disabled: boolean = false;
 
-  public items: AutocompleteItem[] = [];
+  public items: AutocompleteItem<any>[] = [];
   public onInputSubject: Subject<string> = new Subject();
 
-  public selectedItem: AutocompleteItem;
+  public selectedItem: AutocompleteItem<any>;
 
   constructor() { }
 
@@ -55,6 +55,6 @@ export class AutocompleteComponent implements OnInit {
     this.items = [];
     this.autocompleteInput.nativeElement.value = null;
     this.selectedItem = null;
-    this.options.onSelectItem({ value: null, label: null });
+    // this.options.onSelectItem({ value: null, label: null });
   }
 }

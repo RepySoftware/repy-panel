@@ -7,7 +7,7 @@ export class SalesPosService {
 
     public personCustomer: Person;
 
-    public products: SalesPosPurchaseOrderProduct[];
+    public products: SalesPosPurchaseOrderProduct[] = [];
 
     public driver: Person;
 }

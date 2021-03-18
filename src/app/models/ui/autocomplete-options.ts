@@ -1,8 +1,8 @@
 import { AutocompleteItem } from './autocomplete-item';
 import { Observable } from 'rxjs';
 
-export interface AutocompleteOptions {
+export interface AutocompleteOptions<T> {
     placeholder: string;
-    onGetItems: (query: string) => Observable<AutocompleteItem[]>;
-    onSelectItem: (item: AutocompleteItem) => void;
+    onGetItems: (query: string) => Observable<AutocompleteItem<T>[]>;
+    onSelectItem: (item: AutocompleteItem<T>) => void;
 }
