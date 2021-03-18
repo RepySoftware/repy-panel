@@ -1,0 +1,32 @@
+<div class="row">
+
+    <div class="col-6">
+
+        <div class="row">
+
+            <div class="col-4">
+                <mat-form-field>
+                    <mat-label>Unidade</mat-label>
+                    <mat-select #companyBranch
+                                formControlName="type">
+                        <mat-option *ngFor="let branch of companyBranches"
+                                    [value]="branch.id">
+                            {{ branch.name }} - {{ branch.tradeName }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+            <div class="col-8">
+                <app-autocomplete [disabled]="!companyBranch.value"
+                                  [options]="productSearchAutocompleteOptions"></app-autocomplete>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="col-6">
+
+    </div>
+
+</div>

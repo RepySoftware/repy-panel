@@ -1,7 +1,7 @@
 <mat-form-field>
     <input type="text" [placeholder]="options?.placeholder" autocomplete="off" #autocompleteInput
         (input)="onInputSubject.next(autocompleteInput.value)" (blur)="onBlur()" (focus)="onFocus()" matInput
-        [matAutocomplete]="auto">
+        [matAutocomplete]="auto" [disabled]="disabled">
 
     <button mat-icon-button matSuffix (click)="clear()">
         <mat-icon>close</mat-icon>

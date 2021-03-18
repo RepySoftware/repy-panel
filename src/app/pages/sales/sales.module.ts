@@ -6,24 +6,28 @@ import { SalesRoutingModule } from './sales.routing';
 import { SharedModule } from '../../shared/shared.module';
 import { AngularMaterialModule } from '../../shared/angular-material.module';
 import { PosCustomerComponent } from './sales-pos/pos-customer/pos-customer.component';
-import { PosOrderComponent } from './sales-pos/pos-order/pos-order.component';
 import { PosSummaryComponent } from './sales-pos/pos-summary/pos-summary.component';
 import { SalesPosService } from './sales-pos/sales-pos.service';
 import { PosPaymentComponent } from './sales-pos/pos-payment/pos-payment.component';
+import { PipesModule } from '../../pipes/pipes.module';
+import { PosProductsComponent } from './sales-pos/pos-products/pos-products.component';
+import { PosDeliveryComponent } from './sales-pos/pos-delivery/pos-delivery.component';
 
 @NgModule({
   declarations: [
     SalesComponent,
     SalesPosComponent,
     PosCustomerComponent,
-    PosOrderComponent,
     PosSummaryComponent,
-    PosPaymentComponent
+    PosPaymentComponent,
+    PosProductsComponent,
+    PosDeliveryComponent
   ],
   imports: [
     CommonModule,
     SharedModule,
     AngularMaterialModule,
+    PipesModule,
     SalesRoutingModule
   ],
   providers: [

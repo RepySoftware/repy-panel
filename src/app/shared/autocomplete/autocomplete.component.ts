@@ -15,6 +15,7 @@ export class AutocompleteComponent implements OnInit {
   @ViewChild('autocompleteInput') public autocompleteInput: ElementRef;
 
   @Input() public options: AutocompleteOptions;
+  @Input() public disabled: boolean = false;
 
   public items: AutocompleteItem[] = [];
   public onInputSubject: Subject<string> = new Subject();

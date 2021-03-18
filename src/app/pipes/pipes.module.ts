@@ -6,6 +6,7 @@ import { MomentCalendarPipe } from './moment-calendar.pipe';
 import { PersonTypePipe } from './person-type.pipe';
 import { PersonTaxRegimePipe } from './person-tax-regime.pipe';
 import { PersonIcmsContributorTypePipe } from './person-icms-contributor.pipe';
+import { MapPipe } from './map.pipe';
 
 @NgModule({
     declarations: [
@@ -15,7 +16,8 @@ import { PersonIcmsContributorTypePipe } from './person-icms-contributor.pipe';
         MomentCalendarPipe,
         PersonTypePipe,
         PersonTaxRegimePipe,
-        PersonIcmsContributorTypePipe
+        PersonIcmsContributorTypePipe,
+        MapPipe
     ],
     exports: [
         MoneyPipe,
@@ -24,7 +26,8 @@ import { PersonIcmsContributorTypePipe } from './person-icms-contributor.pipe';
         MomentCalendarPipe,
         PersonTypePipe,
         PersonTaxRegimePipe,
-        PersonIcmsContributorTypePipe
+        PersonIcmsContributorTypePipe,
+        MapPipe
     ]
 })
 export class PipesModule { }

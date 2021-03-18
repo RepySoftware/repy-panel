@@ -56,15 +56,18 @@
             </div>
 
             <div>
-                {{ salesPosService.personCustomer.phones }}
+                {{ salesPosService.personCustomer.phones | map:'phone' }}
             </div>
 
             <div>
-                {{salesPosService.personCustomer.addressDescription}} {{
-                salesPosService.personCustomer.addressComplement ?
-                '(compl: '+ salesPosService.personCustomer.addressComplement +')'
-                :
-                '' }}
+                <a href="javascript:;"
+                   (click)="copyAddressLink(salesPosService.personCustomer)">
+                    {{salesPosService.personCustomer.address.description}} {{
+                    salesPosService.personCustomer.address.complement ?
+                    '(compl: '+ salesPosService.personCustomer.address.complement +')'
+                    :
+                    '' }}
+                </a>
             </div>
 
             <div>

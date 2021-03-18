@@ -19,6 +19,8 @@ import { environment } from '../environments/environment';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { PersonService } from './services/person.service';
 import { AddressConfigService } from './shared/address-config/address-config.service';
+import { ProductService } from './services/product.service';
+import { CompanyBranchService } from './services/company-branch.service';
 
 @NgModule({
   declarations: [
@@ -40,6 +42,8 @@ import { AddressConfigService } from './shared/address-config/address-config.ser
     DeviceService,
     PersonService,
     AddressConfigService,
+    ProductService,
+    CompanyBranchService,
 
     LoaderService,
     ToastService,

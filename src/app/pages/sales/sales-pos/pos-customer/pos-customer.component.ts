@@ -56,7 +56,7 @@ export class PosCustomerComponent implements OnInit {
       this._personService.search(this.personSearchFilter).subscribe(response => {
         this._loader.dismiss();
 
-        if (options.reset){
+        if (options.reset) {
           this.personSearchFilter.index = 0;
           this.persons = [];
         }
@@ -113,20 +113,44 @@ export class PosCustomerComponent implements OnInit {
   }
 
   public selectPersonCustomer(person: PersonSearch): void {
-    this.salesPosService.personCustomer = person;
+    this._loader.show();
+    this._personService.getById(person.id).subscribe(response => {
+      this._loader.dismiss();
+      this.salesPosService.personCustomer = response;
+    }, error => {
+      this._loader.dismiss();
+      this._toast.showError(error);
+    });
   }
 
   public unselectPersonCustomer(): void {
     this.salesPosService.personCustomer = null;
   }
 
-  public copyAddressLink(person: PersonSearch): void {
+  public copyAddressLink(person: PersonSearch | Person): void {
 
-    const addressLink = person.addressDescription;
+    let addressLink: string;
+    let addressComplete: string;
 
-    const addressComplete = `${person.addressDescription}${person.addressComplement ? ' (compl:' + person.addressComplement + ')' : ''}${person.addressReferencePoint ? ' - ' + person.addressReferencePoint : ''}`;
+    if ((person as PersonSearch).addressDescription) {
 
-    let content = `https://www.google.com.br/maps?q=${encodeURI(addressLink)}\n${addressComplete}`;
+      const p = (person as PersonSearch);
+
+      addressLink = p.addressDescription;
+
+      addressComplete = `${p.addressDescription}${p.addressComplement ? ' (compl:' + p.addressComplement + ')' : ''}${p.addressReferencePoint ? ' - ' + p.addressReferencePoint : ''}`;
+
+    } else {
+
+      const p = (person as Person);
+
+      addressLink = p.address.description;
+
+      addressComplete = `${p.address.description}${p.address.complement ? ' (compl:' + p.address.complement + ')' : ''}${p.address.referencePoint ? ' - ' + p.address.referencePoint : ''}`;
+
+    }
+
+    const content = `https://www.google.com.br/maps?q=${encodeURI(addressLink)}\n${addressComplete}`;
 
     const copyResult = copyToClipboard(content);
     if (copyResult)
