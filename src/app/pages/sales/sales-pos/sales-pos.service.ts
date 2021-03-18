@@ -10,4 +10,11 @@ export class SalesPosService {
     public products: SalesPosPurchaseOrderProduct[] = [];
 
     public driver: Person;
+
+    public tabsOk = {
+        customer: () => !!this.personCustomer,
+        products: () => this.products.length > 0,
+        delivery: () => false,
+        payment: () => false
+    }
 }

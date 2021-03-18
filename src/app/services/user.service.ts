@@ -42,7 +42,7 @@ export class UserService {
         color = color.substring(1, color.length); // remove #
 
         let text = name[0];
-        let nameSplited = name.split(' ');
+        let nameSplited = name.split('.');
         text += nameSplited[nameSplited.length - 1][0];
 
         return `https://dummyimage.com/1:1x500/${color}/ffffff?text=${text}`;

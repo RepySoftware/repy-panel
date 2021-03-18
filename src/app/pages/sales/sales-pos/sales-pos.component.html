@@ -1,22 +1,37 @@
 <mat-tab-group>
 
-    <mat-tab label="Cliente">
+    <mat-tab>
+        <ng-template mat-tab-label>
+            <span [class.tab-label-success]="salesPosService.tabsOk.customer()">Cliente</span>
+        </ng-template>
         <app-pos-customer></app-pos-customer>
     </mat-tab>
 
-    <mat-tab label="Produtos">
+    <mat-tab>
+        <ng-template mat-tab-label>
+            <span [class.tab-label-success]="salesPosService.tabsOk.products()">Produtos</span>
+        </ng-template>
         <app-pos-products></app-pos-products>
     </mat-tab>
 
-    <mat-tab label="Entrega">
+    <mat-tab>
+        <ng-template mat-tab-label>
+            <span [class.tab-label-success]="salesPosService.tabsOk.delivery()">Entrega</span>
+        </ng-template>
         <app-pos-delivery></app-pos-delivery>
     </mat-tab>
 
-    <mat-tab label="Pagamento">
+    <mat-tab>
+        <ng-template mat-tab-label>
+            <span [class.tab-label-success]="salesPosService.tabsOk.payment()">Pagamento</span>
+        </ng-template>
         <app-pos-payment></app-pos-payment>
     </mat-tab>
 
-    <mat-tab label="Finalizar">
+    <mat-tab>
+        <ng-template mat-tab-label>
+            <span>Finalizar</span>
+        </ng-template>
         <app-pos-summary></app-pos-summary>
     </mat-tab>
 

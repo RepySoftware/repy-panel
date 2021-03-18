@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSelect } from '@angular/material/select';
-import { Observable } from 'rxjs';
+import { from, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { CompanyBranch } from '../../../../models/api/company-brach';
 import { CompanyBranchProduct } from '../../../../models/api/company-branch-product';
@@ -27,8 +27,8 @@ export class PosProductsComponent implements OnInit {
   @ViewChild('companyBranch') public companyBranchElement: MatSelect;
   @ViewChild('productAutocomplete') public productAutocomplete: AutocompleteComponent;
 
-  @ViewChild('productPrice') public productPriceElement: MatSelect;
-  @ViewChild('quantity') public quantityElement: ElementRef;
+  // @ViewChild('productPrice') public productPriceElement: MatSelect;
+  // @ViewChild('quantity') public quantityElement: ElementRef;
 
   public productSearchAutocompleteOptions: AutocompleteOptions<CompanyBranchProduct> = {
     placeholder: 'Busca',
@@ -40,16 +40,28 @@ export class PosProductsComponent implements OnInit {
 
   public productToAdd: CompanyBranchProduct;
 
+  public addProductForm: FormGroup;
+
   constructor(
     private _loader: LoaderService,
     private _toast: ToastService,
     public salesPosService: SalesPosService,
     private _productService: ProductService,
     private _companyBranchService: CompanyBranchService
-  ) { }
+  ) {
+    this.initForm();
+  }
 
   ngOnInit(): void {
     this.getCompanyBranches();
+  }
+
+  private initForm(): void {
+    this.addProductForm = new FormGroup({
+      price: new FormControl(null, Validators.required),
+      salePriceValue: new FormControl(0, [Validators.required, Validators.min(0)]),
+      quantity: new FormControl(1, Validators.required)
+    });
   }
 
   private getCompanyBranches(): void {
@@ -85,6 +97,11 @@ export class PosProductsComponent implements OnInit {
     this.productAutocomplete.clear();
   }
 
+  public onSelectPrice(): void {
+    const price = this.productToAdd.prices.find(p => p.id == this.addProductForm.get('price').value);
+    this.addProductForm.get('salePriceValue').setValue(price.salePrice);
+  }
+
   public addProduct(): void {
 
     if (!this.productToAdd) {
@@ -92,20 +109,19 @@ export class PosProductsComponent implements OnInit {
       throw new Error('Not selected product');
     }
 
-    if (!this.productPriceElement.value) {
-      this._toast.open('Nenhum tipo de preço selecionado');
-      throw new Error('Not selected price type');
+    if (!this.addProductForm.valid) {
+      this.addProductForm.markAllAsTouched();
+      this._toast.open('Preencha todos os campos obrigatórios');
+      throw new Error('Not selected product');
     }
 
-    if (!this.quantityElement.nativeElement.value) {
-      this._toast.open('Nenhuma quantidade informada');
-      throw new Error('Not defined quantity');
-    }
+    const price = this.productToAdd.prices.find(p => p.id == this.addProductForm.get('price').value);
 
     const posProduct: SalesPosPurchaseOrderProduct = {
       companyBranchProduct: this.productToAdd,
-      price: this.productToAdd.prices.find(p => p.id == this.productPriceElement.value),
-      quantity: this.quantityElement.nativeElement.value
+      price,
+      salePriceValue: this.addProductForm.get('salePriceValue').value,
+      quantity: this.addProductForm.get('quantity').value
     }
 
     this.salesPosService.products.push(posProduct);
@@ -118,8 +134,10 @@ export class PosProductsComponent implements OnInit {
     const posProduct = this.salesPosService.products[index];
 
     this.productToAdd = posProduct.companyBranchProduct;
-    this.productPriceElement.value = posProduct.price.id;
-    this.quantityElement.nativeElement.value = posProduct.quantity;
+
+    this.addProductForm.get('price').setValue(posProduct.price.id);
+    this.addProductForm.get('salePriceValue').setValue(posProduct.salePriceValue);
+    this.addProductForm.get('quantity').setValue(posProduct.quantity);
 
     this.removeProduct(index);
   }
@@ -130,13 +148,7 @@ export class PosProductsComponent implements OnInit {
 
   public get posProductsTotalPrice(): number {
     return this.salesPosService.products
-      .map(p => p.quantity * p.price.salePrice)
+      .map(p => p.quantity * p.salePriceValue)
       .reduce((a, b) => a + b, 0);
   }
-
-  public getPriceById(id: number): CompanyBranchProductPrice {
-    if (!id) return null;
-    return this.productToAdd ? this.productToAdd.prices.find(p => p.id == id) : null;
-  }
-
 }

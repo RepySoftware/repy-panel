@@ -3,6 +3,7 @@ import { CompanyBranchProductPrice } from "../../../models/api/company-branch-pr
 
 export interface SalesPosPurchaseOrderProduct {
     companyBranchProduct: CompanyBranchProduct;
-    price: CompanyBranchProductPrice
+    price: CompanyBranchProductPrice;
+    salePriceValue: number;
     quantity: number;
 }

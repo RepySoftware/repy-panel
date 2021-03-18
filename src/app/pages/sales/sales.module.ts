@@ -12,6 +12,8 @@ import { PosPaymentComponent } from './sales-pos/pos-payment/pos-payment.compone
 import { PipesModule } from '../../pipes/pipes.module';
 import { PosProductsComponent } from './sales-pos/pos-products/pos-products.component';
 import { PosDeliveryComponent } from './sales-pos/pos-delivery/pos-delivery.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { DirectivesModule } from '../../directives/directives.module';
 
 @NgModule({
   declarations: [
@@ -28,7 +30,9 @@ import { PosDeliveryComponent } from './sales-pos/pos-delivery/pos-delivery.comp
     SharedModule,
     AngularMaterialModule,
     PipesModule,
-    SalesRoutingModule
+    SalesRoutingModule,
+    ReactiveFormsModule,
+    DirectivesModule
   ],
   providers: [
     SalesPosService
