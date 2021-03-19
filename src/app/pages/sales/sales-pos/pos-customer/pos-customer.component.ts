@@ -79,10 +79,16 @@ export class PosCustomerComponent implements OnInit {
   }
 
   public clearFilter(): void {
+    
     this.personSearchFilter.q = null;
     this.personSearchFilter.name = null;
     this.personSearchFilter.phone = null;
     this.personSearchFilter.address = null;
+
+    this.generalSearchElement.nativeElement.value = null;
+    this.nameSearchElement.nativeElement.value = null;
+    this.phoneSearchElement.nativeElement.value = null;
+    this.addressSearchElement.nativeElement.value = null;
   }
 
   public search(): void {

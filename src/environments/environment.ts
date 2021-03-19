@@ -6,6 +6,9 @@ export const environment = {
   production: false,
   apiUrl: 'http://localhost:3333',
   forceHttps: false,
+  googleMaps: {
+    embedApiKey: 'AIzaSyB9UXCahHhhaMul9X3SF76aBgWDUUAwdPE'
+  },
   mapbox: {
     accessToken: 'pk.eyJ1IjoiaWdvcndmYW9ybyIsImEiOiJja2prZ2t1OHoyNG94MnVwOG1ucnBiNzE4In0.AG1W2NugAnzA5rIfNzab9g'
   }

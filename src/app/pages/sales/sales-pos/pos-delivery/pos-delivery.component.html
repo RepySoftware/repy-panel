@@ -1,1 +1,64 @@
-<p>pos-delivery works!</p>
+<div class="row">
+
+    <div class="col-6"
+         style="height: 100vh;">
+        <iframe *ngIf="salesPosService.tabsOk.customer()"
+                class="map"
+                [src]="salesPosService.deliveryAddressMapUrl"
+                frameborder="0"
+                style="border:0;"
+                allowfullscreen=""
+                aria-hidden="false"
+                tabindex="0"></iframe>
+    </div>
+
+    <div class="col-6"
+         style="padding-top: 5px;">
+
+        <div class="row">
+
+            <div [class]="salesPosService.employeeDriver ? 'col-6' : 'col-12'">
+                <app-autocomplete #employeeDriverAutocomplete
+                                  [disabled]="!salesPosService.tabsOk.customer()"
+                                  [options]="employeeDriverSearchAutocompleteOptions"></app-autocomplete>
+            </div>
+
+            <div class="col-6"
+                 *ngIf="salesPosService.employeeDriver">
+
+                <div class="selected-driver">
+                    <div>
+                        <strong>{{ salesPosService.employeeDriver.name }} ({{ salesPosService.personCustomer.id
+                            }})</strong>
+                    </div>
+
+                    <div>
+                        <button mat-stroked-button
+                                (click)="unselectEmployeeDriver()">Cancelar seleção</button>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-12">
+                <mat-form-field>
+                    <input matInput
+                           #deliverySchedule
+                           [ngxMatDatetimePicker]="deliverySchedulePicker"
+                           placeholder="Agendamento de entrega"
+                           (input)="onDefineDeliverySchedule()">
+                    <mat-datepicker-toggle matSuffix
+                                           [for]="deliverySchedulePicker"></mat-datepicker-toggle>
+                    <ngx-mat-datetime-picker #deliverySchedulePicker>
+                        <ng-template>
+                            <span>OK</span>
+                        </ng-template>
+                    </ngx-mat-datetime-picker>
+                </mat-form-field>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

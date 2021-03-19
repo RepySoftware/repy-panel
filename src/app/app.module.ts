@@ -21,6 +21,7 @@ import { PersonService } from './services/person.service';
 import { AddressConfigService } from './shared/address-config/address-config.service';
 import { ProductService } from './services/product.service';
 import { CompanyBranchService } from './services/company-branch.service';
+import { EmployeeService } from './services/employee.service';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import { CompanyBranchService } from './services/company-branch.service';
     AddressConfigService,
     ProductService,
     CompanyBranchService,
+    EmployeeService,
 
     LoaderService,
     ToastService,

@@ -6,6 +6,7 @@ export const URLS = {
         devices: `${environment.apiUrl}/devices`,
         persons: `${environment.apiUrl}/persons`,
         products: `${environment.apiUrl}/products`,
-        companyBranches: `${environment.apiUrl}/companyBranches`
+        companyBranches: `${environment.apiUrl}/companyBranches`,
+        employees: `${environment.apiUrl}/employees`
     }
 }

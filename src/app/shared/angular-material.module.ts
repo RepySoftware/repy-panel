@@ -27,6 +27,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTreeModule } from '@angular/material/tree';
+import { NgxMatDatetimePickerModule, NgxMatNativeDateModule, NgxMatTimepickerModule } from '@angular-material-components/datetime-picker';
 
 @NgModule({
     declarations: [
@@ -60,7 +61,10 @@ import { MatTreeModule } from '@angular/material/tree';
         MatSlideToggleModule,
         MatExpansionModule,
         MatTreeModule,
-        MatTableModule
+        MatTableModule,
+        NgxMatDatetimePickerModule,
+        NgxMatNativeDateModule,
+        NgxMatTimepickerModule
     ],
     exports: [
         MatToolbarModule,
@@ -91,7 +95,10 @@ import { MatTreeModule } from '@angular/material/tree';
         MatSlideToggleModule,
         MatExpansionModule,
         MatTreeModule,
-        MatTableModule
+        MatTableModule,
+        NgxMatDatetimePickerModule,
+        NgxMatNativeDateModule,
+        NgxMatTimepickerModule
     ],
     entryComponents: [
     ]
