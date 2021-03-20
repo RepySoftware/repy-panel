@@ -53,6 +53,11 @@
         <div class="selected-customer">
             <div>
                 <strong>{{ salesPosService.personCustomer.name }} ({{ salesPosService.personCustomer.id }})</strong>
+
+                <img *ngIf="salesPosService.personCustomer.isGasCustomer"
+                     style="width: 8px; width: 9px; margin-left: 4px;"
+                     src="/assets/images/gas-cylinder-icon.png"
+                     title="Cliente de gás">
             </div>
 
             <div>
@@ -139,6 +144,20 @@
                     :
                     '' }}
                 </a>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="moreInfo">
+            <th mat-header-cell
+                *matHeaderCellDef>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+            <td mat-cell
+                *matCellDef="let element">
+
+                <img *ngIf="element.isGasCustomer"
+                     style="width: 14px;"
+                     src="/assets/images/gas-cylinder-icon.png"
+                     title="Cliente de gás">
+
             </td>
         </ng-container>
 

@@ -34,6 +34,7 @@ export class PosCustomerComponent implements OnInit {
     'name',
     'phones',
     'address',
+    'moreInfo',
     'options'
   ]
 

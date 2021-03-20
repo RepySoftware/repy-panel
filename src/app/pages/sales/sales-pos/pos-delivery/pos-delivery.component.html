@@ -40,20 +40,14 @@
 
             </div>
 
-            <div class="col-12">
+            <div class="col-6">
                 <mat-form-field>
-                    <input matInput
-                           #deliverySchedule
-                           [ngxMatDatetimePicker]="deliverySchedulePicker"
+                    <input #deliverySchedule
+                           matInput
+                           type="datetime-local"
                            placeholder="Agendamento de entrega"
+                           autocomplete="off"
                            (input)="onDefineDeliverySchedule()">
-                    <mat-datepicker-toggle matSuffix
-                                           [for]="deliverySchedulePicker"></mat-datepicker-toggle>
-                    <ngx-mat-datetime-picker #deliverySchedulePicker>
-                        <ng-template>
-                            <span>OK</span>
-                        </ng-template>
-                    </ngx-mat-datetime-picker>
                 </mat-form-field>
             </div>
 

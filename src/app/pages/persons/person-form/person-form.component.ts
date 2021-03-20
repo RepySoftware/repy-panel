@@ -72,7 +72,7 @@ export class PersonFormComponent implements OnInit {
     this.personForm = new FormGroup({
       type: new FormControl(PersonType.NORMAL, Validators.required),
       documentNumber: new FormControl(null),
-      name: new FormControl(null, Validators.required),
+      name: new FormControl(null),
       tradeName: new FormControl(null),
       email: new FormControl(null, Validators.email),
       isSupplier: new FormControl(null),

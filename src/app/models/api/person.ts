@@ -23,6 +23,7 @@ export interface Person extends ApiModel, TimeStamps {
     icmsContributorType: PersonIcmsContributorType;
     stateRegistration: string;
     municipalRegistration: string;
+    isGasCustomer: boolean;
     isActive: boolean;
     devices: Device[];
     createdAt: string;

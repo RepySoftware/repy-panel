@@ -8,6 +8,7 @@ import { AutocompleteOptions } from '../../../../models/ui/autocomplete-options'
 import { EmployeeService } from '../../../../services/employee.service';
 import { AutocompleteComponent } from '../../../../shared/autocomplete/autocomplete.component';
 import { SalesPosService } from '../sales-pos.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-pos-delivery',
@@ -17,7 +18,7 @@ import { SalesPosService } from '../sales-pos.service';
 export class PosDeliveryComponent implements OnInit {
 
   @ViewChild('employeeDriverAutocomplete') public employeeDriverAutocomplete: AutocompleteComponent;
-  @ViewChild('deliverySchedulePicker') public deliverySchedulePicker: ElementRef;
+  @ViewChild('deliverySchedule') public deliveryScheduleElement: ElementRef;
 
   public employeeDriverSearchAutocompleteOptions: AutocompleteOptions<Employee> = {
     placeholder: 'Entregador',
@@ -64,6 +65,6 @@ export class PosDeliveryComponent implements OnInit {
   }
 
   public onDefineDeliverySchedule(): void {
-    console.log(this.deliverySchedulePicker.nativeElement.value);
+    this.salesPosService.deliverySchedule = moment(this.deliveryScheduleElement.nativeElement.value);
   }
 }

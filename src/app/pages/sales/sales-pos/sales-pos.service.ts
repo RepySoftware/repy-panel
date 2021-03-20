@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
 import { DomSanitizer, SafeResourceUrl } from "@angular/platform-browser";
+import { Moment } from "moment";
 import { environment } from "../../../../environments/environment";
 import { Employee } from "../../../models/api/employee";
 import { Person } from "../../../models/api/person";
@@ -13,15 +14,14 @@ export class SalesPosService {
     ) { }
 
     private _personCustomer: Person;
-
     public products: SalesPosPurchaseOrderProduct[] = [];
-
     public employeeDriver: Employee;
+    public deliverySchedule: Moment;
 
     public tabsOk = {
         customer: () => !!this.personCustomer,
         products: () => this.products.length > 0,
-        delivery: () => false,
+        delivery: () => !!this.employeeDriver,
         payment: () => false
     }
 
