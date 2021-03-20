@@ -7,6 +7,7 @@ export const URLS = {
         persons: `${environment.apiUrl}/persons`,
         products: `${environment.apiUrl}/products`,
         companyBranches: `${environment.apiUrl}/companyBranches`,
-        employees: `${environment.apiUrl}/employees`
+        employees: `${environment.apiUrl}/employees`,
+        paymentMethods: `${environment.apiUrl}/paymentMethods`
     }
 }

@@ -145,10 +145,4 @@ export class PosProductsComponent implements OnInit {
   public removeProduct(index: number): void {
     this.salesPosService.products.splice(index, 1);
   }
-
-  public get posProductsTotalPrice(): number {
-    return this.salesPosService.products
-      .map(p => p.quantity * p.salePriceValue)
-      .reduce((a, b) => a + b, 0);
-  }
 }

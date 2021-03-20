@@ -1,1 +1,133 @@
-<p>pos-summary works!</p>
+<div class="row">
+
+    <div class="col-md-4">
+
+        <h4>Cliente</h4>
+
+        <div class="selected-customer">
+
+            <div *ngIf="salesPosService.tabsOk.customer()">
+                <div>
+                    <strong>{{ salesPosService.personCustomer.name }} ({{ salesPosService.personCustomer.id }})</strong>
+
+                    <img *ngIf="salesPosService.personCustomer.isGasCustomer"
+                         style="width: 8px; width: 9px; margin-left: 4px;"
+                         src="/assets/images/gas-cylinder-icon.png"
+                         title="Cliente de gás">
+                </div>
+
+                <div>
+                    {{ salesPosService.personCustomer.phones | map:'phone' }}
+                </div>
+
+                <div>
+                    <a href="javascript:;"
+                       (click)="salesPosService.copyAddressLink(salesPosService.personCustomer)">
+                        {{salesPosService.personCustomer.address.description}} {{
+                        salesPosService.personCustomer.address.complement ?
+                        '(compl: '+ salesPosService.personCustomer.address.complement +')'
+                        :
+                        '' }}
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-8">
+
+        <h4>Produtos</h4>
+
+        <table class="products-table">
+            <thead>
+                <tr>
+                    <th>Cód</th>
+                    <th>Produto</th>
+                    <th>Tip. preço</th>
+                    <th>Preço</th>
+                    <th>Qtd</th>
+                    <th>Total</th>
+                    <th>Opt</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let p of salesPosService.products; let i = index">
+                    <td>{{ p.companyBranchProduct.product.code }}</td>
+                    <td>{{ p.companyBranchProduct.product.name }}</td>
+                    <td>{{ p.price.name }}</td>
+                    <td>{{ p.salePriceValue }}</td>
+                    <td>{{ p.quantity }}</td>
+                    <td>{{ (p.quantity * p.price.salePrice) | money }}</td>
+                </tr>
+                <tr>
+                    <td colspan="5"></td>
+                    <td colspan="2"
+                        style="font-weight: bold; color: var(--color-alizarin);">
+                        {{ salesPosService.productsTotalPrice | money }}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+</div>
+
+<div class="row"
+     style="margin-top: 10px !important;">
+     
+    <div class="col-6">
+
+        <h4>Entrega</h4>
+
+        <div class="selected-driver">
+
+            <div *ngIf="salesPosService.tabsOk.delivery()">
+                <div>
+                    <strong>{{ salesPosService.employeeDriver.name }} ({{ salesPosService.personCustomer.id
+                        }})</strong>
+                </div>
+
+                <div *ngIf="salesPosService.deliverySchedule">
+                    Agendamento: {{ salesPosService.deliverySchedule }}
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-6">
+
+        <h4>Pagamento</h4>
+
+        <div class="payment">
+
+            <div *ngIf="salesPosService.tabsOk.payment()">
+                <div>
+                    <strong>{{ salesPosService.paymentMethod.name }}</strong>
+                </div>
+
+                <div style="font-size: 19px;"
+                     *ngIf="salesPosService.paymentInstallments > 1">
+                    <span>{{ salesPosService.paymentInstallments }}x </span>
+                    <span style="font-weight: bold;">
+                        {{ (salesPosService.productsTotalPrice / salesPosService.paymentInstallments) | money }}
+                    </span>
+                </div>
+
+                <div style="font-size: 23px;">
+                    <span>Total: </span>
+                    <span style="font-weight: bold; color: var(--color-alizarin);">
+                        {{ salesPosService.productsTotalPrice | money }}
+                    </span>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>

@@ -134,37 +134,4 @@ export class PosCustomerComponent implements OnInit {
     this.salesPosService.personCustomer = null;
   }
 
-  public copyAddressLink(person: PersonSearch | Person): void {
-
-    let addressLink: string;
-    let addressComplete: string;
-
-    if ((person as PersonSearch).addressDescription) {
-
-      const p = (person as PersonSearch);
-
-      addressLink = p.addressDescription;
-
-      addressComplete = `${p.addressDescription}${p.addressComplement ? ' (compl:' + p.addressComplement + ')' : ''}${p.addressReferencePoint ? ' - ' + p.addressReferencePoint : ''}`;
-
-    } else {
-
-      const p = (person as Person);
-
-      addressLink = p.address.description;
-
-      addressComplete = `${p.address.description}${p.address.complement ? ' (compl:' + p.address.complement + ')' : ''}${p.address.referencePoint ? ' - ' + p.address.referencePoint : ''}`;
-
-    }
-
-    const content = `https://www.google.com.br/maps?q=${encodeURI(addressLink)}\n${addressComplete}`;
-
-    const copyResult = copyToClipboard(content);
-    if (copyResult)
-      this._toast.open('Copiado para sua área de transferência!');
-    else {
-      this._toast.open('Erro ao copiar :(');
-    }
-  }
-
 }

@@ -1,1 +1,53 @@
-<p>pos-payment works!</p>
+<div class="row">
+
+    <div class="col-4">
+        <mat-form-field>
+            <mat-label>Tipo de pagamento</mat-label>
+            <mat-select #paymentMethod
+                        [disabled]="!salesPosService.tabsOk.products()"
+                        (selectionChange)="onSelectPaymentMethod()">
+                <mat-option *ngFor="let pm of paymentMethods"
+                            [value]="pm.id">
+                    {{ pm.name }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+
+    <div class="col-4"
+         *ngIf="hasInstallments">
+        <mat-form-field>
+            <input #installments
+                   matInput
+                   placeholder="Número de parcelas"
+                   autocomplete="off"
+                   type="number"
+                   value="1"
+                   (input)="onDefineInstallments()">
+            <mat-error *ngIf="salesPosService.paymentInstallments <= 0">
+                Número de parcelas deve ser superior ou igual a 1
+            </mat-error>
+        </mat-form-field>
+    </div>
+
+    <div class="col-12"
+         *ngIf="salesPosService.paymentInstallments > 1">
+        <div style="font-size: 19px;">
+            <span>{{ salesPosService.paymentInstallments }}x </span>
+            <span style="font-weight: bold;">
+                {{ (salesPosService.productsTotalPrice / salesPosService.paymentInstallments) | money }}
+            </span>
+        </div>
+    </div>
+
+    <div class="col-12">
+        <div style="font-size: 23px;"
+             *ngIf="salesPosService.tabsOk.products()">
+            <span>Total: </span>
+            <span style="font-weight: bold; color: var(--color-alizarin);">
+                {{ salesPosService.productsTotalPrice | money }}
+            </span>
+        </div>
+    </div>
+
+</div>

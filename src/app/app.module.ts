@@ -22,6 +22,7 @@ import { AddressConfigService } from './shared/address-config/address-config.ser
 import { ProductService } from './services/product.service';
 import { CompanyBranchService } from './services/company-branch.service';
 import { EmployeeService } from './services/employee.service';
+import { PaymentMethodService } from './services/payment-method.service';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import { EmployeeService } from './services/employee.service';
     ProductService,
     CompanyBranchService,
     EmployeeService,
+    PaymentMethodService,
 
     LoaderService,
     ToastService,
