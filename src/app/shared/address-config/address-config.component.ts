@@ -99,6 +99,10 @@ export class AddressConfigComponent implements AfterViewInit {
         this.insertedAddress = true;
     }
 
+    public onInputExtraFields(field: 'complement'|'referencePoint'): void {
+        this._addressConfigService.address[field] = this.addressForm.get(field).value;
+    }
+
     public addressFocus(): void {
         this.addressSearchInput.nativeElement.value = null;
         this.insertedAddress = false;

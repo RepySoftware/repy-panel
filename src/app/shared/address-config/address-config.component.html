@@ -26,7 +26,8 @@
                        matInput
                        placeholder="Complemento (opcional)"
                        autocomplete="off"
-                       formControlName="complement">
+                       formControlName="complement"
+                       (input)="onInputExtraFields('complement')">
             </mat-form-field>
         </div>
 
@@ -36,7 +37,8 @@
                        matInput
                        placeholder="Ponto de referência (opcional)"
                        autocomplete="off"
-                       formControlName="referencePoint">
+                       formControlName="referencePoint"
+                       (input)="onInputExtraFields('referencePoint')">
             </mat-form-field>
         </div>
 
