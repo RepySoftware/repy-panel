@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { SaleOrdersComponent } from './sale-orders/sale-orders.component';
 import { PosCustomerComponent } from './sales-pos/pos-customer/pos-customer.component';
 import { PosDeliveryComponent } from './sales-pos/pos-delivery/pos-delivery.component';
 import { PosPaymentComponent } from './sales-pos/pos-payment/pos-payment.component';
@@ -48,6 +49,10 @@ const routes: Routes = [
                         component: PosSummaryComponent
                     }
                 ]
+            },
+            {
+                path: 'orders',
+                component: SaleOrdersComponent
             }
         ]
     }

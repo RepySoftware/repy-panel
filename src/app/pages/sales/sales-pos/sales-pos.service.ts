@@ -126,6 +126,15 @@ export class SalesPosService {
   }
 
   public reset(): void {
+    this.getPaymentMethods();
+    this.getCompanyBranches();
 
+    this._personCustomer = null;
+    this.products = [];
+    this.employeeDriver = null;
+    this.deliverySchedule = null;
+    this.paymentMethod = null;
+    this.paymentInstallments = null;
+    this.deliveryAddressMapUrl = null;
   }
 }

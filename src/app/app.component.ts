@@ -79,6 +79,12 @@ export class AppComponent implements OnInit {
         icon: 'point_of_sale',
         route: '/sales/pos',
         showInToolbar: true
+      },
+      {
+        title: 'Pedidos',
+        icon: 'assignment',
+        route: '/sales/orders',
+        showInToolbar: true
       }
     ]
   }

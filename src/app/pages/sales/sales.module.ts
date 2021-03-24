@@ -14,6 +14,7 @@ import { PosProductsComponent } from './sales-pos/pos-products/pos-products.comp
 import { PosDeliveryComponent } from './sales-pos/pos-delivery/pos-delivery.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { DirectivesModule } from '../../directives/directives.module';
+import { SaleOrdersComponent } from './sale-orders/sale-orders.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { DirectivesModule } from '../../directives/directives.module';
     PosSummaryComponent,
     PosPaymentComponent,
     PosProductsComponent,
-    PosDeliveryComponent
+    PosDeliveryComponent,
+    SaleOrdersComponent
   ],
   imports: [
     CommonModule,

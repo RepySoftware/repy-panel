@@ -52,7 +52,7 @@ export class PosSummaryComponent implements OnInit {
       this._loader.dismiss();
       this._toast.open(`Pedido #${response.id} gerado com sucesso`, 'success');
       this.salesPosService.reset();
-      this._router.navigate(['/sales/pos/customer']);
+      this._router.navigate(['/sales/pos']);
     }, error => {
       this._loader.dismiss();
       this._toast.showHttpError(error);
