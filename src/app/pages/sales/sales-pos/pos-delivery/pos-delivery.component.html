@@ -2,6 +2,11 @@
 
     <div class="col-6"
          style="height: 100vh;">
+
+        <span *ngIf="!salesPosService.tabsOk.customer()">
+            Selecione o cliente para ver o mapa
+        </span>
+
         <iframe *ngIf="salesPosService.tabsOk.customer()"
                 class="map"
                 [src]="salesPosService.deliveryAddressMapUrl"
@@ -47,8 +52,14 @@
                            type="datetime-local"
                            placeholder="Agendamento de entrega"
                            autocomplete="off"
+                           [value]="salesPosService.deliverySchedule?.toDate()"
                            (input)="onDefineDeliverySchedule()">
                 </mat-form-field>
+            </div>
+
+            <div class="col-2">
+                <mat-icon style="cursor: pointer; margin-top: 24px;"
+                          (click)="deliverySchedule.value = null; onDefineDeliverySchedule()">close</mat-icon>
             </div>
 
         </div>

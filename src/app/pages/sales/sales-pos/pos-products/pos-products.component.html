@@ -8,8 +8,10 @@
             <div class="col-12">
                 <mat-form-field>
                     <mat-label>Unidade</mat-label>
-                    <mat-select #companyBranch>
-                        <mat-option *ngFor="let branch of companyBranches"
+                    <mat-select #companyBranch
+                                (selectionChange)="onSelectCompanyBranch()"
+                                [value]="salesPosService.companyBranch?.id">
+                        <mat-option *ngFor="let branch of salesPosService.companyBranches"
                                     [value]="branch.id">
                             {{ branch.name }} - {{ branch.tradeName }}
                         </mat-option>

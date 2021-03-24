@@ -23,6 +23,7 @@ import { ProductService } from './services/product.service';
 import { CompanyBranchService } from './services/company-branch.service';
 import { EmployeeService } from './services/employee.service';
 import { PaymentMethodService } from './services/payment-method.service';
+import { SaleOrderService } from './services/sale-order.service';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import { PaymentMethodService } from './services/payment-method.service';
     CompanyBranchService,
     EmployeeService,
     PaymentMethodService,
+    SaleOrderService,
 
     LoaderService,
     ToastService,

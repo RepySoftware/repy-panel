@@ -35,7 +35,7 @@ export class DeviceDetailsService {
                 if (options.showLoader)
                     this._loader.dismiss();
 
-                this._toast.showError(error);
+                this._toast.showHttpError(error);
 
                 reject(error);
             });

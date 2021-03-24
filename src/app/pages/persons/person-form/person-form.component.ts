@@ -116,7 +116,7 @@ export class PersonFormComponent implements OnInit {
         resolve();
       }, error => {
         this._loader.dismiss();
-        this._toast.showError(error);
+        this._toast.showHttpError(error);
       });
     });
   }
@@ -197,7 +197,7 @@ export class PersonFormComponent implements OnInit {
       this._dialogRef.close({ hasUpdate: true });
     }, error => {
       this._loader.dismiss();
-      this._toast.showError(error);
+      this._toast.showHttpError(error);
     });
   }
 }

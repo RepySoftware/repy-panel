@@ -89,7 +89,7 @@
                 </div>
 
                 <div *ngIf="salesPosService.deliverySchedule">
-                    Agendamento: {{ salesPosService.deliverySchedule }}
+                    Agendamento: {{ salesPosService.deliveryScheduleFormatted }}
                 </div>
             </div>
 
@@ -127,5 +127,16 @@
 
         </div>
 
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <button mat-flat-button
+                color="primary"
+                (click)="generateSaleOrder()"
+                style="margin-top: 23px;">
+            Gerar pedido
+        </button>
     </div>
 </div>

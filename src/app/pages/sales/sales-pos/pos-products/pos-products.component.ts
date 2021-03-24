@@ -36,8 +36,6 @@ export class PosProductsComponent implements OnInit {
     onSelectItem: item => this.productSearchAutocompleteOnSelectItem(item)
   }
 
-  public companyBranches: CompanyBranch[] = [];
-
   public productToAdd: CompanyBranchProduct;
 
   public addProductForm: FormGroup;
@@ -46,29 +44,18 @@ export class PosProductsComponent implements OnInit {
     private _loader: LoaderService,
     private _toast: ToastService,
     public salesPosService: SalesPosService,
-    private _productService: ProductService,
-    private _companyBranchService: CompanyBranchService
+    private _productService: ProductService
   ) {
     this.initForm();
   }
 
-  ngOnInit(): void {
-    this.getCompanyBranches();
-  }
+  ngOnInit(): void {  }
 
   private initForm(): void {
     this.addProductForm = new FormGroup({
       price: new FormControl(null, Validators.required),
       salePriceValue: new FormControl(0, [Validators.required, Validators.min(0)]),
       quantity: new FormControl(1, Validators.required)
-    });
-  }
-
-  private getCompanyBranches(): void {
-    this._companyBranchService.getAll().subscribe(response => {
-      this.companyBranches = response;
-    }, error => {
-      this._toast.showError(error);
     });
   }
 
@@ -144,5 +131,9 @@ export class PosProductsComponent implements OnInit {
 
   public removeProduct(index: number): void {
     this.salesPosService.products.splice(index, 1);
+  }
+
+  public onSelectCompanyBranch(): void {
+    this.salesPosService.companyBranch = this.salesPosService.companyBranches.find(cb => cb.id == this.companyBranchElement.value);
   }
 }

@@ -8,19 +8,25 @@ export class ToastService {
 
     private static DEFAULT_DURATION = 3000;
 
+    private icons = {
+        success: '✔ ',
+        info: 'ℹ ',
+        error: '❌ '
+    }
+
     constructor(
         private _snackBar: MatSnackBar
     ) { }
 
-    public open(message: string, duration: number = ToastService.DEFAULT_DURATION): MatSnackBarRef<SimpleSnackBar> {
-        return this._snackBar.open(message, null, { duration });
+    public open(message: string, type: 'success' | 'info' | 'error' = 'info', duration: number = ToastService.DEFAULT_DURATION): MatSnackBarRef<SimpleSnackBar> {
+        return this._snackBar.open(`${this.icons[type]}${message}`, null, { duration });
     }
 
     public openWithAction(message: string, action: string, duration: number = ToastService.DEFAULT_DURATION): MatSnackBarRef<SimpleSnackBar> {
         return this._snackBar.open(message, action, { duration });
     }
 
-    public showError(error: any, duration: number = ToastService.DEFAULT_DURATION): MatSnackBarRef<SimpleSnackBar> {
-        return this._snackBar.open(HttpResponseHelper.mapErrorResponse(error).message, null, { duration });
+    public showHttpError(error: any, duration: number = ToastService.DEFAULT_DURATION): MatSnackBarRef<SimpleSnackBar> {
+        return this._snackBar.open(`${this.icons.error}${HttpResponseHelper.mapErrorResponse(error).message}`, null, { duration });
     }
 }

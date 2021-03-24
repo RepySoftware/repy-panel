@@ -6,7 +6,7 @@
             <mat-select #paymentMethod
                         [disabled]="!salesPosService.tabsOk.products()"
                         (selectionChange)="onSelectPaymentMethod()">
-                <mat-option *ngFor="let pm of paymentMethods"
+                <mat-option *ngFor="let pm of salesPosService.paymentMethods"
                             [value]="pm.id">
                     {{ pm.name }}
                 </mat-option>
@@ -15,14 +15,14 @@
     </div>
 
     <div class="col-4"
-         *ngIf="hasInstallments">
+         *ngIf="salesPosService.paymentMethod?.hasInstallments">
         <mat-form-field>
             <input #installments
                    matInput
                    placeholder="Número de parcelas"
                    autocomplete="off"
                    type="number"
-                   value="1"
+                   [value]="salesPosService.paymentInstallments || 1"
                    (input)="onDefineInstallments()">
             <mat-error *ngIf="salesPosService.paymentInstallments <= 0">
                 Número de parcelas deve ser superior ou igual a 1

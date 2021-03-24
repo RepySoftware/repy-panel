@@ -58,7 +58,7 @@ export class PersonsListComponent implements OnInit {
 
       }, error => {
         this._loader.dismiss();
-        this._toast.showError(error);
+        this._toast.showHttpError(error);
         reject();
       })
     });

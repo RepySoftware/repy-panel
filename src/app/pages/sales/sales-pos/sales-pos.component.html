@@ -1,4 +1,4 @@
-<mat-tab-group>
+<!-- <mat-tab-group>
 
     <mat-tab>
         <ng-template mat-tab-label>
@@ -35,4 +35,19 @@
         <app-pos-summary></app-pos-summary>
     </mat-tab>
 
-</mat-tab-group>
+</mat-tab-group> -->
+
+<nav mat-tab-nav-bar>
+    <a mat-tab-link
+       *ngFor="let tabItem of tabs"
+       [routerLink]="tabItem.route"
+       routerLinkActive="tab-active"
+       style="text-decoration: none;">
+
+        <span [class.tab-label-success]="tabItem.validator()">{{ tabItem.label }}</span>
+    </a>
+</nav>
+
+<div style="height: 64px"></div>
+
+<router-outlet></router-outlet>

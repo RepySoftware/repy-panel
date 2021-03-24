@@ -68,7 +68,7 @@ export class PosCustomerComponent implements OnInit {
 
       }, error => {
         this._loader.dismiss();
-        this._toast.showError(error);
+        this._toast.showHttpError(error);
         reject();
       })
     });
@@ -126,7 +126,7 @@ export class PosCustomerComponent implements OnInit {
       this.salesPosService.personCustomer = response;
     }, error => {
       this._loader.dismiss();
-      this._toast.showError(error);
+      this._toast.showHttpError(error);
     });
   }
 
