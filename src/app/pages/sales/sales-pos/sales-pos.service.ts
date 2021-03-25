@@ -111,7 +111,8 @@ export class SalesPosService {
 
     }
 
-    const content = `https://www.google.com.br/maps?q=${encodeURI(addressLink)}\n${addressComplete}`;
+    // const content = `https://www.google.com.br/maps?q=${encodeURI(addressLink)}\n${addressComplete}`;
+    const content = addressComplete;
 
     const copyResult = copyToClipboard(content);
     if (copyResult)

@@ -85,6 +85,12 @@ export class AppComponent implements OnInit {
         icon: 'assignment',
         route: '/sales/orders',
         showInToolbar: true
+      },
+      {
+        title: 'Entregas',
+        icon: 'local_shipping',
+        route: '/sales/delivery',
+        showInToolbar: true
       }
     ]
   }

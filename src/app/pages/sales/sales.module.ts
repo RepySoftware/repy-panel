@@ -15,6 +15,8 @@ import { PosDeliveryComponent } from './sales-pos/pos-delivery/pos-delivery.comp
 import { ReactiveFormsModule } from '@angular/forms';
 import { DirectivesModule } from '../../directives/directives.module';
 import { SaleOrdersComponent } from './sale-orders/sale-orders.component';
+import { DeliveryComponent } from './delivery/delivery.component';
+import {DragDropModule} from '@angular/cdk/drag-drop';
 
 @NgModule({
   declarations: [
@@ -25,7 +27,8 @@ import { SaleOrdersComponent } from './sale-orders/sale-orders.component';
     PosPaymentComponent,
     PosProductsComponent,
     PosDeliveryComponent,
-    SaleOrdersComponent
+    SaleOrdersComponent,
+    DeliveryComponent
   ],
   imports: [
     CommonModule,
@@ -34,7 +37,8 @@ import { SaleOrdersComponent } from './sale-orders/sale-orders.component';
     PipesModule,
     SalesRoutingModule,
     ReactiveFormsModule,
-    DirectivesModule
+    DirectivesModule,
+    DragDropModule
   ],
   providers: [
     SalesPosService

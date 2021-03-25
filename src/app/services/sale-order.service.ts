@@ -24,4 +24,12 @@ export class SaleOrderService {
     public create(model: SaleOrderCreateOutput): Observable<SaleOrder> {
         return this._http.post<SaleOrder>(`${URLS.api.saleOrders}`, model);
     }
+
+    public updateIndex(items: { saleOrderId: number, index: number }[]): Observable<void> {
+        return this._http.patch<void>(`${URLS.api.saleOrders}/updateIndex`, items);
+    }
+
+    public updateEmployeeDriver(params: { saleOrderId: number, employeeDriverId: number }): Observable<void> {
+        return this._http.patch<void>(`${URLS.api.saleOrders}/updateEmployeeDriver`, params);
+    }
 }

@@ -1,0 +1,93 @@
+<div class="row">
+
+    <div class="col-12"
+         style="margin-top: 15px;">
+
+        <mat-accordion>
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        Opções
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+
+                <div class="row">
+
+                    <div class="col-3">
+                        <app-autocomplete #employeeDriverAutocomplete
+                                          [options]="employeeDriverSearchAutocompleteOptions"></app-autocomplete>
+                    </div>
+
+                    <div class="col-3">
+                        <button mat-flat-button
+                                color="primary"
+                                (click)="refreshSaleOrders()">Atualizar</button>
+                    </div>
+
+                </div>
+
+            </mat-expansion-panel>
+        </mat-accordion>
+    </div>
+
+    <div class="col-12">
+        <div cdkDropListGroup>
+
+            <div class="row">
+
+                <div class="column-container col-3"
+                     *ngFor="let column of board.columns">
+
+                    <div class="column-header">
+                        <h2>{{ column.title }}</h2>
+                        <mat-icon class="column-close"
+                                  *ngIf="!column.undefinedDriver"
+                                  (click)="removeColumn(column.employeeDriverId)">close</mat-icon>
+                    </div>
+
+                    <div cdkDropList
+                         [cdkDropListData]="column.cards"
+                         class="card-list"
+                         (cdkDropListDropped)="drop($event, column)">
+
+                        <div class="card-box"
+                             *ngFor="let card of column.cards"
+                             cdkDrag>
+
+                            <div class="card-custom-placeholder"
+                                 *cdkDragPlaceholder></div>
+
+                            <div class="card-handle"
+                                 cdkDragHandle>
+                                <mat-icon style="cursor: move;">open_with</mat-icon>
+                            </div>
+
+                            <div class="id">#{{ card.saleOrder.id }}</div>
+                            <div class="customer">{{ card.saleOrder.personCustomer.name }}</div>
+                            <div class="products">{{ card.saleOrder.products | map:'companyBranchProduct.product.name'
+                                }}
+                            </div>
+                            <div class="address">
+                                <a href="javascript:;"
+                                   (click)="copyAddressToClipboard(card.saleOrder.deliveryAddress)">
+                                    {{card.saleOrder.deliveryAddress.description}}
+                                    {{
+                                    card.saleOrder.deliveryAddress.complement ? '(compl: '+
+                                    card.saleOrder.deliveryAddress.complement
+                                    +')'
+                                    :
+                                    '' }}
+                                </a>
+                            </div>
+                            <div class="date">{{ card.saleOrder.createdAt | momentDate }}</div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>

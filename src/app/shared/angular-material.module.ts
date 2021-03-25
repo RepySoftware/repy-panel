@@ -60,7 +60,8 @@ import { MatTreeModule } from '@angular/material/tree';
         MatSlideToggleModule,
         MatExpansionModule,
         MatTreeModule,
-        MatTableModule
+        MatTableModule,
+        MatExpansionModule
     ],
     exports: [
         MatToolbarModule,
@@ -91,7 +92,8 @@ import { MatTreeModule } from '@angular/material/tree';
         MatSlideToggleModule,
         MatExpansionModule,
         MatTreeModule,
-        MatTableModule
+        MatTableModule,
+        MatExpansionModule
     ],
     entryComponents: [
     ]
