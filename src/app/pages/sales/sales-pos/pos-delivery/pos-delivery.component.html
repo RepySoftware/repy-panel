@@ -52,7 +52,7 @@
                            type="datetime-local"
                            placeholder="Agendamento de entrega"
                            autocomplete="off"
-                           [value]="salesPosService.deliverySchedule?.toDate()"
+                           [value]="formattedDeliverySchedule"
                            (input)="onDefineDeliverySchedule()">
                 </mat-form-field>
             </div>

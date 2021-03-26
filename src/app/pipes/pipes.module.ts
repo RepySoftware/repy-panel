@@ -7,6 +7,8 @@ import { PersonTypePipe } from './person-type.pipe';
 import { PersonTaxRegimePipe } from './person-tax-regime.pipe';
 import { PersonIcmsContributorTypePipe } from './person-icms-contributor.pipe';
 import { MapPipe } from './map.pipe';
+import { SaleOrderStatusPipe } from './sale-order-status.pipe';
+import { SaleOrderStatusColorPipe } from './sale-order-status-color.pipe';
 
 @NgModule({
     declarations: [
@@ -17,7 +19,9 @@ import { MapPipe } from './map.pipe';
         PersonTypePipe,
         PersonTaxRegimePipe,
         PersonIcmsContributorTypePipe,
-        MapPipe
+        MapPipe,
+        SaleOrderStatusPipe,
+        SaleOrderStatusColorPipe
     ],
     exports: [
         MoneyPipe,
@@ -27,7 +31,9 @@ import { MapPipe } from './map.pipe';
         PersonTypePipe,
         PersonTaxRegimePipe,
         PersonIcmsContributorTypePipe,
-        MapPipe
+        MapPipe,
+        SaleOrderStatusPipe,
+        SaleOrderStatusColorPipe
     ]
 })
 export class PipesModule { }

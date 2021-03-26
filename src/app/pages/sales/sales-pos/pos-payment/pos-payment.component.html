@@ -5,8 +5,8 @@
             <mat-label>Método de pagamento</mat-label>
             <mat-select #paymentMethod
                         [disabled]="!salesPosService.tabsOk.products()"
-                        [value]="salesPosService.paymentMethod?.id"
-                        (selectionChange)="onSelectPaymentMethod()">
+                        (selectionChange)="onSelectPaymentMethod()"
+                        [value]="salesPosService.paymentMethod?.id">
 
                 <mat-option>-</mat-option>
 

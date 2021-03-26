@@ -13,7 +13,7 @@
             *matHeaderCellDef>Data</th>
         <td mat-cell
             *matCellDef="let element">
-            {{element.createdAt | momentDate}}
+            {{element.createdAt | momentDate:'DD/MM/YYYY HH:mm'}}
         </td>
     </ng-container>
 
@@ -23,6 +23,11 @@
         <td mat-cell
             *matCellDef="let element">
             {{ element.personCustomer.name }}
+
+            <img *ngIf="element.personCustomer.isGasCustomer"
+                     style="width: 12px;"
+                     src="/assets/images/gas-cylinder-icon.png"
+                     title="Cliente de gás">
         </td>
     </ng-container>
 
@@ -48,11 +53,29 @@
         </td>
     </ng-container>
 
+    <ng-container matColumnDef="deliveredAt">
+        <th mat-header-cell
+            *matHeaderCellDef>Hora entrega</th>
+        <td mat-cell
+            *matCellDef="let element">
+            {{element.deliveredAt | momentDate:'DD/MM/YYYY HH:mm'}}
+        </td>
+    </ng-container>
+
     <ng-container matColumnDef="status">
         <th mat-header-cell
             *matHeaderCellDef>Status</th>
         <td mat-cell
-            *matCellDef="let element">{{element.status}}</td>
+            *matCellDef="let element">
+
+            <mat-chip-list>
+                <mat-chip style="color: #fff"
+                          [style.background]="element.status | saleOrderStatusColor">
+                    {{ element.status | saleOrderStatus }}
+                </mat-chip>
+            </mat-chip-list>
+
+        </td>
     </ng-container>
 
     <ng-container matColumnDef="options">

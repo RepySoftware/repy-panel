@@ -10,7 +10,7 @@
                     <mat-label>Unidade</mat-label>
                     <mat-select #companyBranch
                                 (selectionChange)="onSelectCompanyBranch()"
-                                [value]="salesPosService.companyBranch?.id || salesPosService.defaultCompanyBranch?.id">
+                                [value]="salesPosService.companyBranch?.id">
                         <mat-option *ngFor="let branch of salesPosService.companyBranches"
                                     [value]="branch.id">
                             {{ branch.name }} - {{ branch.tradeName }}

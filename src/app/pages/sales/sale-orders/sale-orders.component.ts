@@ -25,6 +25,7 @@ export class SaleOrdersComponent implements OnInit {
     'customer',
     'driver',
     'address',
+    'deliveredAt',
     'status',
     'options'
   ]

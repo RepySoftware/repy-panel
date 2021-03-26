@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Employee } from '../../../../models/api/employee';
@@ -31,8 +31,7 @@ export class PosDeliveryComponent implements OnInit {
     private _employeeService: EmployeeService
   ) { }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void { }
 
   private employeeDriverSearchAutocompleteOnGetItems(query: string): Observable<AutocompleteItem<Employee>[]> {
 
@@ -66,5 +65,9 @@ export class PosDeliveryComponent implements OnInit {
 
   public onDefineDeliverySchedule(): void {
     this.salesPosService.deliverySchedule = moment(this.deliveryScheduleElement.nativeElement.value);
+  }
+
+  public get formattedDeliverySchedule(): string {
+    return this.salesPosService.deliverySchedule ? this.salesPosService.deliverySchedule.format('YYYY-MM-DDTHH:mm') : null;
   }
 }

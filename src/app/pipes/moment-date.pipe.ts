@@ -7,7 +7,7 @@ import * as moment from 'moment';
 export class MomentDatePipe implements PipeTransform {
 
     transform(value: string, format: string = 'L') {
-        return moment(value).format(format);
+        return value ? moment(value).format(format) : '-';
     }
 
 }
