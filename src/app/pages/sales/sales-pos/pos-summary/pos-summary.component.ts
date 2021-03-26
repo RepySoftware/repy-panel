@@ -32,10 +32,10 @@ export class PosSummaryComponent implements OnInit {
 
     const saleOrder: SaleOrderCreateOutput = {
       companyBranchId: this.salesPosService.companyBranch.id,
-      employeeDriverId: this.salesPosService.employeeDriver.id,
+      employeeDriverId: this.salesPosService.employeeDriver ? this.salesPosService.employeeDriver.id : null,
       personCustomerId: this.salesPosService.personCustomer.id,
-      paymentMethodId: this.salesPosService.paymentMethod.id,
-      paymentInstallments: this.salesPosService.paymentMethod.hasInstallments ? (this.salesPosService.paymentInstallments || 1) : null,
+      paymentMethodId: this.salesPosService.paymentMethod ? this.salesPosService.paymentMethod.id : null,
+      paymentInstallments: this.salesPosService.paymentMethod && this.salesPosService.paymentMethod.hasInstallments ? (this.salesPosService.paymentInstallments || 1) : null,
       scheduledAt: this.salesPosService.deliverySchedule ? moment(this.salesPosService.deliverySchedule).format('YYYY-MM-DD HH:mm:ss') : null,
       products: this.salesPosService.products.map(p => {
         return {
@@ -66,14 +66,8 @@ export class PosSummaryComponent implements OnInit {
     if (!this.salesPosService.companyBranch)
       errors.push('Unidade da empresa não definida');
 
-    if (!this.salesPosService.employeeDriver)
-      errors.push('Entregador não definido');
-
     if (!this.salesPosService.personCustomer)
       errors.push('Cliente não definido');
-
-    if (!this.salesPosService.paymentMethod)
-      errors.push('Método de pagamento não definido');
 
     if (this.salesPosService.products.length <= 0)
       errors.push('Nenhum produto definido');

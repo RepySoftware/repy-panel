@@ -10,7 +10,7 @@ export class ToastService {
 
     private icons = {
         success: '✔ ',
-        info: 'ℹ ',
+        info: '',
         error: '❌ '
     }
 

@@ -6,6 +6,7 @@ import { HttpQueryParamsHelper } from '../helpers/filter-helper';
 import { SaleOrderCreateOutput } from '../models/output/sale-order-create.output';
 import { SaleOrder } from '../models/api/sale-order';
 import { SaleOrderFilter } from '../models/output/filters/sale-order.filter';
+import { SaleOrderConfirmDeliveryOutput } from '../models/output/sale-order-confirm-delivery.output';
 
 @Injectable()
 export class SaleOrderService {
@@ -31,5 +32,9 @@ export class SaleOrderService {
 
     public updateEmployeeDriver(params: { saleOrderId: number, employeeDriverId: number }): Observable<void> {
         return this._http.patch<void>(`${URLS.api.saleOrders}/updateEmployeeDriver`, params);
+    }
+
+    public confirmDelivery(params: SaleOrderConfirmDeliveryOutput): Observable<void> {
+        return this._http.post<void>(`${URLS.api.saleOrders}/confirmDelivery`, params);
     }
 }

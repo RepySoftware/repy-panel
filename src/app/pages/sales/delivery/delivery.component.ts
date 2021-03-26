@@ -1,5 +1,6 @@
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatExpansionPanel } from '@angular/material/expansion';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -15,6 +16,7 @@ import { EmployeeService } from '../../../services/employee.service';
 import { SaleOrderService } from '../../../services/sale-order.service';
 import { StorageService } from '../../../services/storage.service';
 import { ToastService } from '../../../services/toast.service';
+import { ConfirmDeliveryComponent, ConfirmDeliveryInputData } from './confirm-delivery/confirm-delivery.component';
 import { DeliveryKanbanBoard } from './models/delivery-kanban-board';
 import { DeliveryKanbanCard } from './models/delivery-kanban-card';
 import { DeliveryKambanColumn } from './models/delivery-kanban-column';
@@ -47,11 +49,10 @@ export class DeliveryComponent implements OnInit {
     private _saleOrderService: SaleOrderService,
     private _toast: ToastService,
     private _employeeService: EmployeeService,
-    private _storageService: StorageService
+    private _dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
-
     this.refreshSaleOrders({ createColumns: true });
   }
 
@@ -194,16 +195,14 @@ export class DeliveryComponent implements OnInit {
       this.refreshIndexes(event);
     } else {
 
-      if (!currentColumn.undefinedDriver) {
-        transferArrayItem(
-          event.previousContainer.data,
-          event.container.data,
-          event.previousIndex,
-          event.currentIndex
-        );
+      transferArrayItem(
+        event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex
+      );
 
-        this.changeEmployeeDriver(event, currentColumn).then(() => this.refreshIndexes(event));
-      }
+      this.changeEmployeeDriver(event, currentColumn).then(() => this.refreshIndexes(event));
     }
   }
 
@@ -225,6 +224,19 @@ export class DeliveryComponent implements OnInit {
     else {
       this._toast.open('Erro ao copiar :(');
     }
+  }
+
+  public openConfirmDelivery(saleOrder: SaleOrder): void {
+    const dialog = this._dialog.open(ConfirmDeliveryComponent, {
+      width: '50%',
+      data: { saleOrder } as ConfirmDeliveryInputData
+    });
+
+    dialog.afterClosed().subscribe(result => {
+      if (result && result.refresh) {
+        this.refreshSaleOrders();
+      }
+    });
   }
 
 }

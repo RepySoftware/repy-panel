@@ -1,11 +1,36 @@
+.header-options {
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+
+    .refresh {
+        padding: 13px;
+    }
+
+    .add-driver {
+        width: 350px;
+    }
+}
+
+.board {
+    display: flex;
+    flex-direction: row;
+    gap: 23px;
+}
+
+.column-container:first-child {
+    margin-left: 20px;
+}
+
 .column-container {
-    margin: 16px 25px 25px 0;
     display: inline-block;
     vertical-align: top;
     background: #fff;
     padding: 17px;
     border: 1px solid #ddd;
     border-radius: 6px;
+    width: 350px;
+    min-width: 350px;
 
     h2 {
         font-size: 22px;
@@ -31,6 +56,8 @@
     border-radius: 4px;
     overflow: hidden;
     display: block;
+    height: calc(100vh - 75px);
+    overflow-y: auto;
 }
 
 .card-box {
@@ -85,13 +112,22 @@
 .card-custom-placeholder {
     background: #ccc;
     border: dotted 3px #999;
-    min-height: 60px;
+    min-height: 90px;
     transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }
 
 .card-handle {
     position: absolute;
-    right: 29px;
     cursor: move;
     color: #adadad;
+    margin-left: 264px;
+}
+
+.confirm-delivery {
+
+    float: right;
+
+    mat-icon {
+        color: var(--color-nephritis);
+    }
 }

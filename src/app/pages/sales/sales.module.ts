@@ -12,11 +12,12 @@ import { PosPaymentComponent } from './sales-pos/pos-payment/pos-payment.compone
 import { PipesModule } from '../../pipes/pipes.module';
 import { PosProductsComponent } from './sales-pos/pos-products/pos-products.component';
 import { PosDeliveryComponent } from './sales-pos/pos-delivery/pos-delivery.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DirectivesModule } from '../../directives/directives.module';
 import { SaleOrdersComponent } from './sale-orders/sale-orders.component';
 import { DeliveryComponent } from './delivery/delivery.component';
 import {DragDropModule} from '@angular/cdk/drag-drop';
+import { ConfirmDeliveryComponent } from './delivery/confirm-delivery/confirm-delivery.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import {DragDropModule} from '@angular/cdk/drag-drop';
     PosProductsComponent,
     PosDeliveryComponent,
     SaleOrdersComponent,
-    DeliveryComponent
+    DeliveryComponent,
+    ConfirmDeliveryComponent
   ],
   imports: [
     CommonModule,
@@ -38,7 +40,8 @@ import {DragDropModule} from '@angular/cdk/drag-drop';
     SalesRoutingModule,
     ReactiveFormsModule,
     DirectivesModule,
-    DragDropModule
+    DragDropModule,
+    FormsModule
   ],
   providers: [
     SalesPosService

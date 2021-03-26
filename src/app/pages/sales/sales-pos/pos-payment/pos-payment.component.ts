@@ -1,9 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatSelect } from '@angular/material/select';
-import { PaymentMethod } from '../../../../models/api/payment-method';
-import { LoaderService } from '../../../../services/loader.service';
-import { PaymentMethodService } from '../../../../services/payment-method.service';
-import { ToastService } from '../../../../services/toast.service';
 import { SalesPosService } from '../sales-pos.service';
 
 @Component({

@@ -84,8 +84,11 @@
 
             <div *ngIf="salesPosService.tabsOk.delivery()">
                 <div>
-                    <strong>{{ salesPosService.employeeDriver.name }} ({{ salesPosService.personCustomer.id
-                        }})</strong>
+                    <strong *ngIf="salesPosService.employeeDriver">
+                        {{ salesPosService.employeeDriver.name }} ({{ salesPosService.employeeDriver.id }})
+                    </strong>
+
+                    <strong *ngIf="!salesPosService.employeeDriver">Entregador não definido</strong>
                 </div>
 
                 <div *ngIf="salesPosService.deliverySchedule">
@@ -105,7 +108,8 @@
 
             <div *ngIf="salesPosService.tabsOk.payment()">
                 <div>
-                    <strong>{{ salesPosService.paymentMethod.name }}</strong>
+                    <strong *ngIf="salesPosService.paymentMethod">{{ salesPosService.paymentMethod.name }}</strong>
+                    <strong *ngIf="!salesPosService.paymentMethod">Método de pagamento não definido</strong>
                 </div>
 
                 <div style="font-size: 19px;"

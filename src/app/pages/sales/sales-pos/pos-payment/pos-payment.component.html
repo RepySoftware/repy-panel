@@ -2,9 +2,10 @@
 
     <div class="col-4">
         <mat-form-field>
-            <mat-label>Tipo de pagamento</mat-label>
+            <mat-label>Método de pagamento</mat-label>
             <mat-select #paymentMethod
                         [disabled]="!salesPosService.tabsOk.products()"
+                        [value]="salesPosService.paymentMethod?.id"
                         (selectionChange)="onSelectPaymentMethod()">
 
                 <mat-option>-</mat-option>

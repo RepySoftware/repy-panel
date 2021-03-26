@@ -41,8 +41,8 @@ export class SalesPosService {
   public tabsOk = {
     customer: () => !!this.personCustomer,
     products: () => this.products.length > 0,
-    delivery: () => !!this.employeeDriver,
-    payment: () => !!this.paymentMethod && !!this.companyBranch
+    delivery: () => true,
+    payment: () => !!this.companyBranch
   }
 
   public deliveryAddressMapUrl: SafeResourceUrl;
