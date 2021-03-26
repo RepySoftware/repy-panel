@@ -21,4 +21,8 @@ export abstract class StringHelper {
     public static getOnlyNumbers(value: string): string {
         return value.replace(/[^0-9\\.]+/g, '');
     }
+
+    public static toMoney(value: number): string {
+        return `R$ ${value.toFixed(2).replace('.', ',')}`;
+    }
 }

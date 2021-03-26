@@ -28,7 +28,9 @@ export class SalesPosService {
   }
 
   public paymentMethods: PaymentMethod[] = [];
+
   public companyBranches: CompanyBranch[] = [];
+  public defaultCompanyBranch: CompanyBranch;
 
   private _personCustomer: Person;
   public products: SalesPosPurchaseOrderProduct[] = [];
@@ -58,6 +60,7 @@ export class SalesPosService {
   private getCompanyBranches(): void {
     this._companyBranchService.getAll().subscribe(response => {
       this.companyBranches = response;
+      this.defaultCompanyBranch = this.companyBranches.find(cb => cb.isDefault);
     }, error => {
       this._toast.showHttpError(error);
     });

@@ -26,8 +26,7 @@ export class PosProductsComponent implements OnInit {
 
   @ViewChild('companyBranch') public companyBranchElement: MatSelect;
   @ViewChild('productAutocomplete') public productAutocomplete: AutocompleteComponent;
-
-  // @ViewChild('productPrice') public productPriceElement: MatSelect;
+  @ViewChild('price') public priceElement: MatSelect;
   // @ViewChild('quantity') public quantityElement: ElementRef;
 
   public productSearchAutocompleteOptions: AutocompleteOptions<CompanyBranchProduct> = {
@@ -49,7 +48,7 @@ export class PosProductsComponent implements OnInit {
     this.initForm();
   }
 
-  ngOnInit(): void {  }
+  ngOnInit(): void { }
 
   private initForm(): void {
     this.addProductForm = new FormGroup({
@@ -81,6 +80,9 @@ export class PosProductsComponent implements OnInit {
 
   private productSearchAutocompleteOnSelectItem(item: AutocompleteItem<CompanyBranchProduct>): void {
     this.productToAdd = item.value;
+    this.addProductForm.get('price').setValue(this.defaultPrice ? this.defaultPrice.id : null);
+    this.onSelectPrice();
+
     this.productAutocomplete.clear();
   }
 
@@ -135,5 +137,9 @@ export class PosProductsComponent implements OnInit {
 
   public onSelectCompanyBranch(): void {
     this.salesPosService.companyBranch = this.salesPosService.companyBranches.find(cb => cb.id == this.companyBranchElement.value);
+  }
+
+  public get defaultPrice(): CompanyBranchProductPrice {
+    return this.productToAdd ? this.productToAdd.prices.find(p => p.isDefault) : null;
   }
 }

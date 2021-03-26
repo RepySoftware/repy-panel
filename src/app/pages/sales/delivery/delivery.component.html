@@ -44,10 +44,8 @@
 
                 <div class="id">#{{ card.saleOrder.id }}</div>
                 <div class="customer">{{ card.saleOrder.personCustomer.name }}</div>
-                <div class="products">{{ card.saleOrder.products |
-                    map:'companyBranchProduct.product.name'
-                    }}
-                </div>
+                <div class="products"
+                     [innerHTML]="getSaleOrderProductsFormatted(card.saleOrder)"></div>
                 <div class="address">
                     <a href="javascript:;"
                        (click)="copyAddressToClipboard(card.saleOrder.deliveryAddress)">
@@ -62,7 +60,13 @@
                 </div>
                 <div class="date">{{ card.saleOrder.createdAt | momentDate }}</div>
 
-                <div style="width: 100%;">
+                <div style="width: 100%; margin-top: 8px;">
+                    <button mat-stroked-button
+                            color="primary"
+                            (click)="copySaleOrderToClipboard(card.saleOrder)"
+                            *ngIf="!column.undefinedDriver">
+                        <mat-icon>content_copy</mat-icon>
+                    </button>
                     <button mat-stroked-button
                             class="confirm-delivery"
                             color="primary"

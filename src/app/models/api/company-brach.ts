@@ -6,6 +6,7 @@ export interface CompanyBranch {
     tradeName: string;
     documentNumber: string;
     address: Address;
+    isDefault: boolean;
     createdAt: string;
     updatedAt: string;
 }

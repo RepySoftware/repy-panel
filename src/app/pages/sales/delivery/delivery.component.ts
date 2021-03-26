@@ -2,10 +2,12 @@ import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/dr
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatExpansionPanel } from '@angular/material/expansion';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { SaleOrderStatus } from '../../../enums/sale-order-status';
 import { copyToClipboard } from '../../../functions/copy-to-clipboard';
+import { StringHelper } from '../../../helpers/string-helper';
 import { Address } from '../../../models/api/address';
 import { Employee } from '../../../models/api/employee';
 import { SaleOrder } from '../../../models/api/sale-order';
@@ -49,7 +51,8 @@ export class DeliveryComponent implements OnInit {
     private _saleOrderService: SaleOrderService,
     private _toast: ToastService,
     private _employeeService: EmployeeService,
-    private _dialog: MatDialog
+    private _dialog: MatDialog,
+    private _sanitizer: DomSanitizer
   ) { }
 
   ngOnInit(): void {
@@ -214,11 +217,15 @@ export class DeliveryComponent implements OnInit {
     );
   }
 
-  public copyAddressToClipboard(address: Address): void {
-
+  private formatAddressToCopy(address: Address): string {
     const addressStr = `${address.description}${address.complement ? ' (compl:' + address.complement + ')' : ''}${address.referencePoint ? ' - ' + address.referencePoint : ''}`;
 
-    const copyResult = copyToClipboard(addressStr);
+    return addressStr;
+  }
+
+  public copyAddressToClipboard(address: Address): void {
+
+    const copyResult = copyToClipboard(this.formatAddressToCopy(address));
     if (copyResult)
       this._toast.open('Copiado para sua área de transferência!');
     else {
@@ -237,6 +244,28 @@ export class DeliveryComponent implements OnInit {
         this.refreshSaleOrders();
       }
     });
+  }
+
+  public copySaleOrderToClipboard(saleOrder: SaleOrder): void {
+
+    let content = '';
+    content += `${this.formatAddressToCopy(saleOrder.deliveryAddress)}\n`;
+    content += `${saleOrder.products.map(p => `- ${p.quantity}x ${p.companyBranchProduct.product.name} - ${StringHelper.toMoney(p.salePrice)}`).join('\n')}\n`
+    content += `Total: *${StringHelper.toMoney(saleOrder.totalSalePrice)}*`;
+
+    const copyResult = copyToClipboard(content);
+
+    if (copyResult)
+      this._toast.open('Copiado para sua área de transferência!', 'success');
+    else {
+      this._toast.open('Erro ao copiar :(', 'error');
+    }
+  }
+
+  public getSaleOrderProductsFormatted(saleOrder: SaleOrder): SafeHtml {
+    return this._sanitizer.bypassSecurityTrustHtml(
+      saleOrder.products.map(p => `- ${p.quantity}x ${p.companyBranchProduct.product.name}`).join('<br>')
+    );
   }
 
 }
