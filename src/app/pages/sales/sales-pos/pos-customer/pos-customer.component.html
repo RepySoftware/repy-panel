@@ -67,11 +67,7 @@
             <div>
                 <a href="javascript:;"
                    (click)="salesPosService.copyAddressLink(salesPosService.personCustomer)">
-                    {{salesPosService.personCustomer.address.description}} {{
-                    salesPosService.personCustomer.address.complement ?
-                    '(compl: '+ salesPosService.personCustomer.address.complement +')'
-                    :
-                    '' }}
+                    {{ salesPosService.personCustomer.address | address }}
                 </a>
             </div>
 
@@ -139,10 +135,7 @@
                 *matCellDef="let element">
                 <a href="javascript:;"
                    (click)="salesPosService.copyAddressLink(element)">
-                    {{element.addressDescription}} {{ element.addressComplement ? '(compl: '+ element.addressComplement
-                    +')'
-                    :
-                    '' }}
+                    {{ element | address }}
                 </a>
             </td>
         </ng-container>

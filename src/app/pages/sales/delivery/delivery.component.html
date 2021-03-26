@@ -49,13 +49,7 @@
                 <div class="address">
                     <a href="javascript:;"
                        (click)="copyAddressToClipboard(card.saleOrder.deliveryAddress)">
-                        {{card.saleOrder.deliveryAddress.description}}
-                        {{
-                        card.saleOrder.deliveryAddress.complement ? '(compl: '+
-                        card.saleOrder.deliveryAddress.complement
-                        +')'
-                        :
-                        '' }}
+                        {{ card.saleOrder.deliveryAddress | address }}
                     </a>
                 </div>
                 <div class="date">{{ card.saleOrder.createdAt | momentDate }}</div>

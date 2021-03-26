@@ -154,9 +154,12 @@ export class PersonFormComponent implements OnInit {
       name: this.personForm.get('name').value,
       tradeName: this.personForm.get('tradeName').value,
       email: this.personForm.get('email').value,
-      address: this._addressConfigService.address && this._addressConfigService.address.description ? {
+      address: this._addressConfigService.address && this._addressConfigService.address.street ? {
         description: this._addressConfigService.address.description,
+        street: this._addressConfigService.address.street,
+        number: this._addressConfigService.address.number,
         zipCode: this._addressConfigService.address.zipCode,
+        neighborhood: this._addressConfigService.address.neighborhood,
         city: this._addressConfigService.address.city,
         region: this._addressConfigService.address.region,
         country: this._addressConfigService.address.country,

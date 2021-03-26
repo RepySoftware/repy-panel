@@ -36,6 +36,7 @@ export class AddressConfigComponent implements AfterViewInit {
     private initForm(): void {
         this.addressForm = new FormGroup({
             addressSearch: new FormControl(null),
+            number: new FormControl(null),
             referencePoint: new FormControl(null),
             complement: new FormControl(null)
         });
@@ -44,7 +45,10 @@ export class AddressConfigComponent implements AfterViewInit {
     private clearAddress(): void {
         this._addressConfigService.address = {
             description: null,
+            street: null,
+            number: null,
             zipCode: null,
+            neighborhood: null,
             city: null,
             region: null,
             country: null,
@@ -62,7 +66,10 @@ export class AddressConfigComponent implements AfterViewInit {
             // create new instance
             this._addressConfigService.address = {
                 description: this._addressConfigService.address.description,
+                street: this._addressConfigService.address.street,
+                number: this._addressConfigService.address.number,
                 zipCode: this._addressConfigService.address.zipCode,
+                neighborhood: this._addressConfigService.address.neighborhood,
                 city: this._addressConfigService.address.city,
                 region: this._addressConfigService.address.region,
                 country: this._addressConfigService.address.country,
@@ -74,6 +81,7 @@ export class AddressConfigComponent implements AfterViewInit {
 
             this.addressSearchInput.nativeElement.value = this._addressConfigService.address.description;
 
+            this.addressForm.get('number').setValue(this._addressConfigService.address.number);
             this.addressForm.get('referencePoint').setValue(this._addressConfigService.address.referencePoint);
             this.addressForm.get('complement').setValue(this._addressConfigService.address.complement);
 
@@ -85,21 +93,59 @@ export class AddressConfigComponent implements AfterViewInit {
     }
 
     public addressChanged(address: GoogleAddress): void {
-        this._addressConfigService.address.description = address.formatted_address;
-        this._addressConfigService.address.city = address.address_components.find(x => x.types.includes('administrative_area_level_2')).long_name;
-        this._addressConfigService.address.region = address.address_components.find(x => x.types.includes('administrative_area_level_1')).long_name;
-        this._addressConfigService.address.country = address.address_components.find(x => x.types.includes('country')).long_name;
 
-        const postalCode = address.address_components.find(x => x.types.includes('postal_code'));
-        this._addressConfigService.address.zipCode = postalCode ? postalCode.long_name : null;
+        this._addressConfigService.address.description = address.formatted_address;
+
+        this._addressConfigService.address.street = address.address_components.find(x =>
+            x.types.includes('route')
+        )?.long_name;
+
+        this._addressConfigService.address.number = address.address_components.find(x =>
+            x.types.includes('street_number')
+        )?.long_name;
+
+        this._addressConfigService.address.zipCode = address.address_components.find(x =>
+            x.types.includes('postal_code')
+        )?.long_name;
+
+        this._addressConfigService.address.neighborhood = address.address_components.find(x =>
+            x.types.includes('sublocality_level_1')
+        )?.long_name;
+
+        this._addressConfigService.address.city = address.address_components.find(x =>
+            x.types.includes('administrative_area_level_2')
+        )?.long_name;
+
+        this._addressConfigService.address.region = address.address_components.find(x =>
+            x.types.includes('administrative_area_level_1')
+        )?.long_name;
+
+        this._addressConfigService.address.country = address.address_components.find(x =>
+            x.types.includes('country')
+        )?.long_name;
 
         this._addressConfigService.address.latitude = address.geometry.location.lat();
         this._addressConfigService.address.longitude = address.geometry.location.lng();
 
+        this._addressConfigService.address.complement = address.address_components.find(x =>
+            x.types.includes('subpremise')
+        )?.long_name;
+
+        this._addressConfigService.address.referencePoint = address.name;
+
+        if (this._addressConfigService.address.number)
+            this.addressForm.get('number').setValue(this._addressConfigService.address.number);
+
+        if (this._addressConfigService.address.complement)
+            this.addressForm.get('complement').setValue(this._addressConfigService.address.complement);
+
+        if (this._addressConfigService.address.referencePoint)
+            this.addressForm.get('referencePoint').setValue(this._addressConfigService.address.referencePoint);
+
         this.insertedAddress = true;
     }
 
-    public onInputExtraFields(field: 'complement'|'referencePoint'): void {
+    public onInputExtraFields(field: 'complement' | 'referencePoint' | 'number'): void {
         this._addressConfigService.address[field] = this.addressForm.get(field).value;
     }
 

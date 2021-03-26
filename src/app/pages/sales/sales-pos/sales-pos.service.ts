@@ -4,6 +4,7 @@ import { DomSanitizer, SafeResourceUrl } from "@angular/platform-browser";
 import { Moment } from "moment";
 import { environment } from "../../../../environments/environment";
 import { copyToClipboard } from "../../../functions/copy-to-clipboard";
+import { AddressHelper } from "../../../helpers/address.helper";
 import { CompanyBranch } from "../../../models/api/company-brach";
 import { Employee } from "../../../models/api/employee";
 import { PaymentMethod } from "../../../models/api/payment-method";
@@ -96,31 +97,17 @@ export class SalesPosService {
 
   public copyAddressLink(person: PersonSearch | Person): void {
 
-    let addressLink: string;
-    let addressComplete: string;
+    let addressStr: string;
 
     if ((person as PersonSearch).addressDescription) {
-
       const p = (person as PersonSearch);
-
-      addressLink = p.addressDescription;
-
-      addressComplete = `${p.addressDescription}${p.addressComplement ? ' (compl:' + p.addressComplement + ')' : ''}${p.addressReferencePoint ? ' - ' + p.addressReferencePoint : ''}`;
-
+      addressStr = AddressHelper.format(p);
     } else {
-
       const p = (person as Person);
-
-      addressLink = p.address.description;
-
-      addressComplete = `${p.address.description}${p.address.complement ? ' (compl:' + p.address.complement + ')' : ''}${p.address.referencePoint ? ' - ' + p.address.referencePoint : ''}`;
-
+      addressStr = AddressHelper.format(p.address);
     }
 
-    // const content = `https://www.google.com.br/maps?q=${encodeURI(addressLink)}\n${addressComplete}`;
-    const content = addressComplete;
-
-    const copyResult = copyToClipboard(content);
+    const copyResult = copyToClipboard(addressStr);
     if (copyResult)
       this._toast.open('Copiado para sua área de transferência!');
     else {

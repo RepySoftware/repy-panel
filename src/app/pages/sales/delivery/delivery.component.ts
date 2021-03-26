@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { SaleOrderStatus } from '../../../enums/sale-order-status';
 import { copyToClipboard } from '../../../functions/copy-to-clipboard';
+import { AddressHelper } from '../../../helpers/address.helper';
 import { StringHelper } from '../../../helpers/string-helper';
 import { Address } from '../../../models/api/address';
 import { Employee } from '../../../models/api/employee';
@@ -217,15 +218,9 @@ export class DeliveryComponent implements OnInit {
     );
   }
 
-  private formatAddressToCopy(address: Address): string {
-    const addressStr = `${address.description}${address.complement ? ' (compl:' + address.complement + ')' : ''}${address.referencePoint ? ' - ' + address.referencePoint : ''}`;
-
-    return addressStr;
-  }
-
   public copyAddressToClipboard(address: Address): void {
 
-    const copyResult = copyToClipboard(this.formatAddressToCopy(address));
+    const copyResult = copyToClipboard(AddressHelper.format(address));
     if (copyResult)
       this._toast.open('Copiado para sua área de transferência!');
     else {
@@ -249,7 +244,7 @@ export class DeliveryComponent implements OnInit {
   public copySaleOrderToClipboard(saleOrder: SaleOrder): void {
 
     let content = '';
-    content += `${this.formatAddressToCopy(saleOrder.deliveryAddress)}\n`;
+    content += `${AddressHelper.format(saleOrder.deliveryAddress)}\n`;
     content += `${saleOrder.products.map(p => `- ${p.quantity}x ${p.companyBranchProduct.product.name} - ${StringHelper.toMoney(p.salePrice)}`).join('\n')}\n`
     content += `Total: *${StringHelper.toMoney(saleOrder.totalSalePrice)}*`;
 

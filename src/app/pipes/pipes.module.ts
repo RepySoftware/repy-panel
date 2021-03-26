@@ -9,6 +9,7 @@ import { PersonIcmsContributorTypePipe } from './person-icms-contributor.pipe';
 import { MapPipe } from './map.pipe';
 import { SaleOrderStatusPipe } from './sale-order-status.pipe';
 import { SaleOrderStatusColorPipe } from './sale-order-status-color.pipe';
+import { AddressPipe } from './address.pipe';
 
 @NgModule({
     declarations: [
@@ -21,7 +22,8 @@ import { SaleOrderStatusColorPipe } from './sale-order-status-color.pipe';
         PersonIcmsContributorTypePipe,
         MapPipe,
         SaleOrderStatusPipe,
-        SaleOrderStatusColorPipe
+        SaleOrderStatusColorPipe,
+        AddressPipe
     ],
     exports: [
         MoneyPipe,
@@ -33,7 +35,8 @@ import { SaleOrderStatusColorPipe } from './sale-order-status-color.pipe';
         PersonIcmsContributorTypePipe,
         MapPipe,
         SaleOrderStatusPipe,
-        SaleOrderStatusColorPipe
+        SaleOrderStatusColorPipe,
+        AddressPipe
     ]
 })
 export class PipesModule { }

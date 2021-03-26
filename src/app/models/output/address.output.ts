@@ -1,6 +1,10 @@
 export interface AddressOutput {
+
     description: string;
+    street: string;
+    number?: string;
     zipCode: string;
+    neighborhood?: string;
     city: string;
     region: string;
     country: string;

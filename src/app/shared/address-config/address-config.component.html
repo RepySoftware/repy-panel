@@ -20,7 +20,18 @@
             </mat-form-field>
         </div>
 
-        <div class="col-md-6">
+        <div class="col-md-4">
+            <mat-form-field>
+                <input #number
+                       matInput
+                       placeholder="Número"
+                       autocomplete="off"
+                       formControlName="number"
+                       (input)="onInputExtraFields('number')">
+            </mat-form-field>
+        </div>
+
+        <div class="col-md-4">
             <mat-form-field>
                 <input #name
                        matInput
@@ -31,7 +42,7 @@
             </mat-form-field>
         </div>
 
-        <div class="col-md-6">
+        <div class="col-md-4">
             <mat-form-field>
                 <input #name
                        matInput
