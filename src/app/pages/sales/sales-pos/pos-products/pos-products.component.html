@@ -126,7 +126,7 @@
                             <td>{{ p.price.name }}</td>
                             <td>{{ p.salePriceValue }}</td>
                             <td>{{ p.quantity }}</td>
-                            <td>{{ (p.quantity * p.price.salePrice) | money }}</td>
+                            <td>{{ (p.quantity * p.salePriceValue) | money }}</td>
                             <td>
                                 <a href="javascript:;"
                                    (click)="editProduct(i)">

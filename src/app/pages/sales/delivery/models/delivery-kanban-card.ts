@@ -4,4 +4,6 @@ export interface DeliveryKanbanCard {
 
     saleOrderId: number;
     saleOrder: SaleOrder;
+
+    copyObservation?: boolean;
 }

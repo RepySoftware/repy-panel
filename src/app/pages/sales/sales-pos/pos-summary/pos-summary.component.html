@@ -54,7 +54,7 @@
                     <td>{{ p.price.name }}</td>
                     <td>{{ p.salePriceValue }}</td>
                     <td>{{ p.quantity }}</td>
-                    <td>{{ (p.quantity * p.price.salePrice) | money }}</td>
+                    <td>{{ (p.quantity * p.salePriceValue) | money }}</td>
                 </tr>
                 <tr>
                     <td colspan="5"></td>
@@ -128,13 +128,28 @@
         </div>
 
     </div>
+
+    <div class="col-6">
+        <div>
+            <label for="observation">Observação</label>
+        </div>
+        <div>
+            <textarea #observation
+                      style="width: 100%;"
+                      id="observation"
+                      rows="5"
+                      autocomplete="off"
+                      [value]="salesPosService.observation || ''"
+                      (input)="onInputObservation()"></textarea>
+        </div>
+    </div>
 </div>
 
 <div class="row">
     <div class="col-12">
         <button mat-flat-button
                 color="primary"
-                (click)="generateSaleOrder()"
+                (click)="salesPosService.generateSaleOrder()"
                 style="margin-top: 23px;">
             Gerar pedido
         </button>

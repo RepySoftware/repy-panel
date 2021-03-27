@@ -1,5 +1,4 @@
 import { Injectable } from "@angular/core";
-import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { DomSanitizer, SafeResourceUrl } from "@angular/platform-browser";
 import { Moment } from "moment";
 import { environment } from "../../../../environments/environment";
@@ -14,6 +13,11 @@ import { CompanyBranchService } from "../../../services/company-branch.service";
 import { PaymentMethodService } from "../../../services/payment-method.service";
 import { ToastService } from "../../../services/toast.service";
 import { SalesPosPurchaseOrderProduct } from "../models/sales-pos-purchase-order-item";
+import * as moment from 'moment';
+import { SaleOrderCreateOutput } from "../../../models/output/sale-order-create.output";
+import { LoaderService } from "../../../services/loader.service";
+import { SaleOrderService } from "../../../services/sale-order.service";
+import { Router } from "@angular/router";
 
 @Injectable()
 export class SalesPosService {
@@ -22,7 +26,10 @@ export class SalesPosService {
     private _sanitizer: DomSanitizer,
     private _toast: ToastService,
     private _paymentMethodService: PaymentMethodService,
-    private _companyBranchService: CompanyBranchService
+    private _companyBranchService: CompanyBranchService,
+    private _loader: LoaderService,
+    private _saleOrderService: SaleOrderService,
+    private _router: Router
   ) {
     this.getPaymentMethods();
     this.getCompanyBranches();
@@ -39,6 +46,7 @@ export class SalesPosService {
   public deliverySchedule: Moment;
   public paymentMethod: PaymentMethod;
   public paymentInstallments: number;
+  public observation: string;
 
   public tabsOk = {
     customer: () => !!this.personCustomer,
@@ -117,6 +125,62 @@ export class SalesPosService {
 
   public get deliveryScheduleFormatted(): string {
     return this.deliverySchedule.format('DD/MM/YYYY HH:mm');
+  }
+
+  public generateSaleOrder(): void {
+
+    this.verifyErrors(true);
+
+    const saleOrder: SaleOrderCreateOutput = {
+      companyBranchId: this.companyBranch.id,
+      employeeDriverId: this.employeeDriver ? this.employeeDriver.id : null,
+      personCustomerId: this.personCustomer.id,
+      paymentMethodId: this.paymentMethod ? this.paymentMethod.id : null,
+      paymentInstallments: this.paymentMethod && this.paymentMethod.hasInstallments ? (this.paymentInstallments || 1) : null,
+      observation: this.observation,
+      scheduledAt: this.deliverySchedule ? moment(this.deliverySchedule).format('YYYY-MM-DD HH:mm:ss') : null,
+      products: this.products.map(p => {
+        return {
+          companyBranchProductId: p.companyBranchProduct.id,
+          companyBranchProductPriceId: p.price.id,
+          quantity: p.quantity,
+          salePrice: p.salePriceValue
+        }
+      })
+    }
+
+    this._loader.show();
+    this._saleOrderService.create(saleOrder).subscribe(response => {
+      this._loader.dismiss();
+      this._toast.open(`Pedido #${response.id} gerado com sucesso`, 'success');
+      this.reset();
+      this._router.navigate(['/sales/pos']);
+    }, error => {
+      this._loader.dismiss();
+      this._toast.showHttpError(error);
+    });
+  }
+
+  private verifyErrors(showToast: boolean = false): void {
+
+    const errors: string[] = [];
+
+    if (!this.companyBranch)
+      errors.push('Unidade da empresa não definida');
+
+    if (!this.personCustomer)
+      errors.push('Cliente não definido');
+
+    if (this.products.length <= 0)
+      errors.push('Nenhum produto definido');
+
+    if (errors.length > 0) {
+
+      if (showToast)
+        this._toast.open(errors.join(' | '), 'error');
+
+      throw new Error(errors.join(' | '));
+    }
   }
 
   public reset(): void {

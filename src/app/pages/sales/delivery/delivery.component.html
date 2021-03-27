@@ -43,7 +43,8 @@
                 </div> -->
 
                 <div class="id">#{{ card.saleOrder.id }}</div>
-                <div class="customer">{{ card.saleOrder.personCustomer.name }}</div>
+                <div class="customer">{{ card.saleOrder.personCustomer.name }} ({{ card.saleOrder.personCustomer.id }})
+                </div>
                 <div class="products"
                      [innerHTML]="getSaleOrderProductsFormatted(card.saleOrder)"></div>
                 <div class="address">
@@ -57,18 +58,26 @@
                         {{ card.saleOrder.createdAt | momentDate:'DD/MM/YYYY HH:mm' }}
                     </div>
 
-                    <div *ngIf="card.saleOrder.scheduledAt" class="schedule">
+                    <div *ngIf="card.saleOrder.scheduledAt"
+                         class="schedule">
                         Agendamento: {{ card.saleOrder.scheduledAt | momentDate:'DD/MM/YYYY HH:mm' }}
                     </div>
+                </div>
+                <div *ngIf="card.saleOrder.observation"
+                     class="observation">
+                    <input type="checkbox"
+                           [(ngModel)]="card.copyObservation">
+                    Obs: {{ card.saleOrder.observation }}
                 </div>
 
                 <div style="width: 100%; margin-top: 8px;">
                     <button mat-stroked-button
                             color="primary"
-                            (click)="copySaleOrderToClipboard(card.saleOrder)"
+                            (click)="copySaleOrderToClipboard(card.saleOrder, card.copyObservation); card.copyObservation = null"
                             *ngIf="!column.undefinedDriver">
                         <mat-icon>content_copy</mat-icon>
                     </button>
+
                     <button mat-stroked-button
                             class="confirm-delivery"
                             color="primary"

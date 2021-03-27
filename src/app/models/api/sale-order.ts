@@ -19,6 +19,7 @@ export interface SaleOrder extends ApiModel {
     paymentInstallments: number;
     status: SaleOrderStatus;
     index: number;
+    observation?: string;
     scheduledAt?: string;
     deliveredAt?: string;
     createdAt: string;
