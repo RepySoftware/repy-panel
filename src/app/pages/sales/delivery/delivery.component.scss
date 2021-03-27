@@ -91,6 +91,10 @@
     }
 
     .date {
+        .schedule {
+            font-size: 13px;
+            font-weight: bold;
+        }
     }
 }
 
@@ -124,7 +128,6 @@
 }
 
 .confirm-delivery {
-
     float: right;
 
     mat-icon {

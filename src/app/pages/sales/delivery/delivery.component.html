@@ -52,7 +52,15 @@
                         {{ card.saleOrder.deliveryAddress | address }}
                     </a>
                 </div>
-                <div class="date">{{ card.saleOrder.createdAt | momentDate }}</div>
+                <div class="date">
+                    <div>
+                        {{ card.saleOrder.createdAt | momentDate:'DD/MM/YYYY HH:mm' }}
+                    </div>
+
+                    <div *ngIf="card.saleOrder.scheduledAt" class="schedule">
+                        Agendamento: {{ card.saleOrder.scheduledAt | momentDate:'DD/MM/YYYY HH:mm' }}
+                    </div>
+                </div>
 
                 <div style="width: 100%; margin-top: 8px;">
                     <button mat-stroked-button

@@ -96,6 +96,15 @@
         </td>
     </ng-container>
 
+    <ng-container matColumnDef="scheduledAt">
+        <th mat-header-cell
+            *matHeaderCellDef>Agendamento</th>
+        <td mat-cell
+            *matCellDef="let element">
+            {{element.scheduledAt | momentDate:'DD/MM/YYYY HH:mm'}}
+        </td>
+    </ng-container>
+
     <ng-container matColumnDef="deliveredAt">
         <th mat-header-cell
             *matHeaderCellDef>Hora entrega</th>

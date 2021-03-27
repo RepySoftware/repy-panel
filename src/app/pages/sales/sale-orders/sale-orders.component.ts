@@ -47,6 +47,7 @@ export class SaleOrdersComponent implements OnInit {
     'datetime',
     'customer',
     'driver',
+    'scheduledAt',
     'deliveredAt',
     'paymentMethod',
     'totalSalePrice',
