@@ -82,7 +82,7 @@ export class ConfirmDeliveryComponent implements OnInit {
       saleOrderId: this.inputData.saleOrder.id,
       paymentMethodId: Number(this.paymentMethodElement.value),
       installments: this.installmentsElement && this.installmentsElement.nativeElement.value ? Number(this.installmentsElement.nativeElement.value) : null,
-      deliveredAt: moment(this.deliveredAtElement.nativeElement.value).format('YYYY-MM-DD HH:mm:ss')
+      deliveredAt: moment(this.deliveredAtElement.nativeElement.value).toISOString()
     }).subscribe(response => {
       this._loader.dismiss();
       this._toast.open(`Pedido #${this.inputData.saleOrder.id} entregue`);

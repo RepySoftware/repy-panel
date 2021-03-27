@@ -36,7 +36,7 @@ export class SaleOrdersComponent implements OnInit {
   public employeeDriverSelected: Employee;
 
   public saleOrderFilter: SaleOrderFilter = {
-    limit: 20,
+    limit: 50,
     index: 0
   }
 
@@ -48,6 +48,7 @@ export class SaleOrdersComponent implements OnInit {
     'customer',
     'driver',
     'deliveredAt',
+    'paymentMethod',
     'totalSalePrice',
     'status',
     'options'
@@ -96,8 +97,8 @@ export class SaleOrdersComponent implements OnInit {
   public search(): void {
     this.saleOrderFilter.index = 0;
     this.saleOrderFilter.employeeDriverId = this.employeeDriverSelected?.id;
-    this.saleOrderFilter.startCreatedAt = this.startCreatedAtElement.nativeElement.value ? moment(this.startCreatedAtElement.nativeElement.value).format('YYYY-MM-DD HH:mm') : null;
-    this.saleOrderFilter.endCreatedAt = this.endCreatedAtElement.nativeElement.value ? moment(this.endCreatedAtElement.nativeElement.value).format('YYYY-MM-DD HH:mm') : null;
+    this.saleOrderFilter.startCreatedAt = this.startCreatedAtElement.nativeElement.value ? moment(this.startCreatedAtElement.nativeElement.value).toISOString() : null;
+    this.saleOrderFilter.endCreatedAt = this.endCreatedAtElement.nativeElement.value ? moment(this.endCreatedAtElement.nativeElement.value).toISOString() : null;
 
     this.getSaleOrders({ reset: true });
   }
