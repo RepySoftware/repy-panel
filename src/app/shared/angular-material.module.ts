@@ -27,6 +27,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTreeModule } from '@angular/material/tree';
+import { CdkTreeModule } from '@angular/cdk/tree';
 
 @NgModule({
     declarations: [
@@ -61,7 +62,7 @@ import { MatTreeModule } from '@angular/material/tree';
         MatExpansionModule,
         MatTreeModule,
         MatTableModule,
-        MatExpansionModule
+        CdkTreeModule
     ],
     exports: [
         MatToolbarModule,
@@ -93,7 +94,7 @@ import { MatTreeModule } from '@angular/material/tree';
         MatExpansionModule,
         MatTreeModule,
         MatTableModule,
-        MatExpansionModule
+        CdkTreeModule
     ],
     entryComponents: [
     ]

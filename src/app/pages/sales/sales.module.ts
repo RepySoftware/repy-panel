@@ -18,6 +18,8 @@ import { SaleOrdersComponent } from './sale-orders/sale-orders.component';
 import { DeliveryComponent } from './delivery/delivery.component';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import { ConfirmDeliveryComponent } from './delivery/confirm-delivery/confirm-delivery.component';
+import { SaleOrderDetailsComponent } from './sale-orders/sale-order-details/sale-order-details.component';
+import { NgxJsonViewerModule } from 'ngx-json-viewer';
 
 @NgModule({
   declarations: [
@@ -30,7 +32,8 @@ import { ConfirmDeliveryComponent } from './delivery/confirm-delivery/confirm-de
     PosDeliveryComponent,
     SaleOrdersComponent,
     DeliveryComponent,
-    ConfirmDeliveryComponent
+    ConfirmDeliveryComponent,
+    SaleOrderDetailsComponent
   ],
   imports: [
     CommonModule,
@@ -41,7 +44,8 @@ import { ConfirmDeliveryComponent } from './delivery/confirm-delivery/confirm-de
     ReactiveFormsModule,
     DirectivesModule,
     DragDropModule,
-    FormsModule
+    FormsModule,
+    NgxJsonViewerModule
   ],
   providers: [
     SalesPosService

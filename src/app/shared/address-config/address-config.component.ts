@@ -131,7 +131,7 @@ export class AddressConfigComponent implements AfterViewInit {
             x.types.includes('subpremise')
         )?.long_name;
 
-        this._addressConfigService.address.referencePoint = address.name;
+        // this._addressConfigService.address.referencePoint = address.name;
 
         if (this._addressConfigService.address.number)
             this.addressForm.get('number').setValue(this._addressConfigService.address.number);

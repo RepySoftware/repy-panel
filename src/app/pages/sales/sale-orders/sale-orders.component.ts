@@ -1,9 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import * as moment from 'moment';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { Employee } from '../../../models/api/employee';
 import { SaleOrder } from '../../../models/api/sale-order';
+import { EmployeeFilter } from '../../../models/output/filters/employee.filter';
 import { SaleOrderFilter } from '../../../models/output/filters/sale-order.filter';
+import { AutocompleteItem } from '../../../models/ui/autocomplete-item';
+import { AutocompleteOptions } from '../../../models/ui/autocomplete-options';
+import { EmployeeService } from '../../../services/employee.service';
 import { LoaderService } from '../../../services/loader.service';
 import { SaleOrderService } from '../../../services/sale-order.service';
 import { ToastService } from '../../../services/toast.service';
+import { AutocompleteComponent } from '../../../shared/autocomplete/autocomplete.component';
+import { SaleOrderDetailsComponent, SaleOrderDetailsInputData } from './sale-order-details/sale-order-details.component';
 
 @Component({
   selector: 'app-sale-orders',
@@ -11,6 +22,18 @@ import { ToastService } from '../../../services/toast.service';
   styleUrls: ['./sale-orders.component.scss']
 })
 export class SaleOrdersComponent implements OnInit {
+
+  @ViewChild('employeeDriverAutocomplete') public employeeDriverAutocomplete: AutocompleteComponent;
+  @ViewChild('startCreatedAt') public startCreatedAtElement: ElementRef;
+  @ViewChild('endCreatedAt') public endCreatedAtElement: ElementRef;
+
+  public employeeDriverSearchAutocompleteOptions: AutocompleteOptions<Employee> = {
+    placeholder: 'Entregador',
+    onGetItems: query => this.employeeDriverSearchAutocompleteOnGetItems(query),
+    onSelectItem: item => this.employeeDriverSearchAutocompleteOnSelectItem(item),
+    emitOnClear: true
+  }
+  public employeeDriverSelected: Employee;
 
   public saleOrderFilter: SaleOrderFilter = {
     limit: 20,
@@ -24,7 +47,6 @@ export class SaleOrdersComponent implements OnInit {
     'datetime',
     'customer',
     'driver',
-    'address',
     'deliveredAt',
     'totalSalePrice',
     'status',
@@ -34,7 +56,9 @@ export class SaleOrdersComponent implements OnInit {
   constructor(
     private _loader: LoaderService,
     private _toast: ToastService,
-    private _saleOrderService: SaleOrderService
+    private _saleOrderService: SaleOrderService,
+    private _employeeService: EmployeeService,
+    private _dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
@@ -69,11 +93,51 @@ export class SaleOrdersComponent implements OnInit {
     this.getSaleOrders();
   }
 
-  // public search(query: string): void {
-  //   this.saleOrderFilter.q = query;
-  //   this.saleOrderFilter.index = 0;
+  public search(): void {
+    this.saleOrderFilter.index = 0;
+    this.saleOrderFilter.employeeDriverId = this.employeeDriverSelected?.id;
+    this.saleOrderFilter.startCreatedAt = this.startCreatedAtElement.nativeElement.value ? moment(this.startCreatedAtElement.nativeElement.value).format('YYYY-MM-DD HH:mm') : null;
+    this.saleOrderFilter.endCreatedAt = this.endCreatedAtElement.nativeElement.value ? moment(this.endCreatedAtElement.nativeElement.value).format('YYYY-MM-DD HH:mm') : null;
 
-  //   this.getSaleOrders({ reset: true });
-  // }
+    this.getSaleOrders({ reset: true });
+  }
 
+  public clearFilter(): void {
+    this.employeeDriverSelected = null;
+    this.startCreatedAtElement.nativeElement.value = null;
+    this.endCreatedAtElement.nativeElement.value = null;
+  }
+
+  private employeeDriverSearchAutocompleteOnGetItems(query: string): Observable<AutocompleteItem<Employee>[]> {
+
+    const filter: EmployeeFilter = {
+      index: 0,
+      limit: 8,
+      q: query,
+      isDriver: true,
+    };
+
+    return this._employeeService.getAll(filter).pipe(
+      map(res => {
+        return res.map(x => {
+          return {
+            label: x.name,
+            value: x
+          } as AutocompleteItem<Employee>
+        });
+      })
+    )
+  }
+
+  private employeeDriverSearchAutocompleteOnSelectItem(item: AutocompleteItem<Employee>): void {
+    this.employeeDriverSelected = item.value;
+  }
+
+  public openSaleOrderDetails(saleOrder: SaleOrder): void {
+    this._dialog.open(SaleOrderDetailsComponent, {
+      data: { saleOrder } as SaleOrderDetailsInputData,
+      width: '60%',
+      height: '90vh'
+    });
+  }
 }

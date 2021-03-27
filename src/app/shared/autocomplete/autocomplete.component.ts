@@ -55,6 +55,8 @@ export class AutocompleteComponent implements OnInit {
     this.items = [];
     this.autocompleteInput.nativeElement.value = null;
     this.selectedItem = null;
-    // this.options.onSelectItem({ value: null, label: null });
+
+    if (this.options.emitOnClear)
+      this.options.onSelectItem({ value: null, label: null });
   }
 }
