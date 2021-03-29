@@ -105,7 +105,7 @@ export class DevicesMapComponent implements OnInit, AfterViewInit, OnDestroy {
         <span>${device.address.description}</span>
         <br>
         <strong>${device.name}</strong>
-        <a style="float: right" class="btn btn-primary btn-sm" href="/devices/${device.deviceKey}/details">Ver detalhes</a>
+        <a style="float: right" class="btn btn-primary btn-sm" href="/devices/${device.id}/details">Ver detalhes</a>
     `;
 
     switch (device.type) {

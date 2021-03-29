@@ -8,7 +8,6 @@ import { Person } from "./person";
 
 export interface Device extends ApiModel, TimeStamps {
 
-    deviceKey: string;
     token: string;
     name: string;
     address: Address;

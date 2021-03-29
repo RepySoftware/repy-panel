@@ -35,22 +35,25 @@ export class DeviceDetailsComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    const deviceKey = this._activatedRoute.snapshot.params.deviceKey;
+    const deviceId = this._activatedRoute.snapshot.params.id;
 
-    if (!deviceKey) {
+    if (!deviceId) {
       this._toast.open('Dispositivo não encontrado');
       throw new Error('Device not found');
     }
 
-    this.initDevice(deviceKey);
+    this.initDevice(deviceId);
   }
 
   ngOnDestroy(): void {
     clearInterval(this._deviceRefreshInterval.interval);
   }
 
-  private initDevice(deviceKey: string): void {
-    this.deviceDetailsService.getDevice({ deviceKey, showLoader: true }).then(device => {
+  private initDevice(deviceId: number): void {
+    this.deviceDetailsService.getDevice({
+      id: deviceId,
+      showLoader: true
+    }).then(device => {
       this.deviceContainer.clear();
       const componentFactory = this._componentFactoryResolver.resolveComponentFactory(this.deviceTypeComponent[device.type]);
       this.deviceContainer.createComponent(componentFactory);

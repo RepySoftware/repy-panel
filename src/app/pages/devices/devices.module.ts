@@ -6,6 +6,7 @@ import { DevicesMapComponent } from './devices-map/devices-map.component';
 import { DevicesListComponent } from './devices-list/devices-list.component';
 import { DevicesViewService } from './devices-view.service';
 import { DevicesRoutingModule } from './devices.routing';
+import { PipesModule } from '../../pipes/pipes.module';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { DevicesRoutingModule } from './devices.routing';
   imports: [
     CommonModule,
     AngularMaterialModule,
-    DevicesRoutingModule
+    DevicesRoutingModule,
+    PipesModule
   ],
   providers: [
     DevicesViewService

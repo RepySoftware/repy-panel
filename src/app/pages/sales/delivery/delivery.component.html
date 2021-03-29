@@ -65,7 +65,7 @@
                 </div>
                 <div *ngIf="card.saleOrder.observation"
                      class="observation">
-                    <input type="checkbox"
+                    <input *ngIf="!column.undefinedDriver" type="checkbox"
                            [(ngModel)]="card.copyObservation">
                     Obs: {{ card.saleOrder.observation }}
                 </div>

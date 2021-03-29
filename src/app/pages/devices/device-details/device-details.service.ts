@@ -7,7 +7,7 @@ import { ToastService } from "../../../services/toast.service";
 @Injectable()
 export class DeviceDetailsService {
 
-    public deviceKey: string;
+    public deviceId: number;
     public device: Device;
 
     constructor(
@@ -16,19 +16,19 @@ export class DeviceDetailsService {
         private _deviceService: DeviceService
     ) { }
 
-    public getDevice(options: { deviceKey?: string, showLoader?: boolean } = { deviceKey: this.deviceKey }): Promise<Device> {
+    public getDevice(options: { id?: number, showLoader?: boolean } = { id: this.deviceId }): Promise<Device> {
 
         return new Promise((resolve, reject) => {
             if (options.showLoader)
                 this._loader.show();
 
-            this._deviceService.getByKey(options.deviceKey).subscribe(response => {
+            this._deviceService.getById(options.id).subscribe(response => {
 
                 if (options.showLoader)
                     this._loader.dismiss();
 
                 this.device = response;
-                this.deviceKey = response.deviceKey;
+                this.deviceId = response.id;
 
                 resolve(this.device);
             }, error => {

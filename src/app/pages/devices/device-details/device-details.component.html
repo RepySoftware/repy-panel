@@ -5,10 +5,10 @@
 
             <h1 class="title">{{ device?.name || 'Dispositivo' }}</h1>
 
-            <span class="device-key">#{{ device?.deviceKey || '0000' }}</span>
+            <span class="device-id">#{{ device?.id || '-' }}</span>
 
-            <span class="last-update">Última atualização {{ device ? ((device.deviceGasLevel.lastWeightUpdate |
-                momentCalendar) | lowercase) : '-' }}</span>
+            <!-- <span class="last-update">Última atualização {{ device ? ((device.deviceGasLevel.lastWeightUpdate |
+                momentCalendar) | lowercase) : '-' }}</span> -->
 
             <span *ngIf="device"
                   class="is-online"
