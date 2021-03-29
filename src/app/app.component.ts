@@ -1,12 +1,13 @@
 import { Component, ViewChild, OnInit, ChangeDetectorRef } from '@angular/core';
 import { UserService } from './services/user.service';
 import { MatSidenav } from '@angular/material/sidenav';
-import { SidenavItem } from './models/ui/sidenav-item';
+import { SidenavMenu } from './models/ui/sidenav-item';
 import { Router } from '@angular/router';
 import { LoaderService } from './services/loader.service';
 import { StorageService } from './services/storage.service';
 import { AuthService } from './services/auth.service';
 import { User } from './models/api/user';
+import { Configuration, MultilevelNodes } from 'ng-material-multilevel-menu/lib/app.model';
 
 @Component({
   selector: 'app-root',
@@ -19,7 +20,7 @@ export class AppComponent implements OnInit {
 
   public loaderState: boolean = false;
 
-  public menuItens: SidenavItem[] = [];
+  private _menus: SidenavMenu[] = [];
 
   constructor(
     public userService: UserService,
@@ -55,43 +56,52 @@ export class AppComponent implements OnInit {
   }
 
   private setMenuItens() {
-    this.menuItens = [
+    this._menus = [
       {
         title: 'Home',
         icon: 'home',
         route: '/home',
-        showInToolbar: true
+        // showInToolbar: true
       },
       {
         title: 'Pessoas',
         icon: 'people',
         route: '/persons',
-        showInToolbar: true
+        // showInToolbar: true
       },
       {
         title: 'Dispositivos',
         icon: 'devices_other',
         route: '/devices',
-        showInToolbar: true
+        // showInToolbar: true
       },
       {
-        title: 'PDV',
-        icon: 'point_of_sale',
-        route: '/sales/pos',
-        showInToolbar: true
-      },
-      {
-        title: 'Pedidos',
+        title: 'Vendas',
         icon: 'assignment',
-        route: '/sales/orders',
-        showInToolbar: true
+        subMenus: [
+          {
+            title: 'PDV',
+            icon: 'point_of_sale',
+            route: '/sales/pos'
+          },
+          {
+            title: 'Pedidos',
+            icon: 'assignment',
+            route: '/sales/orders'
+          },
+          {
+            title: 'Entregas',
+            icon: 'local_shipping',
+            route: '/sales/delivery'
+          }
+        ]
       },
       {
-        title: 'Entregas',
-        icon: 'local_shipping',
-        route: '/sales/delivery',
-        showInToolbar: true
-      }
+        title: 'Sair',
+        icon: 'exit_to_app',
+        onClick: () => this.logout()
+        // showInToolbar: true
+      },
     ]
   }
 
@@ -129,11 +139,7 @@ export class AppComponent implements OnInit {
     return this._storageService.data && this._storageService.data.user ? this._storageService.data.user : null;
   }
 
-  public get sidenavMenus(): SidenavItem[] {
-    return this.menuItens.filter(mi => mi.showCondition ? mi.showCondition() === true : true);
-  }
-
-  public get toolbarMenus(): SidenavItem[] {
-    return this.menuItens.filter(mi => mi.showInToolbar);
+  public get sidenavMenus(): SidenavMenu[] {
+    return this._menus.filter(mi => mi.showCondition ? mi.showCondition() === true : true);
   }
 }

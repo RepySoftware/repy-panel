@@ -20,12 +20,12 @@
            src="assets/images/logo-white.png">
     </a>
 
-    <ul>
+    <!-- <ul>
       <li *ngFor="let menu of toolbarMenus">
         <a [routerLink]="menu.route"
            routerLinkActive="active">{{ menu.title }}</a>
       </li>
-    </ul>
+    </ul> -->
 
     <span class="spacer"></span>
 
@@ -39,7 +39,7 @@
                  mode="side"
                  position="start">
 
-      <mat-list>
+      <mat-list class="mat-list-base-no-padding-top">
 
         <mat-list-item style="margin: 16px 0;">
           <img matListAvatar
@@ -51,21 +51,46 @@
 
         <mat-divider></mat-divider>
 
-        <mat-list-item class="menu-item"
+        <mat-accordion>
+          <mat-expansion-panel *ngFor="let menu of sidenavMenus"
+                               [hideToggle]="!menu.subMenus?.length"
+                               [routerLink]="menu.route"
+                               (click)="menuClick(menu.onClick)"
+                               class="menu-expansion-panel mat-expansion-panel-body-no-padding">
+
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <mat-icon class="menu-icon">{{ menu.icon }}</mat-icon>
+                {{ menu.title }}
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <mat-list *ngIf="menu.subMenus?.length">
+              <mat-list-item *ngFor="let subMenu of menu.subMenus"
+                             class="sub-menu"
+                             [routerLink]="subMenu.route"
+                             (click)="menuClick(subMenu.onClick)">
+                {{ subMenu.title }}
+              </mat-list-item>
+            </mat-list>
+
+          </mat-expansion-panel>
+        </mat-accordion>
+
+        <!-- <mat-list-item class="menu-item"
                        *ngFor="let item of sidenavMenus"
                        (click)="menuClick(item.onClick)"
                        routerLink="{{ item.route }}">
           <mat-icon mat-list-icon>{{ item.icon }}</mat-icon>
           <h4 mat-line>{{ item.title }}</h4>
           <mat-divider></mat-divider>
-        </mat-list-item>
+        </mat-list-item> -->
 
-        <mat-list-item class="menu-item"
-                       (click)="logout()"
-                       style="position: absolute;bottom: 0;">
+        <!-- <mat-list-item class="menu-item"
+                       (click)="logout()">
           <mat-icon mat-list-icon>exit_to_app</mat-icon>
           <h4 mat-line>Sair</h4>
-        </mat-list-item>
+        </mat-list-item> -->
 
       </mat-list>
 

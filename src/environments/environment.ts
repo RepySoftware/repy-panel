@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  // apiUrl: 'http://localhost:3333',
-  apiUrl: 'http://192.168.15.56:3333',
+  apiUrl: 'http://localhost:3333',
+  // apiUrl: 'http://192.168.15.56:3333',
   forceHttps: false,
   googleMaps: {
     embedApiKey: 'AIzaSyB9UXCahHhhaMul9X3SF76aBgWDUUAwdPE'

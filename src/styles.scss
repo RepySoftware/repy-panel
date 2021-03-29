@@ -86,3 +86,15 @@ a[mat-stroked-button] {
     overflow: auto !important;
   }
 }
+
+.mat-list-base-no-padding-top {
+  .mat-list-base {
+    padding-top: 0 !important;
+  }
+}
+
+.mat-expansion-panel-body-no-padding {
+  .mat-expansion-panel-body {
+    padding: 0 !important;
+  }
+}

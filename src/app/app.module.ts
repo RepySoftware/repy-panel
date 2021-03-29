@@ -24,6 +24,7 @@ import { CompanyBranchService } from './services/company-branch.service';
 import { EmployeeService } from './services/employee.service';
 import { PaymentMethodService } from './services/payment-method.service';
 import { SaleOrderService } from './services/sale-order.service';
+import { NgMaterialMultilevelMenuModule } from 'ng-material-multilevel-menu';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { SaleOrderService } from './services/sale-order.service';
     AngularMaterialModule,
     HttpClientModule,
     HttpClientJsonpModule,
-    NgxMaskModule.forRoot()
+    NgxMaskModule.forRoot(),
+    NgMaterialMultilevelMenuModule
   ],
   providers: [
     UserService,
