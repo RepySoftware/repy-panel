@@ -16,6 +16,10 @@ export class SaleOrderService {
     ) {
     }
 
+    public getById(id: number): Observable<SaleOrder> {
+        return this._http.get<SaleOrder>(`${URLS.api.saleOrders}/${id}`);
+    }
+
     public getAll(filter: SaleOrderFilter): Observable<SaleOrder[]> {
         return this._http.get<SaleOrder[]>(`${URLS.api.saleOrders}`, {
             params: HttpQueryParamsHelper.objectToParams(filter)

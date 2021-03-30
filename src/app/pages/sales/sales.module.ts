@@ -20,6 +20,7 @@ import {DragDropModule} from '@angular/cdk/drag-drop';
 import { ConfirmDeliveryComponent } from './delivery/confirm-delivery/confirm-delivery.component';
 import { SaleOrderDetailsComponent } from './sale-orders/sale-order-details/sale-order-details.component';
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
+import { SaleOrderFormComponent } from './sale-orders/sale-order-form/sale-order-form.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { NgxJsonViewerModule } from 'ngx-json-viewer';
     SaleOrdersComponent,
     DeliveryComponent,
     ConfirmDeliveryComponent,
-    SaleOrderDetailsComponent
+    SaleOrderDetailsComponent,
+    SaleOrderFormComponent
   ],
   imports: [
     CommonModule,

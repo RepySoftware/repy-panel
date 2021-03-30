@@ -15,6 +15,7 @@ import { SaleOrderService } from '../../../services/sale-order.service';
 import { ToastService } from '../../../services/toast.service';
 import { AutocompleteComponent } from '../../../shared/autocomplete/autocomplete.component';
 import { SaleOrderDetailsComponent, SaleOrderDetailsInputData } from './sale-order-details/sale-order-details.component';
+import { SaleOrderFormComponent, SaleOrderFormInputData } from './sale-order-form/sale-order-form.component';
 
 @Component({
   selector: 'app-sale-orders',
@@ -140,6 +141,23 @@ export class SaleOrdersComponent implements OnInit {
       data: { saleOrder } as SaleOrderDetailsInputData,
       width: '60%',
       height: '90vh'
+    });
+  }
+
+  public openForm(saleOrder?: SaleOrder): void {
+
+    const data: SaleOrderFormInputData = { saleOrderId: saleOrder.id };
+
+    const dialog = this._dialog.open(SaleOrderFormComponent, {
+      width: '90%',
+      height: '90%',
+      data
+    });
+
+    dialog.afterClosed().subscribe(result => {
+      if (result && result.hasUpdate) {
+        this.getSaleOrders({ reset: true });
+      }
     });
   }
 }

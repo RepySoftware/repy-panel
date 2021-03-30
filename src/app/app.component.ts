@@ -29,8 +29,7 @@ export class AppComponent implements OnInit {
     private _cdRef: ChangeDetectorRef,
     private _storageService: StorageService,
     private _authService: AuthService
-  ) {
-  }
+  ) { }
 
   ngOnInit() {
 
@@ -60,20 +59,12 @@ export class AppComponent implements OnInit {
       {
         title: 'Home',
         icon: 'home',
-        route: '/home',
-        // showInToolbar: true
+        route: '/home'
       },
       {
         title: 'Pessoas',
         icon: 'people',
-        route: '/persons',
-        // showInToolbar: true
-      },
-      {
-        title: 'Dispositivos',
-        icon: 'devices_other',
-        route: '/devices',
-        // showInToolbar: true
+        route: '/persons'
       },
       {
         title: 'Vendas',
@@ -97,11 +88,24 @@ export class AppComponent implements OnInit {
         ]
       },
       {
+        title: 'Dispositivos',
+        icon: 'devices_other',
+        subMenus: [
+          {
+            title: 'Lista',
+            route: '/devices/list'
+          },
+          {
+            title: 'Mapa',
+            route: '/devices/map'
+          }
+        ]
+      },
+      {
         title: 'Sair',
         icon: 'exit_to_app',
         onClick: () => this.logout()
-        // showInToolbar: true
-      },
+      }
     ]
   }
 

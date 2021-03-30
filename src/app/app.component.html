@@ -1,7 +1,10 @@
-<!-- <div *ngIf="loaderState" -->
-<div *ngIf="loaderState"
-     class="loader">
-  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+<div class="loader-background"
+     *ngIf="loaderState">
+  <div class="loader">
+    <!-- <mat-progress-bar mode="indeterminate"></mat-progress-bar> -->
+    <mat-spinner diameter="60"></mat-spinner>
+    <div class="loader-text">⏳ Aguarde...</div>
+  </div>
 </div>
 
 <ng-template #content>
