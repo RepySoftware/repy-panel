@@ -24,6 +24,7 @@ import { CompanyBranchService } from './services/company-branch.service';
 import { EmployeeService } from './services/employee.service';
 import { PaymentMethodService } from './services/payment-method.service';
 import { SaleOrderService } from './services/sale-order.service';
+import { DashboardService } from './services/dashboard.service';
 import { NgMaterialMultilevelMenuModule } from 'ng-material-multilevel-menu';
 
 @NgModule({
@@ -52,6 +53,7 @@ import { NgMaterialMultilevelMenuModule } from 'ng-material-multilevel-menu';
     EmployeeService,
     PaymentMethodService,
     SaleOrderService,
+    DashboardService,
 
     LoaderService,
     ToastService,

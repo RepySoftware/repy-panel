@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { HomeComponent } from './home.component';
 import { AngularMaterialModule } from 'src/app/shared/angular-material.module';
 import { RouterModule } from '@angular/router';
+import { PipesModule } from '../../pipes/pipes.module';
 
 
 
@@ -11,6 +12,7 @@ import { RouterModule } from '@angular/router';
   imports: [
     CommonModule,
     AngularMaterialModule,
+    PipesModule,
     RouterModule.forChild([
       {
         path: '',

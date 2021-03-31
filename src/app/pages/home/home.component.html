@@ -2,14 +2,50 @@
 
     <div class="row">
 
-        <!-- <div class="col-md-4">
-            <a routerLink="/products">
-                <mat-card>
-                    <mat-card-title>Produtos</mat-card-title>
-                    <mat-card-subtitle>Controle de produtos do Saudefy Market</mat-card-subtitle>
-                </mat-card>
-            </a>
-        </div> -->
+        <div class="col-md-6 sales-today">
+            <mat-card>
+                <mat-card-title>Vendas hoje</mat-card-title>
+                <mat-card-subtitle>{{ today | momentDate }}</mat-card-subtitle>
+
+                <div class="loading-spinner"
+                     *ngIf="!salesToday">
+                    <mat-spinner diameter="60"></mat-spinner>
+                </div>
+
+                <mat-card-content *ngIf="salesToday">
+
+                    <table class="sales-table">
+                        <thead>
+                            <tr>
+                                <th>Produto</th>
+                                <th>Quantidade</th>
+                                <th>Valor</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <tr *ngFor="let item of salesToday.items">
+                                <td>{{ item.product.name }} ({{ item.product.code }})</td>
+                                <td>{{ item.quantity }}</td>
+                                <td>{{ item.totalSalePrice | money }}</td>
+                            </tr>
+
+                            <tr *ngIf="!salesToday.items.length">
+                                <td colspan="3">Nenhum produto</td>
+                            </tr>
+
+                            <tr class="total">
+                                <td>Total:</td>
+                                <td>{{ salesToday.totalItems }}</td>
+                                <td>{{ salesToday.totalSalePrice | money }}</td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+
+                </mat-card-content>
+            </mat-card>
+        </div>
 
     </div>
 

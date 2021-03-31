@@ -9,6 +9,7 @@ export const URLS = {
         companyBranches: `${environment.apiUrl}/companyBranches`,
         employees: `${environment.apiUrl}/employees`,
         paymentMethods: `${environment.apiUrl}/paymentMethods`,
-        saleOrders: `${environment.apiUrl}/saleOrders`
+        saleOrders: `${environment.apiUrl}/saleOrders`,
+        dashboard: `${environment.apiUrl}/dashboard`
     }
 }

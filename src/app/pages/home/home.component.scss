@@ -1,7 +1,29 @@
-a {
-  text-decoration: none;
-}
+.sales-today {
+  .loading-spinner {
+    display: flex;
+    justify-content: center;
+    padding: 6px;
+  }
 
-mat-card:hover {
-  background: #f7f7f7;
+  .sales-table {
+    width: 100%;
+
+    tr {
+      border-bottom: 1px solid #ddd;
+    }
+
+    th,
+    td {
+      padding: 6px;
+    }
+
+    .total {
+      font-weight: bold;
+    }
+
+    .total :not(td:first-child) {
+      font-size: 15px;
+      color: var(--color-pomegranate);
+    }
+  }
 }
