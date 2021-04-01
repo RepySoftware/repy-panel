@@ -20,6 +20,7 @@ export interface SaleOrder extends ApiModel {
     status: SaleOrderStatus;
     index: number;
     observation?: string;
+    dateOfIssue: string;
     scheduledAt?: string;
     deliveredAt?: string;
     createdAt: string;

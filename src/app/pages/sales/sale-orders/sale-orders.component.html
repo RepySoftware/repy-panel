@@ -66,10 +66,10 @@
 
     <ng-container matColumnDef="datetime">
         <th mat-header-cell
-            *matHeaderCellDef>Data</th>
+            *matHeaderCellDef>Data emissão</th>
         <td mat-cell
             *matCellDef="let element">
-            {{element.createdAt | momentDate:'DD/MM/YYYY HH:mm'}}
+            {{element.dateOfIssue | momentDate:'DD/MM/YYYY HH:mm'}}
         </td>
     </ng-container>
 

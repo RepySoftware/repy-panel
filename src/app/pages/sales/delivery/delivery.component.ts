@@ -244,7 +244,8 @@ export class DeliveryComponent implements OnInit {
   public copySaleOrderToClipboard(saleOrder: SaleOrder, includeObservation: boolean = false): void {
 
     let content = '';
-    content += `${AddressHelper.format(saleOrder.deliveryAddress)}`;
+    content += `${saleOrder.personCustomer.name}`;
+    content += `\n${AddressHelper.format(saleOrder.deliveryAddress)}`;
     content += `\n${saleOrder.products.map(p => `- ${p.quantity}x ${p.companyBranchProduct.product.name} - ${StringHelper.toMoney(p.salePrice)}`).join('\n')}`
     content += `\nTotal: *${StringHelper.toMoney(saleOrder.totalSalePrice)}*`;
 

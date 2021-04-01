@@ -25,7 +25,7 @@ export class HomeComponent implements OnInit {
     this._dashboardService.getSalesByDay(this.today, 1).subscribe(response => {
 
       this.salesToday = response;
-      this.salesToday.items = this.salesToday.items.sort((a, b) => b.quantity - a.quantity);
+      this.salesToday.items = this.salesToday.items.sort((a, b) => b.quantityIssued - a.quantityIssued);
     });
   }
 }

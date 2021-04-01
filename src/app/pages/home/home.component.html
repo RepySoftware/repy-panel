@@ -18,26 +18,32 @@
                         <thead>
                             <tr>
                                 <th>Produto</th>
-                                <th>Quantidade</th>
-                                <th>Valor</th>
+                                <th>Qtd. emitida</th>
+                                <th>Qtd. entregue</th>
+                                <th>Valor (emitido)</th>
+                                <th>Valor (entregue)</th>
                             </tr>
                         </thead>
                         <tbody>
 
                             <tr *ngFor="let item of salesToday.items">
                                 <td>{{ item.product.name }} ({{ item.product.code }})</td>
-                                <td>{{ item.quantity }}</td>
-                                <td>{{ item.totalSalePrice | money }}</td>
+                                <td>{{ item.quantityIssued }}</td>
+                                <td>{{ item.quantityDelivered }}</td>
+                                <td>{{ item.totalIssuedSalePrice | money }}</td>
+                                <td>{{ item.totalDeliveredSalePrice | money }}</td>
                             </tr>
 
                             <tr *ngIf="!salesToday.items.length">
-                                <td colspan="3">Nenhum produto</td>
+                                <td colspan="5">Nenhum produto</td>
                             </tr>
 
                             <tr class="total">
                                 <td>Total:</td>
-                                <td>{{ salesToday.totalItems }}</td>
-                                <td>{{ salesToday.totalSalePrice | money }}</td>
+                                <td>{{ salesToday.totalIssuedItems }}</td>
+                                <td>{{ salesToday.totalDeliveredItems }}</td>
+                                <td>{{ salesToday.totalIssuedSalePrice | money }}</td>
+                                <td>{{ salesToday.totalDeliveredSalePrice | money }}</td>
                             </tr>
 
                         </tbody>
