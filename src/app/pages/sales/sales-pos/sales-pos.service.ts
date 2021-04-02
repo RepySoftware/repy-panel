@@ -35,8 +35,8 @@ export class SalesPosService {
     this.getCompanyBranches();
   }
 
+  public persons: PersonSearch[] = [];
   public paymentMethods: PaymentMethod[] = [];
-
   public companyBranches: CompanyBranch[] = [];
 
   private _personCustomer: Person;
@@ -138,7 +138,7 @@ export class SalesPosService {
       paymentMethodId: this.paymentMethod ? this.paymentMethod.id : null,
       paymentInstallments: this.paymentMethod && this.paymentMethod.hasInstallments ? (this.paymentInstallments || 1) : null,
       observation: this.observation,
-      scheduledAt: this.deliverySchedule ? moment(this.deliverySchedule).format('YYYY-MM-DD HH:mm:ss') : null,
+      scheduledAt: this.deliverySchedule ? moment(this.deliverySchedule).toISOString() : null,
       products: this.products.map(p => {
         return {
           companyBranchProductId: p.companyBranchProduct.id,
@@ -194,5 +194,6 @@ export class SalesPosService {
     this.paymentMethod = null;
     this.paymentInstallments = null;
     this.deliveryAddressMapUrl = null;
+    this.observation = null;
   }
 }

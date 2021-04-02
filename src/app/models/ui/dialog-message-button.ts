@@ -1,6 +1,6 @@
-export interface DialogMessagButton {
+export interface DialogMessageButton {
     text: string;
     color?: string;
     closeOnClick?: boolean;
-    onClick: () => void;
+    onClick?: () => void;
 }

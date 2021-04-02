@@ -26,6 +26,7 @@ import { PaymentMethodService } from './services/payment-method.service';
 import { SaleOrderService } from './services/sale-order.service';
 import { DashboardService } from './services/dashboard.service';
 import { NgMaterialMultilevelMenuModule } from 'ng-material-multilevel-menu';
+import { AlertMessageService } from './services/alert-message.service';
 
 @NgModule({
   declarations: [
@@ -57,6 +58,7 @@ import { NgMaterialMultilevelMenuModule } from 'ng-material-multilevel-menu';
 
     LoaderService,
     ToastService,
+    AlertMessageService,
     { provide: MAT_DIALOG_DATA, useValue: {} },
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
 

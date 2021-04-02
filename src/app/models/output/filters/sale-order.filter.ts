@@ -4,6 +4,7 @@ import { PaginationFilter } from './abstraction/pagination.filter';
 export interface SaleOrderFilter extends PaginationFilter {
     status?: SaleOrderStatus;
     employeeDriverId?: number;
-    startCreatedAt?: string;
-    endCreatedAt?: string;
+    startDateOfIssue?: string;
+    endDateOfIssue?: string;
+    personCustomerId?: number;
 }

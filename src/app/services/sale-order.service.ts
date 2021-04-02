@@ -41,4 +41,8 @@ export class SaleOrderService {
     public confirmDelivery(params: SaleOrderConfirmDeliveryOutput): Observable<void> {
         return this._http.post<void>(`${URLS.api.saleOrders}/confirmDelivery`, params);
     }
+
+    public delete(id: number): Observable<void> {
+        return this._http.delete<void>(`${URLS.api.saleOrders}/${id}`);
+    }
 }

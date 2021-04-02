@@ -7,6 +7,7 @@ import { PersonFilter } from '../models/output/filters/person.filter';
 import { Person } from '../models/api/person';
 import { PersonOutput } from '../models/output/person.output';
 import { PersonSearchFilter } from '../models/output/filters/person-search.filter';
+import { PersonSearch } from '../models/api/person-search';
 
 @Injectable()
 export class PersonService {
@@ -22,8 +23,8 @@ export class PersonService {
         });
     }
 
-    public search(filter: PersonSearchFilter): Observable<Person[]> {
-        return this._http.get<Person[]>(`${URLS.api.persons}/search`, {
+    public search(filter: PersonSearchFilter): Observable<PersonSearch[]> {
+        return this._http.get<PersonSearch[]>(`${URLS.api.persons}/search`, {
             params: HttpQueryParamsHelper.objectToParams(filter)
         });
     }

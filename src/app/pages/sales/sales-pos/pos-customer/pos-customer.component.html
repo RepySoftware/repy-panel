@@ -99,7 +99,7 @@
 
 <div class="row">
     <table mat-table
-           [dataSource]="persons">
+           [dataSource]="salesPosService.persons">
 
         <ng-container matColumnDef="id">
             <th mat-header-cell
@@ -180,7 +180,7 @@
 
     <div style="text-align: center; padding: 10px;">
         <button mat-flat-button
-                *ngIf="persons.length >= personSearchFilter.limit"
+                *ngIf="salesPosService.persons.length >= personSearchFilter.limit"
                 color="primary"
                 (click)="loadMore()">Mais...</button>
     </div>

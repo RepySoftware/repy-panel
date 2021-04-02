@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSelect } from '@angular/material/select';
 import { from, Observable } from 'rxjs';
@@ -43,7 +43,8 @@ export class PosProductsComponent implements OnInit {
     private _loader: LoaderService,
     private _toast: ToastService,
     public salesPosService: SalesPosService,
-    private _productService: ProductService
+    private _productService: ProductService,
+    public _cdRef: ChangeDetectorRef
   ) {
     this.initForm();
   }
@@ -116,6 +117,8 @@ export class PosProductsComponent implements OnInit {
     this.salesPosService.products.push(posProduct);
 
     this.productToAdd = null;
+
+    this._cdRef.detectChanges();
   }
 
   public editProduct(index: number): void {

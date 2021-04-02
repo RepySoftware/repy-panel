@@ -1,7 +1,8 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { DialogMessageOptions } from 'src/app/models/ui/dialog-message-options';
-import { DialogMessagButton } from 'src/app/models/ui/dialog-message-button';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { DialogMessageButton } from '../../models/ui/dialog-message-button';
 
 @Component({
   selector: 'app-dialog-message',
@@ -12,7 +13,8 @@ export class DialogMessageComponent implements OnInit {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public options: DialogMessageOptions,
-    private _dialogRef: MatDialogRef<DialogMessageComponent>
+    private _dialogRef: MatDialogRef<DialogMessageComponent>,
+    private _domSanitizer: DomSanitizer
   ) {
     if (!this.options.buttons)
       this.options.buttons = [];
@@ -21,11 +23,16 @@ export class DialogMessageComponent implements OnInit {
   ngOnInit() {
   }
 
-  public onButtonClick(button: DialogMessagButton): void {
+  public onButtonClick(button: DialogMessageButton): void {
 
     if (button.closeOnClick === undefined || button.closeOnClick === true)
       this._dialogRef.close();
 
-    button.onClick();
+    if (button.onClick)
+      button.onClick();
+  }
+
+  public get message(): SafeHtml {
+    return this._domSanitizer.bypassSecurityTrustHtml(this.options.message);
   }
 }

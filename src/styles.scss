@@ -13,6 +13,15 @@ body {
   margin: 0;
 }
 
+button,
+input {
+  outline: none !important;
+}
+
+.mat-tooltip {
+  margin-top: 0 !important;
+}
+
 .default-margin-top {
   margin-top: 12px;
 }

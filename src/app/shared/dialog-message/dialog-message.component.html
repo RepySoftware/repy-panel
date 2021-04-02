@@ -1,8 +1,14 @@
+<button-dialog-close></button-dialog-close>
+
 <h1 mat-dialog-title>{{ options.title }}</h1>
 
-<div mat-dialog-content>{{ options.message }}</div>
+<div mat-dialog-content
+     [innerHTML]="message"
+     style="word-break: break-word;"></div>
 
 <div mat-dialog-actions>
-    <button mat-button mat-dialog-close>Fechar</button>
-    <button *ngFor="let btn of options.buttons" (click)="onButtonClick(btn)" mat-flat-button [color]="btn.color || 'primary'">{{ btn.text }}</button>
+    <button *ngFor="let btn of options.buttons"
+            (click)="onButtonClick(btn)"
+            mat-flat-button
+            [color]="btn.color || 'primary'">{{ btn.text }}</button>
 </div>

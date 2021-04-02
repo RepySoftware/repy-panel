@@ -22,8 +22,6 @@ export class PosCustomerComponent implements OnInit {
   @ViewChild('phoneSearch') public phoneSearchElement: ElementRef;
   @ViewChild('addressSearch') public addressSearchElement: ElementRef;
 
-  public persons: Person[] = [];
-
   public personSearchFilter: PersonSearchFilter = {
     limit: 30,
     index: 0
@@ -59,10 +57,10 @@ export class PosCustomerComponent implements OnInit {
 
         if (options.reset) {
           this.personSearchFilter.index = 0;
-          this.persons = [];
+          this.salesPosService.persons = [];
         }
 
-        this.persons = this.persons.concat(response);
+        this.salesPosService.persons = this.salesPosService.persons.concat(response);
 
         resolve();
 

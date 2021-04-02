@@ -1,5 +1,12 @@
 table {
   width: 100%;
+
+  th {
+    position: sticky;
+    top: 64px;
+    background: #eee;
+    z-index: 10;
+  }
 }
 
 .btn-add {

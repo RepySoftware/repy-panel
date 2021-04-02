@@ -1,3 +1,23 @@
 table {
     width: 100%;
+
+    th,
+    td {
+        max-width: calc(100vw / 10);
+        white-space: nowrap;
+        word-wrap: break-word;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    td {
+        padding: 0 7px;
+    }
+
+    th {
+        position: sticky;
+        top: 64px;
+        background: #eee;
+        z-index: 10;
+    }
 }
