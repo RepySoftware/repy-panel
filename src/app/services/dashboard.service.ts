@@ -3,8 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { URLS } from './urls';
 import { HttpQueryParamsHelper } from '../helpers/filter-helper';
-import { Product } from '../models/api/product';
-import { SalesByDay } from '../models/api/sales-by-day';
+import { SalesByDate } from '../models/api/sales-by-date';
 
 @Injectable()
 export class DashboardService {
@@ -14,9 +13,9 @@ export class DashboardService {
     ) {
     }
 
-    public getSalesByDay(date: string, companyBranchId: number): Observable<SalesByDay> {
-        return this._http.get<SalesByDay>(`${URLS.api.dashboard}/salesByDay`, {
-            params: HttpQueryParamsHelper.objectToParams({ date, companyBranchId })
+    public getSalesByDate(startDate: string, endDate: string, companyBranchId: number): Observable<SalesByDate> {
+        return this._http.get<SalesByDate>(`${URLS.api.dashboard}/salesByDate`, {
+            params: HttpQueryParamsHelper.objectToParams({ startDate, endDate, companyBranchId })
         });
     }
 }

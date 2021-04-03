@@ -1,8 +1,8 @@
-import { SalesByDayItem } from "./sales-by-day-item";
+import { SalesByDateItem } from "./sales-by-date-item";
 
-export interface SalesByDay {
+export interface SalesByDate {
 
-    items: SalesByDayItem[];
+    items: SalesByDateItem[];
     totalIssuedItems: number;
     totalDeliveredItems: number;
     totalIssuedSalePrice: number;

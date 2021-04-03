@@ -3,7 +3,7 @@ import { StorageService } from 'src/app/services/storage.service';
 import { DashboardService } from '../../services/dashboard.service';
 import * as moment from 'moment';
 import { Product } from '../../models/api/product';
-import { SalesByDay } from '../../models/api/sales-by-day';
+import { SalesByDate } from '../../models/api/sales-by-date';
 
 @Component({
   selector: 'app-home',
@@ -12,7 +12,7 @@ import { SalesByDay } from '../../models/api/sales-by-day';
 })
 export class HomeComponent implements OnInit {
 
-  public salesToday: SalesByDay;
+  public salesToday: SalesByDate;
 
   public today = moment().format('YYYY-MM-DD');
 
@@ -22,7 +22,10 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
 
-    this._dashboardService.getSalesByDay(this.today, 1).subscribe(response => {
+    const startDate = moment().startOf('day').toISOString();
+    const endDate = moment().endOf('day').toISOString();
+
+    this._dashboardService.getSalesByDate(startDate, endDate, 1).subscribe(response => {
 
       this.salesToday = response;
       this.salesToday.items = this.salesToday.items.sort((a, b) => b.quantityIssued - a.quantityIssued);

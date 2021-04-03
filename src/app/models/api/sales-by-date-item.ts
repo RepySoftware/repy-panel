@@ -1,6 +1,6 @@
 import { Product } from "./product";
 
-export interface SalesByDayItem {
+export interface SalesByDateItem {
 
     product: Product;
     quantityIssued: number;
