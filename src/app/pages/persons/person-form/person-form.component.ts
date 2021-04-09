@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
@@ -10,6 +10,7 @@ import { StringHelper } from '../../../helpers/string-helper';
 import { Person } from '../../../models/api/person';
 import { PersonOutput } from '../../../models/output/person.output';
 import { PersonPhoneView } from '../../../models/ui/person-phone-view';
+import { AlertMessageService } from '../../../services/alert-message.service';
 import { LoaderService } from '../../../services/loader.service';
 import { PersonService } from '../../../services/person.service';
 import { ToastService } from '../../../services/toast.service';
@@ -25,6 +26,8 @@ export interface PersonFormInputData {
   styleUrls: ['./person-form.component.scss']
 })
 export class PersonFormComponent implements OnInit {
+
+  @ViewChild('phone') public phoneElement: ElementRef;
 
   public isModal: boolean;
 
@@ -47,6 +50,7 @@ export class PersonFormComponent implements OnInit {
   constructor(
     private _personService: PersonService,
     private _activatedRoute: ActivatedRoute,
+    private _alert: AlertMessageService,
     private _loader: LoaderService,
     private _toast: ToastService,
     private _addressConfigService: AddressConfigService,
@@ -121,31 +125,63 @@ export class PersonFormComponent implements OnInit {
     });
   }
 
-  public addPhone(phoneInput): void {
+  public addPhone(phoneToAdd: string = this.phoneElement.nativeElement.value, clearInput = true, focusInput = true): void {
 
-    const phone: string = phoneInput.value ? StringHelper.getOnlyNumbers(phoneInput.value) : null;
+    const phone: string = phoneToAdd ? StringHelper.getOnlyNumbers(phoneToAdd) : null;
 
     if (!phone || phone.length < 8) {
       this._toast.open('Telefone inválido');
-      throw new Error('Invalid phone');
+      return;
     }
 
     this.phones.push({ phone });
 
-    phoneInput.value = null;
-    phoneInput.focus();
+    if (clearInput)
+      this.phoneElement.nativeElement.value = null;
+
+    if (focusInput)
+      this.phoneElement.nativeElement.focus();
   }
 
   public removePhone(index: number): void {
     this.phones.splice(index, 1);
   }
 
-  public save(): void {
+  public async save(): Promise<void> {
 
     if (!this.personForm.valid) {
       this.personForm.markAllAsTouched();
       this._toast.open('Preencha todos os campos obrigatórios');
       throw new Error('Invalid form');
+    }
+
+    if (this.phoneElement.nativeElement.value) {
+
+      const dialog = this._alert.open({
+        message: `Você digitou o telefone <strong>${this.phoneElement.nativeElement.value}</strong> mas não adicionou.<br><br>Adicionar telefone?`,
+        buttons: [
+          {
+            text: 'Não',
+            color: 'basic',
+            closeOnClick: false,
+            onClick: dialogRef => dialogRef.close({ closedWithOption: 'no' })
+          },
+          {
+            text: 'Sim',
+            color: 'primary',
+            onClick: dialogRef => dialogRef.close({ closedWithOption: 'yes' })
+          }
+        ]
+      });
+
+      const result = await dialog.afterClosed().toPromise();
+
+      if (!result?.closedWithOption) {
+        return;
+      } else if (result?.closedWithOption == 'yes') {
+        this.addPhone(this.phoneElement.nativeElement.value, true, false);
+      }
+
     }
 
     const personOutput: PersonOutput = {
@@ -190,7 +226,7 @@ export class PersonFormComponent implements OnInit {
     this._loader.show();
     apiCall.subscribe(response => {
       this._loader.dismiss();
-      this._toast.open('Salvo com sucesso!');
+      this._toast.open('Salvo com sucesso!', 'success');
 
       this.person = response;
 

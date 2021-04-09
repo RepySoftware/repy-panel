@@ -29,7 +29,7 @@ export class DialogMessageComponent implements OnInit {
       this._dialogRef.close();
 
     if (button.onClick)
-      button.onClick();
+      button.onClick(this._dialogRef);
   }
 
   public get message(): SafeHtml {
