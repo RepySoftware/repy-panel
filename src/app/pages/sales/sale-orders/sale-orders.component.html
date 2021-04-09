@@ -158,8 +158,8 @@
             *matHeaderCellDef>Produtos</th>
         <td mat-cell
             *matCellDef="let element"
-            [matTooltip]="getProducts(element)">
-            {{ getProducts(element) }}
+            [matTooltip]="formatProducts(element)">
+            {{ formatProducts(element) }}
         </td>
     </ng-container>
 

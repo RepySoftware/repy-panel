@@ -177,8 +177,6 @@ export class SaleOrdersComponent implements OnInit {
         });
       })
     )
-
-    return null;
   }
 
   private personCustomerSearchAutocompleteOnSelectItem(item: AutocompleteItem<PersonSearch>): void {
@@ -241,7 +239,7 @@ export class SaleOrdersComponent implements OnInit {
     });
   }
 
-  public getProducts(saleOrder: SaleOrder): string {
+  public formatProducts(saleOrder: SaleOrder): string {
     return saleOrder.products
       .map(so => `${so.quantity}x ${so.companyBranchProduct.product.name}`)
       .join(', ');

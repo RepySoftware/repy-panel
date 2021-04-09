@@ -21,6 +21,7 @@ import { ConfirmDeliveryComponent } from './delivery/confirm-delivery/confirm-de
 import { SaleOrderDetailsComponent } from './sale-orders/sale-order-details/sale-order-details.component';
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
 import { SaleOrderFormComponent } from './sale-orders/sale-order-form/sale-order-form.component';
+import { PosCustomerSalesComponent } from './sales-pos/pos-customer/pos-customer-sales/pos-customer-sales.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { SaleOrderFormComponent } from './sale-orders/sale-order-form/sale-order
     DeliveryComponent,
     ConfirmDeliveryComponent,
     SaleOrderDetailsComponent,
-    SaleOrderFormComponent
+    SaleOrderFormComponent,
+    PosCustomerSalesComponent
   ],
   imports: [
     CommonModule,

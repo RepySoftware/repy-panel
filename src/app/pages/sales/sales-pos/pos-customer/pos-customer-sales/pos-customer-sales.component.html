@@ -1,0 +1,72 @@
+<button-dialog-close></button-dialog-close>
+
+<h4>Pedidos de {{ inputData.personCustomer.name }} ({{ inputData.personCustomer.id }}) </h4>
+
+<table mat-table
+       [dataSource]="saleOrders">
+
+    <ng-container matColumnDef="id">
+        <th mat-header-cell
+            *matHeaderCellDef>#</th>
+        <td mat-cell
+            *matCellDef="let element">
+            <span style="font-weight: bold;">{{element.id}}</span>
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="datetime">
+        <th mat-header-cell
+            *matHeaderCellDef>Data emissão</th>
+        <td mat-cell
+            *matCellDef="let element">
+            {{element.dateOfIssue | momentDate:'DD/MM/YYYY HH:mm'}}
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="products">
+        <th mat-header-cell
+            *matHeaderCellDef>Produtos</th>
+        <td mat-cell
+            *matCellDef="let element"
+            [matTooltip]="formatProducts(element)">
+            {{ formatProducts(element) }}
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="totalSalePrice">
+        <th mat-header-cell
+            *matHeaderCellDef>Valor total</th>
+        <td mat-cell
+            *matCellDef="let element">
+            <span style="font-weight: bold;">{{ element.totalSalePrice | money }}</span>
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="status">
+        <th mat-header-cell
+            *matHeaderCellDef>Status</th>
+        <td mat-cell
+            *matCellDef="let element">
+
+            <mat-chip-list>
+                <mat-chip style="color: #fff"
+                          [style.background]="element.status | saleOrderStatusColor">
+                    {{ element.status | saleOrderStatus }}
+                </mat-chip>
+            </mat-chip-list>
+
+        </td>
+    </ng-container>
+
+    <tr mat-header-row
+        *matHeaderRowDef="tableColumns"></tr>
+    <tr mat-row
+        *matRowDef="let row; columns: tableColumns;"></tr>
+</table>
+
+<div style="text-align: center; padding: 10px;">
+    <button mat-flat-button
+            *ngIf="saleOrders.length >= saleOrderFilter.limit"
+            color="primary"
+            (click)="loadMore()">Mais...</button>
+</div>

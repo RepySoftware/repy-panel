@@ -9,6 +9,7 @@ import { PersonService } from '../../../../services/person.service';
 import { ToastService } from '../../../../services/toast.service';
 import { PersonFormComponent, PersonFormInputData } from '../../../persons/person-form/person-form.component';
 import { SalesPosService } from '../sales-pos.service';
+import { PosCustomerSalesComponent, PosCustomerSalesInputData } from './pos-customer-sales/pos-customer-sales.component';
 
 @Component({
   selector: 'app-pos-customer',
@@ -78,7 +79,7 @@ export class PosCustomerComponent implements OnInit {
   }
 
   public clearFilter(): void {
-    
+
     this.personSearchFilter.q = null;
     this.personSearchFilter.name = null;
     this.personSearchFilter.phone = null;
@@ -114,6 +115,16 @@ export class PosCustomerComponent implements OnInit {
       if (result && result.hasUpdate) {
         this.getPersons({ reset: true });
       }
+    });
+  }
+
+  public openPersonCustomerSales(personCustomer: Person): void {
+    const data: PosCustomerSalesInputData = { personCustomer };
+
+    this._dialog.open(PosCustomerSalesComponent, {
+      width: '90%',
+      height: '90%',
+      data
     });
   }
 
