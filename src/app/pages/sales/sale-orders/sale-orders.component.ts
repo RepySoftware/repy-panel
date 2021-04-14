@@ -193,7 +193,7 @@ export class SaleOrdersComponent implements OnInit {
 
   public openForm(saleOrder?: SaleOrder): void {
 
-    const data: SaleOrderFormInputData = { saleOrderId: saleOrder.id };
+    const data: SaleOrderFormInputData = { saleOrderId: saleOrder?.id };
 
     const dialog = this._dialog.open(SaleOrderFormComponent, {
       width: '90%',

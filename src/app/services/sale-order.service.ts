@@ -7,6 +7,7 @@ import { SaleOrderCreateOutput } from '../models/output/sale-order-create.output
 import { SaleOrder } from '../models/api/sale-order';
 import { SaleOrderFilter } from '../models/output/filters/sale-order.filter';
 import { SaleOrderConfirmDeliveryOutput } from '../models/output/sale-order-confirm-delivery.output';
+import { SaleOrderUpdateOutput } from '../models/output/sale-order-update.output';
 
 @Injectable()
 export class SaleOrderService {
@@ -28,6 +29,10 @@ export class SaleOrderService {
 
     public create(model: SaleOrderCreateOutput): Observable<SaleOrder> {
         return this._http.post<SaleOrder>(`${URLS.api.saleOrders}`, model);
+    }
+
+    public update(model: SaleOrderUpdateOutput): Observable<SaleOrder> {
+        return this._http.put<SaleOrder>(`${URLS.api.saleOrders}`, model);
     }
 
     public updateIndex(items: { saleOrderId: number, index: number }[]): Observable<void> {

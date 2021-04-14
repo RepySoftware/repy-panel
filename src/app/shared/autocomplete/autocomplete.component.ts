@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
 import { AutocompleteOptions } from 'src/app/models/ui/autocomplete-options';
 import { AutocompleteItem } from 'src/app/models/ui/autocomplete-item';
 import { Subject } from 'rxjs';
@@ -22,7 +22,9 @@ export class AutocompleteComponent implements OnInit {
 
   public selectedItem: AutocompleteItem<any>;
 
-  constructor() { }
+  constructor(
+    private _cdRef: ChangeDetectorRef
+  ) { }
 
   ngOnInit() {
     this.onInputSubject
@@ -38,6 +40,7 @@ export class AutocompleteComponent implements OnInit {
     this.selectedItem = item;
     this.autocompleteInput.nativeElement.value = this.selectedItem.label;
     this.options.onSelectItem(this.selectedItem);
+    this._cdRef.detectChanges();
   }
 
   public onSelectItem(event: MatAutocompleteSelectedEvent): void {

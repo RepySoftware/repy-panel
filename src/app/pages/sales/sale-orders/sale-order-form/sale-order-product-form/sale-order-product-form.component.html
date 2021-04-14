@@ -1,0 +1,78 @@
+<button-dialog-close></button-dialog-close>
+
+<div class="row">
+
+    <div class="col-12">
+        <app-autocomplete #productAutocomplete
+                          [options]="productAutocompleteOptions"></app-autocomplete>
+    </div>
+
+</div>
+
+<form [formGroup]="productForm">
+
+    <div class="row"
+         *ngIf="productSelected">
+
+        <div class="col-12">
+            <h4 class="product-category">Categoria: {{ productSelected.product.category.name }}</h4>
+        </div>
+
+        <div class="col-12">
+            <h4 class="product-code">Cód: {{ productSelected.product.code }}</h4>
+        </div>
+
+        <div class="col-8">
+            <mat-form-field>
+                <mat-label>Tipo de preço</mat-label>
+                <mat-select #price
+                            formControlName="price"
+                            (selectionChange)="onSelectPrice()">
+                    <mat-option *ngFor="let price of productSelected.prices"
+                                [value]="price.id">
+                        {{ price.name }}
+                    </mat-option>
+                </mat-select>
+                <mat-error *ngIf="!productForm.get('price').valid">
+                    Este campo é obrigatório
+                </mat-error>
+            </mat-form-field>
+        </div>
+
+        <div class="col-4">
+            <mat-form-field>
+                <input #salePriceValue
+                       type="number"
+                       matInput
+                       placeholder="Preço"
+                       formControlName="salePriceValue"
+                       autocomplete="off"
+                       [disableControl]="!price.value">
+                <mat-error *ngIf="salePriceValue">
+                    Campo inválido
+                </mat-error>
+            </mat-form-field>
+        </div>
+
+        <div class="col-4">
+            <mat-form-field>
+                <input #quantity
+                       type="number"
+                       matInput
+                       placeholder="Quantidade"
+                       formControlName="quantity"
+                       autocomplete="off">
+                <mat-error *ngIf="!quantity.valid">
+                    Campo inválido
+                </mat-error>
+            </mat-form-field>
+        </div>
+
+        <div class="col-sm-12">
+            <button mat-flat-button
+                    color="primary"
+                    (click)="save()">Salvar</button>
+        </div>
+    </div>
+
+</form>

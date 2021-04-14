@@ -1,3 +1,6 @@
+@agm/core
+MIT
+
 @angular-devkit/build-angular
 MIT
 The MIT License

@@ -13,6 +13,95 @@
     <div class="row">
 
         <div class="col-12">
+            <h5>Geral</h5>
+        </div>
+
+        <div class="col-4">
+            <mat-form-field>
+                <mat-label>Status</mat-label>
+                <mat-select #saleOrderStatus
+                            formControlName="status">
+
+                    <mat-option>-</mat-option>
+
+                    <mat-option *ngFor="let sos of saleOrderStatusList"
+                                [value]="sos">
+                        {{ sos | saleOrderStatus }}
+                    </mat-option>
+
+                </mat-select>
+                <mat-error *ngIf="!saleOrderForm.get('status').valid">
+                    Este campo é obrigatório
+                </mat-error>
+            </mat-form-field>
+        </div>
+
+        <div class="col-4"
+             style="display: flex;">
+
+            <div style="width: 100%;">
+                <mat-form-field>
+                    <input matInput
+                           #dateOfIssue
+                           type="datetime-local"
+                           placeholder="Data pedido"
+                           formControlName="dateOfIssue"
+                           autocomplete="off">
+                    <mat-error *ngIf="!dateOfIssue.valid">
+                        Este campo é obrigatório
+                    </mat-error>
+                </mat-form-field>
+            </div>
+
+            <div>
+                <mat-icon style="cursor: pointer; margin-top: 24px;"
+                          (click)="setFormFieldToNull('dateOfIssue')">close</mat-icon>
+            </div>
+
+        </div>
+
+        <div class="col-4"
+             style="display: flex;">
+
+            <div style="width: 100%;">
+                <mat-form-field>
+                    <input matInput
+                           #deliveredAt
+                           type="datetime-local"
+                           placeholder="Entrega"
+                           formControlName="deliveredAt"
+                           autocomplete="off">
+                    <mat-error *ngIf="!deliveredAt.valid">
+                        Este campo é obrigatório
+                    </mat-error>
+                </mat-form-field>
+            </div>
+
+            <div>
+                <mat-icon style="cursor: pointer; margin-top: 24px;"
+                          (click)="setFormFieldToNull('deliveredAt')">close</mat-icon>
+            </div>
+
+        </div>
+
+        <div class="col-12">
+            <mat-form-field>
+                <mat-label>Unidade</mat-label>
+                <mat-select #companyBranch
+                            formControlName="companyBranch">
+                    <mat-option *ngFor="let branch of companyBranches"
+                                [value]="branch.id">
+                        {{ branch.name }} - {{ branch.tradeName }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+
+    </div>
+
+    <div class="row">
+
+        <div class="col-12">
             <h5>Cliente</h5>
         </div>
 
@@ -51,14 +140,14 @@
                         <td>{{ p.quantity }}</td>
                         <td>{{ (p.quantity * p.salePriceValue) | money }}</td>
                         <td>
-                            <!-- <a href="javascript:;"
-                           (click)="editProduct(i)">
-                            <mat-icon>edit</mat-icon>
-                        </a>
-                        <a href="javascript:;"
-                           (click)="removeProduct(i)">
-                            <mat-icon>close</mat-icon>
-                        </a> -->
+                            <a href="javascript:;"
+                               (click)="openProductForm(i)">
+                                <mat-icon>edit</mat-icon>
+                            </a>
+                            <a href="javascript:;"
+                               (click)="removeProduct(i)">
+                                <mat-icon>close</mat-icon>
+                            </a>
                         </td>
                     </tr>
                     <tr>
@@ -72,11 +161,19 @@
             </table>
         </div>
 
+        <div class="col-12">
+            <button mat-stroked-button
+                    color="primary"
+                    style="margin-top: 10px;"
+                    (click)="openProductForm()">Incluir produto</button>
+        </div>
+
     </div>
 
     <div class="row">
 
-        <div class="col-12" style="margin-top: 14px;">
+        <div class="col-12"
+             style="margin-top: 14px;">
             <mat-divider style="margin: 8px 0;"></mat-divider>
             <h5>Entrega</h5>
         </div>
@@ -92,18 +189,98 @@
             <div style="width: 100%;">
                 <mat-form-field>
                     <input matInput
+                           #deliverySchedule
                            type="datetime-local"
                            placeholder="Agendamento de entrega"
                            formControlName="deliverySchedule"
                            autocomplete="off">
+                    <mat-error *ngIf="!deliverySchedule.valid">
+                        Este campo é obrigatório
+                    </mat-error>
                 </mat-form-field>
             </div>
 
             <div>
                 <mat-icon style="cursor: pointer; margin-top: 24px;"
-                          (click)="deliverySchedule = null">close</mat-icon>
+                          (click)="setFormFieldToNull('deliverySchedule')">close</mat-icon>
             </div>
 
+        </div>
+
+    </div>
+
+    <div class="row">
+
+        <div class="col-12"
+             style="margin-top: 14px;">
+            <mat-divider style="margin: 8px 0;"></mat-divider>
+            <h5>Pagamento</h5>
+        </div>
+
+        <div class="col-6">
+            <mat-form-field>
+                <mat-label>Método de pagamento</mat-label>
+                <mat-select #paymentMethod
+                            formControlName="paymentMethod">
+
+                    <mat-option>-</mat-option>
+
+                    <mat-option *ngFor="let pm of paymentMethods"
+                                [value]="pm.id">
+                        {{ pm.name }}
+                    </mat-option>
+
+                </mat-select>
+            </mat-form-field>
+        </div>
+
+        <div class="col-6"
+             *ngIf="paymentMethodSelected?.hasInstallments">
+            <mat-form-field>
+                <input #paymentInstallments
+                       formControlName="paymentInstallments"
+                       matInput
+                       placeholder="Número de parcelas"
+                       autocomplete="off"
+                       type="number">
+                <mat-error *ngIf="!paymentInstallments.valid">
+                    Número de parcelas deve ser superior ou igual a 1
+                </mat-error>
+            </mat-form-field>
+        </div>
+
+    </div>
+
+    <div class="row">
+
+        <div class="col-12"
+             style="margin-top: 14px;">
+            <mat-divider style="margin: 8px 0;"></mat-divider>
+        </div>
+
+        <div class="col-12">
+            <div>
+                <label for="observation">Observação</label>
+            </div>
+            <div>
+                <textarea #observation
+                          style="width: 100%;"
+                          id="observation"
+                          formControlName="observation"
+                          rows="5"
+                          autocomplete="off"></textarea>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row">
+
+        <div class="col-12">
+            <button mat-flat-button
+                    color="primary"
+                    (click)="save()"
+                    style="margin: 24px 0;">Salvar</button>
         </div>
 
     </div>

@@ -199,12 +199,14 @@
                 <mat-icon>remove_red_eye</mat-icon>
             </a>
 
-            <a href="javascript:;"
+            <a *ngIf="element.status != 'FINISHED' && element.status != 'CANCELED'"
+               href="javascript:;"
                (click)="openForm(element)">
                 <mat-icon>edit</mat-icon>
             </a>
 
-            <a href="javascript:;"
+            <a *ngIf="element.status != 'FINISHED' && element.status != 'CANCELED'"
+               href="javascript:;"
                (click)="deleteSaleOrder(element)">
                 <mat-icon>delete</mat-icon>
             </a>
@@ -224,3 +226,11 @@
             color="primary"
             (click)="loadMore()">Mais...</button>
 </div>
+
+<!-- <button href="javascript:;"
+        (click)="openForm()"
+        mat-fab
+        color="primary"
+        class="btn-add">
+    <mat-icon>add</mat-icon>
+</button> -->
