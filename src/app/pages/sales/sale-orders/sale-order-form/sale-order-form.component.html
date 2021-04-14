@@ -1,9 +1,111 @@
 <button-dialog-close *ngIf="isModal"></button-dialog-close>
 
-<div class="row">
-    <div class="col-sm-12">
-        <!-- <h3 class="title"
+<form [formGroup]="saleOrderForm">
+
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- <h3 class="title"
             *ngIf="!saleOrder">Nova pessoa</h3> -->
-        <h3 class="title">#{{ saleOrderId }}</h3>
+            <h3 class="title">#{{ saleOrderId }}</h3>
+        </div>
     </div>
-</div>
+
+    <div class="row">
+
+        <div class="col-12">
+            <h5>Cliente</h5>
+        </div>
+
+        <div class="col-12">
+            <app-autocomplete #personCustomerAutocomplete
+                              [options]="personCustomerAutocompleteOptions"></app-autocomplete>
+        </div>
+
+    </div>
+
+    <div class="row">
+
+        <div class="col-12">
+            <h5>Produtos</h5>
+        </div>
+
+        <div class="col-12">
+            <table class="products-table">
+                <thead>
+                    <tr>
+                        <th>Cód</th>
+                        <th>Produto</th>
+                        <th>Tip. preço</th>
+                        <th>Preço</th>
+                        <th>Qtd</th>
+                        <th>Total</th>
+                        <th>Opt</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let p of products; let i = index">
+                        <td>{{ p.companyBranchProduct.product.code }}</td>
+                        <td>{{ p.companyBranchProduct.product.name }}</td>
+                        <td>{{ p.price.name }}</td>
+                        <td>{{ p.salePriceValue }}</td>
+                        <td>{{ p.quantity }}</td>
+                        <td>{{ (p.quantity * p.salePriceValue) | money }}</td>
+                        <td>
+                            <!-- <a href="javascript:;"
+                           (click)="editProduct(i)">
+                            <mat-icon>edit</mat-icon>
+                        </a>
+                        <a href="javascript:;"
+                           (click)="removeProduct(i)">
+                            <mat-icon>close</mat-icon>
+                        </a> -->
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="5"></td>
+                        <td colspan="2"
+                            style="font-weight: bold; color: var(--color-alizarin);">
+                            {{ productsTotalPrice | money }}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+    <div class="row">
+
+        <div class="col-12" style="margin-top: 14px;">
+            <mat-divider style="margin: 8px 0;"></mat-divider>
+            <h5>Entrega</h5>
+        </div>
+
+        <div class="col-6">
+            <app-autocomplete #employeeDriverAutocomplete
+                              [options]="employeeDriverAutocompleteOptions"></app-autocomplete>
+        </div>
+
+        <div class="col-6"
+             style="display: flex;">
+
+            <div style="width: 100%;">
+                <mat-form-field>
+                    <input matInput
+                           type="datetime-local"
+                           placeholder="Agendamento de entrega"
+                           formControlName="deliverySchedule"
+                           autocomplete="off">
+                </mat-form-field>
+            </div>
+
+            <div>
+                <mat-icon style="cursor: pointer; margin-top: 24px;"
+                          (click)="deliverySchedule = null">close</mat-icon>
+            </div>
+
+        </div>
+
+    </div>
+
+</form>

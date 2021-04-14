@@ -12,7 +12,7 @@ import { PersonSearch } from "../../../models/api/person-search";
 import { CompanyBranchService } from "../../../services/company-branch.service";
 import { PaymentMethodService } from "../../../services/payment-method.service";
 import { ToastService } from "../../../services/toast.service";
-import { SalesPosPurchaseOrderProduct } from "../models/sales-pos-purchase-order-item";
+import { SaleOrderProductOptions } from "../models/sale-order-product-options";
 import * as moment from 'moment';
 import { SaleOrderCreateOutput } from "../../../models/output/sale-order-create.output";
 import { LoaderService } from "../../../services/loader.service";
@@ -40,7 +40,7 @@ export class SalesPosService {
   public companyBranches: CompanyBranch[] = [];
 
   private _personCustomer: Person;
-  public products: SalesPosPurchaseOrderProduct[] = [];
+  public products: SaleOrderProductOptions[] = [];
   public companyBranch: CompanyBranch;
   public employeeDriver: Employee;
   public deliverySchedule: Moment;

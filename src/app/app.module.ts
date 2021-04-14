@@ -27,6 +27,7 @@ import { SaleOrderService } from './services/sale-order.service';
 import { DashboardService } from './services/dashboard.service';
 import { NgMaterialMultilevelMenuModule } from 'ng-material-multilevel-menu';
 import { AlertMessageService } from './services/alert-message.service';
+import { AgmCoreModule } from '@agm/core';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,10 @@ import { AlertMessageService } from './services/alert-message.service';
     HttpClientModule,
     HttpClientJsonpModule,
     NgxMaskModule.forRoot(),
-    NgMaterialMultilevelMenuModule
+    NgMaterialMultilevelMenuModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyDbL0XgpntZOHtx2HQ8NcAe-AT2vwBc3cU'
+    })
   ],
   providers: [
     UserService,

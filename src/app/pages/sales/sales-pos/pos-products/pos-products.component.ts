@@ -14,7 +14,7 @@ import { LoaderService } from '../../../../services/loader.service';
 import { ProductService } from '../../../../services/product.service';
 import { ToastService } from '../../../../services/toast.service';
 import { AutocompleteComponent } from '../../../../shared/autocomplete/autocomplete.component';
-import { SalesPosPurchaseOrderProduct } from '../../models/sales-pos-purchase-order-item';
+import { SaleOrderProductOptions } from '../../models/sale-order-product-options';
 import { SalesPosService } from '../sales-pos.service';
 
 @Component({
@@ -107,7 +107,7 @@ export class PosProductsComponent implements OnInit {
 
     const price = this.productToAdd.prices.find(p => p.id == this.addProductForm.get('price').value);
 
-    const posProduct: SalesPosPurchaseOrderProduct = {
+    const posProduct: SaleOrderProductOptions = {
       companyBranchProduct: this.productToAdd,
       price,
       salePriceValue: this.addProductForm.get('salePriceValue').value,

@@ -34,10 +34,15 @@ export class AutocompleteComponent implements OnInit {
       );
   }
 
-  public onSelectItem(event: MatAutocompleteSelectedEvent): void {
-    this.selectedItem = this.items.find(x => x.value == event.option.value)//this.items.splice()[0];
+  public selectItem(item: AutocompleteItem<any>): void {
+    this.selectedItem = item;
     this.autocompleteInput.nativeElement.value = this.selectedItem.label;
     this.options.onSelectItem(this.selectedItem);
+  }
+
+  public onSelectItem(event: MatAutocompleteSelectedEvent): void {
+    const selectedItem = this.items.find(x => x.value == event.option.value);
+    this.selectItem(selectedItem);
   }
 
   public onBlur(): void {
