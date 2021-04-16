@@ -32,7 +32,8 @@
 
             <div class="card-box"
                  *ngFor="let card of column.cards"
-                 cdkDrag>
+                 cdkDrag
+                 (cdkDragStarted)="dragStarted()">
 
                 <div class="card-custom-placeholder"
                      *cdkDragPlaceholder></div>
@@ -65,7 +66,8 @@
                 </div>
                 <div *ngIf="card.saleOrder.observation"
                      class="observation">
-                    <input *ngIf="!column.undefinedDriver" type="checkbox"
+                    <input *ngIf="!column.undefinedDriver"
+                           type="checkbox"
                            [(ngModel)]="card.copyObservation">
                     Obs: {{ card.saleOrder.observation }}
                 </div>

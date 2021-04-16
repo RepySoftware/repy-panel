@@ -1,5 +1,5 @@
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatExpansionPanel } from '@angular/material/expansion';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
@@ -30,7 +30,7 @@ import { DeliveryKambanColumn } from './models/delivery-kanban-column';
   styleUrls: ['./delivery.component.scss'],
   viewProviders: [MatExpansionPanel]
 })
-export class DeliveryComponent implements OnInit {
+export class DeliveryComponent implements OnInit, OnDestroy {
 
   public board: DeliveryKanbanBoard = {
     columns: [
@@ -48,6 +48,10 @@ export class DeliveryComponent implements OnInit {
     onSelectItem: item => this.employeeDriverSearchAutocompleteOnSelectItem(item)
   }
 
+  private static REFRESH_INTERVAL = 6000;
+  private _refreshIntervalId: any;
+  private _refreshIntervalActive = false;
+
   constructor(
     private _saleOrderService: SaleOrderService,
     private _toast: ToastService,
@@ -58,46 +62,74 @@ export class DeliveryComponent implements OnInit {
 
   ngOnInit(): void {
     this.refreshSaleOrders({ createColumns: true });
+
+    this.initRefreshInterval();
+  }
+
+  ngOnDestroy(): void {
+    this.clearRefreshInterval();
+  }
+
+  private initRefreshInterval(): void {
+    if (!this._refreshIntervalActive) {
+
+      this._refreshIntervalId = setInterval(() =>
+        this.refreshSaleOrders(), DeliveryComponent.REFRESH_INTERVAL
+      );
+
+      this._refreshIntervalActive = true;
+      console.log('initRefreshInterval', this._refreshIntervalId);
+    }
+  }
+
+  private clearRefreshInterval(): void {
+    clearInterval(this._refreshIntervalId);
+    this._refreshIntervalActive = false;
+    console.log('clearRefreshInterval', this._refreshIntervalId);
   }
 
   public refreshSaleOrders(options?: { createColumns?: boolean }): Promise<void> {
     return new Promise((resolve, reject) => {
       this.getSaleOrders().then(saleOrders => {
 
-        if (options && options.createColumns) {
-          saleOrders
-            .filter(so => so.employeeDriver)
-            .forEach(so => {
-              if (!this.board.columns.find(x => x.employeeDriverId == so.employeeDriver.id)) {
-                this.board.columns.push({
-                  employeeDriverId: so.employeeDriver.id,
-                  title: so.employeeDriver.name,
-                  cards: []
-                });
-              }
-            });
-        }
+        if (this._refreshIntervalActive) {
 
-        this.board.columns.forEach(c => {
-
-          let driverSaleOrders: SaleOrder[] = [];
-
-          if (!c.undefinedDriver) {
-            driverSaleOrders = saleOrders.filter(so => so.employeeDriver && so.employeeDriver.id == c.employeeDriverId);
-          } else {
-            driverSaleOrders = saleOrders.filter(so => !so.employeeDriver);
+          if (options && options.createColumns) {
+            saleOrders
+              .filter(so => so.employeeDriver)
+              .forEach(so => {
+                if (!this.board.columns.find(x => x.employeeDriverId == so.employeeDriver.id)) {
+                  this.board.columns.push({
+                    employeeDriverId: so.employeeDriver.id,
+                    title: so.employeeDriver.name,
+                    cards: []
+                  });
+                }
+              });
           }
 
-          c.cards = driverSaleOrders.map(dso => {
-            return {
-              saleOrderId: dso.id,
-              saleOrder: dso
+          this.board.columns.forEach(c => {
+
+            let driverSaleOrders: SaleOrder[] = [];
+
+            if (!c.undefinedDriver) {
+              driverSaleOrders = saleOrders.filter(so => so.employeeDriver && so.employeeDriver.id == c.employeeDriverId);
+            } else {
+              driverSaleOrders = saleOrders.filter(so => !so.employeeDriver);
             }
+
+            c.cards = driverSaleOrders.map(dso => {
+              return {
+                saleOrderId: dso.id,
+                saleOrder: dso
+              }
+            });
+
           });
 
-        });
+          this.sortCards();
 
-        this.sortCards();
+        }
 
         resolve();
       });
@@ -192,11 +224,21 @@ export class DeliveryComponent implements OnInit {
     });
   }
 
+  public dragStarted(): void {
+    this.clearRefreshInterval();
+  }
+
   public drop(event: CdkDragDrop<DeliveryKanbanCard[]>, currentColumn: DeliveryKambanColumn) {
 
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-      this.refreshIndexes(event);
+
+      this.refreshIndexes(event).then(() => {
+        this.initRefreshInterval();
+      }).catch(error => {
+        this.initRefreshInterval();
+      });
+
     } else {
 
       transferArrayItem(
@@ -206,7 +248,13 @@ export class DeliveryComponent implements OnInit {
         event.currentIndex
       );
 
-      this.changeEmployeeDriver(event, currentColumn).then(() => this.refreshIndexes(event));
+      this.changeEmployeeDriver(event, currentColumn).then(() => {
+        this.refreshIndexes(event).then(() => {
+          this.initRefreshInterval();
+        }).catch(error => {
+          this.initRefreshInterval();
+        });
+      });
     }
   }
 
