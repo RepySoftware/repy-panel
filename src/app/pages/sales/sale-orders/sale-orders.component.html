@@ -199,14 +199,12 @@
                 <mat-icon>remove_red_eye</mat-icon>
             </a>
 
-            <a *ngIf="element.status != 'FINISHED' && element.status != 'CANCELED'"
-               href="javascript:;"
+            <a href="javascript:;"
                (click)="openForm(element)">
                 <mat-icon>edit</mat-icon>
             </a>
 
-            <a *ngIf="element.status != 'FINISHED' && element.status != 'CANCELED'"
-               href="javascript:;"
+            <a href="javascript:;"
                (click)="deleteSaleOrder(element)">
                 <mat-icon>delete</mat-icon>
             </a>

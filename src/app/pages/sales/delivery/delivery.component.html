@@ -1,5 +1,11 @@
 <div class="header-options">
 
+    <div style="padding-top: 20px; padding-left: 25px;">
+        <mat-slide-toggle #autoRefreshEl
+                          (change)="autoRefreshChange(autoRefreshEl.checked)"
+                          [checked]="autoRefresh">Auto Refresh</mat-slide-toggle>
+    </div>
+
     <div class="refresh">
         <button mat-flat-button
                 color="primary"
@@ -44,6 +50,10 @@
                 </div> -->
 
                 <div class="id">#{{ card.saleOrder.id }}</div>
+                <div class="status"
+                     [style.background]="card.saleOrder.status | saleOrderStatusColor">
+                    {{ card.saleOrder.status | saleOrderStatus }}
+                </div>
                 <div class="customer">{{ card.saleOrder.personCustomer.name }} ({{ card.saleOrder.personCustomer.id }})
                 </div>
                 <div class="products"

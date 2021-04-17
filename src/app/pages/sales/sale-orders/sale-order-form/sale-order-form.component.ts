@@ -133,7 +133,7 @@ export class SaleOrderFormComponent implements OnInit {
       deliveredAt: new FormControl(null),
       companyBranch: new FormControl(null, Validators.required),
       deliverySchedule: new FormControl(null),
-      paymentMethod: new FormControl(null, Validators.required),
+      paymentMethod: new FormControl(null),
       paymentInstallments: new FormControl(null, Validators.min(1)),
       observation: new FormControl(null)
     });

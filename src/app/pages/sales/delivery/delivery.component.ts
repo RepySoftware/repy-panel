@@ -48,6 +48,8 @@ export class DeliveryComponent implements OnInit, OnDestroy {
     onSelectItem: item => this.employeeDriverSearchAutocompleteOnSelectItem(item)
   }
 
+  public autoRefresh = true;
+
   private static REFRESH_INTERVAL = 6000;
   private _refreshIntervalId: any;
   private _refreshIntervalActive = false;
@@ -63,7 +65,8 @@ export class DeliveryComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.refreshSaleOrders({ createColumns: true });
 
-    this.initRefreshInterval();
+    if (this.autoRefresh)
+      this.initRefreshInterval();
   }
 
   ngOnDestroy(): void {
@@ -79,6 +82,16 @@ export class DeliveryComponent implements OnInit, OnDestroy {
 
       this._refreshIntervalActive = true;
       console.log('initRefreshInterval', this._refreshIntervalId);
+    }
+  }
+
+  public autoRefreshChange(value: boolean): void {
+    this.autoRefresh = value;
+
+    if (this.autoRefresh) {
+      this.initRefreshInterval();
+    } else {
+      this.clearRefreshInterval();
     }
   }
 
@@ -145,7 +158,7 @@ export class DeliveryComponent implements OnInit, OnDestroy {
       this._saleOrderService.getAll({
         index: 0,
         limit: 9999,
-        status: SaleOrderStatus.PENDING
+        status: `${SaleOrderStatus.PENDING},${SaleOrderStatus.ON_DELIVERY}`
       }).subscribe(response => {
         resolve(response);
       }, error => {
