@@ -6,7 +6,7 @@ import { HttpQueryParamsHelper } from '../helpers/filter-helper';
 import { SaleOrderCreateOutput } from '../models/output/sale-order-create.output';
 import { SaleOrder } from '../models/api/sale-order';
 import { SaleOrderFilter } from '../models/output/filters/sale-order.filter';
-import { SaleOrderConfirmDeliveryOutput } from '../models/output/sale-order-confirm-delivery.output';
+import { DeliveryFinalizeOutput } from '../models/output/delivery-finalize.output';
 import { SaleOrderUpdateOutput } from '../models/output/sale-order-update.output';
 
 @Injectable()
@@ -33,18 +33,6 @@ export class SaleOrderService {
 
     public update(model: SaleOrderUpdateOutput): Observable<SaleOrder> {
         return this._http.put<SaleOrder>(`${URLS.api.saleOrders}`, model);
-    }
-
-    public updateIndex(items: { saleOrderId: number, index: number }[]): Observable<void> {
-        return this._http.patch<void>(`${URLS.api.saleOrders}/updateIndex`, items);
-    }
-
-    public updateEmployeeDriver(params: { saleOrderId: number, employeeDriverId: number }): Observable<void> {
-        return this._http.patch<void>(`${URLS.api.saleOrders}/updateEmployeeDriver`, params);
-    }
-
-    public confirmDelivery(params: SaleOrderConfirmDeliveryOutput): Observable<void> {
-        return this._http.patch<void>(`${URLS.api.saleOrders}/confirmDelivery`, params);
     }
 
     public delete(id: number): Observable<void> {

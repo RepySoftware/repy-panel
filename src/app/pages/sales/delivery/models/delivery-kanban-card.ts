@@ -1,9 +1,10 @@
-import { SaleOrder } from "../../../../models/api/sale-order";
+import { Delivery } from "../../../../models/api/delivery";
+import { DeliveryExtraCard } from "./delivery-extra-card";
 
 export interface DeliveryKanbanCard {
 
-    saleOrderId: number;
-    saleOrder: SaleOrder;
+    delivery?: Delivery;
+    extra?: DeliveryExtraCard;
 
     copyObservation?: boolean;
 }

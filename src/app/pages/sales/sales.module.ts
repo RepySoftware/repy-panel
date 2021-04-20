@@ -23,6 +23,9 @@ import { NgxJsonViewerModule } from 'ngx-json-viewer';
 import { SaleOrderFormComponent } from './sale-orders/sale-order-form/sale-order-form.component';
 import { PosCustomerSalesComponent } from './sales-pos/pos-customer/pos-customer-sales/pos-customer-sales.component';
 import { SaleOrderProductFormComponent } from './sale-orders/sale-order-form/sale-order-product-form/sale-order-product-form.component';
+import { CardSaleOrderComponent } from './delivery/card/card-sale-order/card-sale-order.component';
+import { CardDeliveryInstructionComponent } from './delivery/card/card-delivery-instruction/card-delivery-instruction.component';
+import { DeliveryInstructionFormComponent } from './delivery/delivery-instruction-form/delivery-instruction-form.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +42,10 @@ import { SaleOrderProductFormComponent } from './sale-orders/sale-order-form/sal
     SaleOrderDetailsComponent,
     SaleOrderFormComponent,
     PosCustomerSalesComponent,
-    SaleOrderProductFormComponent
+    SaleOrderProductFormComponent,
+    CardSaleOrderComponent,
+    CardDeliveryInstructionComponent,
+    DeliveryInstructionFormComponent,
   ],
   imports: [
     CommonModule,

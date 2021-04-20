@@ -5,5 +5,5 @@ export interface DeliveryKambanColumn {
     employeeDriverId?: number;
     title: string;
     cards: DeliveryKanbanCard[];
-    undefinedDriver?: boolean;
+    defaultColumn?: boolean;
 }

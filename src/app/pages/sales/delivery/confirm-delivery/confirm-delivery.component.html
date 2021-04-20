@@ -3,14 +3,18 @@
 <div class="row">
 
     <div class="col-12">
-        <h1 style="font-size: 22px; font-weight: bold;">#{{ inputData.saleOrder.id }}</h1>
+        <h1 style="font-size: 22px; font-weight: bold;">
+            #{{ inputData.delivery.saleOrder ?
+            inputData.delivery.saleOrder.id : inputData.delivery.deliveryInstruction.deliveryInstruction.description }}
+        </h1>
     </div>
 
     <div class="col-12">
-        <h2 style="font-size: 22px;">Confirmar entrega</h2>
+        <h2 style="font-size: 22px;">Finalizar</h2>
     </div>
 
-    <div class="col-12">
+    <div class="col-12"
+         *ngIf="inputData.delivery.saleOrder">
         <mat-form-field>
             <input #deliveredAt
                    matInput
@@ -21,11 +25,12 @@
         </mat-form-field>
     </div>
 
-    <div class="col-8">
+    <div class="col-8"
+         *ngIf="inputData.delivery.saleOrder">
         <mat-form-field>
             <mat-label>Tipo de pagamento</mat-label>
             <mat-select #paymentMethod
-                        [value]="inputData.saleOrder?.paymentMethod?.id">
+                        [value]="inputData.delivery.saleOrder?.paymentMethod?.id">
 
                 <mat-option *ngFor="let pm of paymentMethods"
                             [value]="pm.id">
@@ -37,14 +42,14 @@
     </div>
 
     <div class="col-4"
-         *ngIf="hasInstallments">
+         *ngIf="inputData.delivery.saleOrder && hasInstallments">
         <mat-form-field>
             <input #installments
                    matInput
                    placeholder="Número de parcelas"
                    autocomplete="off"
                    type="number"
-                   [value]="inputData.saleOrder.paymentInstallments || 1">
+                   [value]="inputData.delivery.saleOrder.paymentInstallments || 1">
             <mat-error *ngIf="installments.value <= 0">
                 Número de parcelas deve ser superior ou igual a 1
             </mat-error>

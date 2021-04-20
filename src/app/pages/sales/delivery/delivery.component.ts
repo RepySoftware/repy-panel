@@ -2,24 +2,20 @@ import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/dr
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatExpansionPanel } from '@angular/material/expansion';
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { DomSanitizer } from '@angular/platform-browser';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { SaleOrderStatus } from '../../../enums/sale-order-status';
-import { copyToClipboard } from '../../../functions/copy-to-clipboard';
-import { AddressHelper } from '../../../helpers/address.helper';
-import { StringHelper } from '../../../helpers/string-helper';
-import { Address } from '../../../models/api/address';
+import { Delivery } from '../../../models/api/delivery';
 import { Employee } from '../../../models/api/employee';
-import { SaleOrder } from '../../../models/api/sale-order';
 import { EmployeeFilter } from '../../../models/output/filters/employee.filter';
 import { AutocompleteItem } from '../../../models/ui/autocomplete-item';
 import { AutocompleteOptions } from '../../../models/ui/autocomplete-options';
+import { DeliveryService } from '../../../services/delivery.service';
 import { EmployeeService } from '../../../services/employee.service';
-import { SaleOrderService } from '../../../services/sale-order.service';
-import { StorageService } from '../../../services/storage.service';
 import { ToastService } from '../../../services/toast.service';
 import { ConfirmDeliveryComponent, ConfirmDeliveryInputData } from './confirm-delivery/confirm-delivery.component';
+import { DeliveryExtraCard, DeliveryExtraCardType } from './models/delivery-extra-card';
+import { DeliveryFinalizeEvent } from './models/delivery-finalize-event';
 import { DeliveryKanbanBoard } from './models/delivery-kanban-board';
 import { DeliveryKanbanCard } from './models/delivery-kanban-card';
 import { DeliveryKambanColumn } from './models/delivery-kanban-column';
@@ -35,12 +31,18 @@ export class DeliveryComponent implements OnInit, OnDestroy {
   public board: DeliveryKanbanBoard = {
     columns: [
       {
-        title: 'Sem entregador',
+        title: 'Pendente',
         cards: [],
-        undefinedDriver: true
+        defaultColumn: true
       }
     ]
   }
+
+  public extraCards: DeliveryKanbanCard[] = [
+    {
+      extra: { type: DeliveryExtraCardType.deliveryInstruction }
+    }
+  ]
 
   public employeeDriverSearchAutocompleteOptions: AutocompleteOptions<Employee> = {
     placeholder: 'Adicionar entregador',
@@ -55,7 +57,8 @@ export class DeliveryComponent implements OnInit, OnDestroy {
   private _refreshIntervalActive = false;
 
   constructor(
-    private _saleOrderService: SaleOrderService,
+    // private _saleOrderService: SaleOrderService,
+    private _deliveryService: DeliveryService,
     private _toast: ToastService,
     private _employeeService: EmployeeService,
     private _dialog: MatDialog,
@@ -63,7 +66,7 @@ export class DeliveryComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this.refreshSaleOrders({ createColumns: true });
+    this.refreshDeliveries({ createColumns: true });
 
     if (this.autoRefresh)
       this.initRefreshInterval();
@@ -77,7 +80,7 @@ export class DeliveryComponent implements OnInit, OnDestroy {
     if (!this._refreshIntervalActive) {
 
       this._refreshIntervalId = setInterval(() =>
-        this.refreshSaleOrders(), DeliveryComponent.REFRESH_INTERVAL
+        this.refreshDeliveries(), DeliveryComponent.REFRESH_INTERVAL
       );
 
       this._refreshIntervalActive = true;
@@ -101,13 +104,14 @@ export class DeliveryComponent implements OnInit, OnDestroy {
     console.log('clearRefreshInterval', this._refreshIntervalId);
   }
 
-  public refreshSaleOrders(options?: { createColumns?: boolean }): Promise<void> {
+  public refreshDeliveries(options?: { createColumns?: boolean }): Promise<void> {
     return new Promise((resolve, reject) => {
-      this.getSaleOrders().then(saleOrders => {
+      this.getDeliveries().then(saleOrders => {
 
         if (this._refreshIntervalActive) {
 
           if (options && options.createColumns) {
+
             saleOrders
               .filter(so => so.employeeDriver)
               .forEach(so => {
@@ -123,19 +127,16 @@ export class DeliveryComponent implements OnInit, OnDestroy {
 
           this.board.columns.forEach(c => {
 
-            let driverSaleOrders: SaleOrder[] = [];
+            let driverDeliveries: Delivery[] = [];
 
-            if (!c.undefinedDriver) {
-              driverSaleOrders = saleOrders.filter(so => so.employeeDriver && so.employeeDriver.id == c.employeeDriverId);
+            if (!c.defaultColumn) {
+              driverDeliveries = saleOrders.filter(so => so.employeeDriver && so.employeeDriver.id == c.employeeDriverId);
             } else {
-              driverSaleOrders = saleOrders.filter(so => !so.employeeDriver);
+              driverDeliveries = saleOrders.filter(so => !so.employeeDriver);
             }
 
-            c.cards = driverSaleOrders.map(dso => {
-              return {
-                saleOrderId: dso.id,
-                saleOrder: dso
-              }
+            c.cards = driverDeliveries.map(dso => {
+              return { delivery: dso }
             });
 
           });
@@ -150,16 +151,12 @@ export class DeliveryComponent implements OnInit, OnDestroy {
   }
 
   private sortCards(): void {
-    this.board.columns.forEach(column => column.cards.sort((a, b) => a.saleOrder.index - b.saleOrder.index));
+    this.board.columns.forEach(column => column.cards.sort((a, b) => a.delivery.index - b.delivery.index));
   }
 
-  private getSaleOrders(): Promise<SaleOrder[]> {
+  private getDeliveries(): Promise<Delivery[]> {
     return new Promise((resolve, reject) => {
-      this._saleOrderService.getAll({
-        index: 0,
-        limit: 9999,
-        status: `${SaleOrderStatus.PENDING},${SaleOrderStatus.ON_DELIVERY}`
-      }).subscribe(response => {
+      this._deliveryService.get().subscribe(response => {
         resolve(response);
       }, error => {
         this._toast.showHttpError(error);
@@ -198,22 +195,23 @@ export class DeliveryComponent implements OnInit, OnDestroy {
 
     this.board.columns.push(column);
 
-    this.refreshSaleOrders();
+    this.refreshDeliveries();
   }
 
   private refreshIndexes(event: CdkDragDrop<DeliveryKanbanCard[]>): Promise<void> {
     return new Promise((resolve, reject) => {
       const items = event.container.data.map((x, i) => {
 
-        x.saleOrder.index = i;
+        x.delivery.index = i;
 
         return {
-          saleOrderId: x.saleOrderId,
-          index: x.saleOrder.index
+          id: x.delivery[x.delivery.type].id,
+          index: x.delivery.index,
+          type: x.delivery.type
         }
       });
 
-      this._saleOrderService.updateIndex(items).subscribe(response => {
+      this._deliveryService.updateIndex(items).subscribe(response => {
         resolve();
       }, error => {
         this._toast.showHttpError(error);
@@ -224,10 +222,10 @@ export class DeliveryComponent implements OnInit, OnDestroy {
   private changeEmployeeDriver(event: CdkDragDrop<DeliveryKanbanCard[]>, currentColum: DeliveryKambanColumn): Promise<void> {
     return new Promise((resolve, reject) => {
 
-      const saleOrder = event.container.data[event.currentIndex].saleOrder;
+      const delivery = event.container.data[event.currentIndex].delivery;
 
-      this._saleOrderService.updateEmployeeDriver({
-        saleOrderId: saleOrder.id,
+      this._deliveryService.updateEmployeeDriver({
+        saleOrderId: delivery.saleOrder.id,
         employeeDriverId: currentColum.employeeDriverId
       }).subscribe(response => {
         resolve();
@@ -242,6 +240,15 @@ export class DeliveryComponent implements OnInit, OnDestroy {
   }
 
   public drop(event: CdkDragDrop<DeliveryKanbanCard[]>, currentColumn: DeliveryKambanColumn) {
+
+    if (event.previousContainer.data[event.previousIndex].extra) {
+
+      this.extraCardDropped(event, currentColumn).then(() => {
+        this.initRefreshInterval();
+      });
+
+      return;
+    }
 
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
@@ -271,6 +278,13 @@ export class DeliveryComponent implements OnInit, OnDestroy {
     }
   }
 
+  private extraCardDropped(event: CdkDragDrop<DeliveryKanbanCard[]>, currentColumn: DeliveryKambanColumn): Promise<void> {
+    // const card = event.previousContainer.data[event.previousIndex].extra;
+    // return nul
+
+    // TODO: create instruction
+  }
+
   public removeColumn(employeeDriverId: number): void {
 
     this.board.columns.splice(
@@ -279,54 +293,18 @@ export class DeliveryComponent implements OnInit, OnDestroy {
     );
   }
 
-  public copyAddressToClipboard(address: Address): void {
+  public openConfirmDelivery(event: DeliveryFinalizeEvent): void {
 
-    const copyResult = copyToClipboard(AddressHelper.format(address));
-    if (copyResult)
-      this._toast.open('Copiado para sua área de transferência!');
-    else {
-      this._toast.open('Erro ao copiar :(');
-    }
-  }
-
-  public openConfirmDelivery(saleOrder: SaleOrder): void {
     const dialog = this._dialog.open(ConfirmDeliveryComponent, {
       width: '50%',
-      data: { saleOrder } as ConfirmDeliveryInputData
+      data: { delivery: event.delivery } as ConfirmDeliveryInputData
     });
 
     dialog.afterClosed().subscribe(result => {
       if (result && result.refresh) {
-        this.refreshSaleOrders();
+        this.refreshDeliveries();
       }
     });
-  }
-
-  public copySaleOrderToClipboard(saleOrder: SaleOrder, includeObservation: boolean = false): void {
-
-    let content = '';
-    content += `${saleOrder.personCustomer.name || ''}`;
-    content += `\n${AddressHelper.format(saleOrder.deliveryAddress)}`;
-    content += `\n${saleOrder.products.map(p => `- ${p.quantity}x ${p.companyBranchProduct.product.name} - ${StringHelper.toMoney(p.salePrice)}`).join('\n')}`
-    content += `\nTotal: *${StringHelper.toMoney(saleOrder.totalSalePrice)}*`;
-
-    if (includeObservation) {
-      content += `\n_Obs: ${saleOrder.observation}_`;
-    }
-
-    const copyResult = copyToClipboard(content);
-
-    if (copyResult)
-      this._toast.open('Copiado para sua área de transferência!', 'success');
-    else {
-      this._toast.open('Erro ao copiar :(', 'error');
-    }
-  }
-
-  public getSaleOrderProductsFormatted(saleOrder: SaleOrder): SafeHtml {
-    return this._sanitizer.bypassSecurityTrustHtml(
-      saleOrder.products.map(p => `- ${p.quantity}x ${p.companyBranchProduct.product.name}`).join('<br>')
-    );
   }
 
 }

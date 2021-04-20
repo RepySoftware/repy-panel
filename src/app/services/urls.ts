@@ -10,6 +10,8 @@ export const URLS = {
         employees: `${environment.apiUrl}/employees`,
         paymentMethods: `${environment.apiUrl}/paymentMethods`,
         saleOrders: `${environment.apiUrl}/saleOrders`,
-        dashboard: `${environment.apiUrl}/dashboard`
+        deliveries: `${environment.apiUrl}/deliveries`,
+        dashboard: `${environment.apiUrl}/dashboard`,
+        deliveryInstructions: `${environment.apiUrl}/deliveryInstructions`
     }
 }

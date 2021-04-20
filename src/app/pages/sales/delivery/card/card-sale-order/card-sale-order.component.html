@@ -1,0 +1,55 @@
+<div *ngIf="inputData"
+     class="content">
+
+    <div class="id">#{{ inputData.delivery.saleOrder.id }}</div>
+    <div class="status"
+         [style.background]="inputData.delivery.saleOrder.status | saleOrderStatusColor">
+        {{ inputData.delivery.saleOrder.status | saleOrderStatus }}
+    </div>
+    <div class="customer">{{ inputData.delivery.saleOrder.personCustomer.name }} ({{
+        inputData.delivery.saleOrder.personCustomer.id }})
+    </div>
+    <div class="products"
+         [innerHTML]="getSaleOrderProductsFormatted(inputData.delivery.saleOrder)"></div>
+    <div class="address">
+        <a href="javascript:;"
+           (click)="copyAddressToClipboard(inputData.delivery.saleOrder.deliveryAddress)">
+            {{ inputData.delivery.saleOrder.deliveryAddress | address }}
+        </a>
+    </div>
+    <div class="date">
+        <div>
+            {{ inputData.delivery.saleOrder.dateOfIssue | momentDate:'DD/MM/YYYY HH:mm' }}
+        </div>
+
+        <div *ngIf="inputData.delivery.saleOrder.scheduledAt"
+             class="schedule">
+            Agendamento: {{ inputData.delivery.saleOrder.scheduledAt | momentDate:'DD/MM/YYYY HH:mm' }}
+        </div>
+    </div>
+    <div *ngIf="inputData.delivery.saleOrder.observation"
+         class="observation">
+        <input *ngIf="!inputData.column.defaultColumn"
+               type="checkbox"
+               [(ngModel)]="inputData.copyObservation">
+        Obs: {{ inputData.delivery.saleOrder.observation }}
+    </div>
+
+    <div style="width: 100%; margin-top: 8px;">
+        <button mat-stroked-button
+                color="primary"
+                (click)="copySaleOrderToClipboard(inputData.delivery.saleOrder, inputData.copyObservation); inputData.copyObservation = null"
+                *ngIf="!inputData.column.defaultColumn">
+            <mat-icon>content_copy</mat-icon>
+        </button>
+
+        <button mat-stroked-button
+                class="confirm-delivery"
+                color="primary"
+                (click)="openDeliveryFinalize()"
+                *ngIf="!inputData.column.defaultColumn">
+            <mat-icon>check</mat-icon>
+        </button>
+    </div>
+
+</div>

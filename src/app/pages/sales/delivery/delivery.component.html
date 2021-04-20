@@ -9,7 +9,7 @@
     <div class="refresh">
         <button mat-flat-button
                 color="primary"
-                (click)="refreshSaleOrders()">Atualizar</button>
+                (click)="refreshDeliveries()">Atualizar</button>
     </div>
 
     <div class="add-driver">
@@ -27,10 +27,29 @@
         <div class="column-header">
             <h2>{{ column.title }}</h2>
             <mat-icon class="column-close"
-                      *ngIf="!column.undefinedDriver"
+                      *ngIf="!column.defaultColumn"
                       (click)="removeColumn(column.employeeDriverId)">close</mat-icon>
         </div>
 
+        <!-- extra cards -->
+        <div *ngIf="column.defaultColumn"
+             cdkDropList
+             [cdkDropListData]="extraCards"
+             class="card-list card-list-extra">
+
+            <div class="card-box"
+                 *ngFor="let card of extraCards"
+                 (cdkDragStarted)="dragStarted()"
+                 cdkDrag>
+
+                <div class="card-custom-placeholder"
+                     *cdkDragPlaceholder></div>
+
+                {{ card.extra.type }}
+            </div>
+        </div>
+
+        <!-- deliveries -->
         <div cdkDropList
              [cdkDropListData]="column.cards"
              class="card-list"
@@ -44,60 +63,14 @@
                 <div class="card-custom-placeholder"
                      *cdkDragPlaceholder></div>
 
-                <!-- <div class="card-handle"
-                     cdkDragHandle>
-                    <mat-icon style="cursor: move;">open_with</mat-icon>
-                </div> -->
-
-                <div class="id">#{{ card.saleOrder.id }}</div>
-                <div class="status"
-                     [style.background]="card.saleOrder.status | saleOrderStatusColor">
-                    {{ card.saleOrder.status | saleOrderStatus }}
-                </div>
-                <div class="customer">{{ card.saleOrder.personCustomer.name }} ({{ card.saleOrder.personCustomer.id }})
-                </div>
-                <div class="products"
-                     [innerHTML]="getSaleOrderProductsFormatted(card.saleOrder)"></div>
-                <div class="address">
-                    <a href="javascript:;"
-                       (click)="copyAddressToClipboard(card.saleOrder.deliveryAddress)">
-                        {{ card.saleOrder.deliveryAddress | address }}
-                    </a>
-                </div>
-                <div class="date">
-                    <div>
-                        {{ card.saleOrder.dateOfIssue | momentDate:'DD/MM/YYYY HH:mm' }}
-                    </div>
-
-                    <div *ngIf="card.saleOrder.scheduledAt"
-                         class="schedule">
-                        Agendamento: {{ card.saleOrder.scheduledAt | momentDate:'DD/MM/YYYY HH:mm' }}
-                    </div>
-                </div>
-                <div *ngIf="card.saleOrder.observation"
-                     class="observation">
-                    <input *ngIf="!column.undefinedDriver"
-                           type="checkbox"
-                           [(ngModel)]="card.copyObservation">
-                    Obs: {{ card.saleOrder.observation }}
-                </div>
-
-                <div style="width: 100%; margin-top: 8px;">
-                    <button mat-stroked-button
-                            color="primary"
-                            (click)="copySaleOrderToClipboard(card.saleOrder, card.copyObservation); card.copyObservation = null"
-                            *ngIf="!column.undefinedDriver">
-                        <mat-icon>content_copy</mat-icon>
-                    </button>
-
-                    <button mat-stroked-button
-                            class="confirm-delivery"
-                            color="primary"
-                            (click)="openConfirmDelivery(card.saleOrder)"
-                            *ngIf="!column.undefinedDriver">
-                        <mat-icon>check</mat-icon>
-                    </button>
-                </div>
+                <app-card-sale-order style="width: 100%;"
+                                     (openDeliveryFinalize)="openConfirmDelivery($event)"
+                                     [inputData]="{
+                                         delivery: card.delivery,
+                                         copyObservation: card.copyObservation,
+                                         column: column
+                                        }">
+                </app-card-sale-order>
 
             </div>
         </div>

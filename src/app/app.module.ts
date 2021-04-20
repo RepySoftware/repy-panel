@@ -28,6 +28,8 @@ import { DashboardService } from './services/dashboard.service';
 import { NgMaterialMultilevelMenuModule } from 'ng-material-multilevel-menu';
 import { AlertMessageService } from './services/alert-message.service';
 import { AgmCoreModule } from '@agm/core';
+import { DeliveryService } from './services/delivery.service';
+import { DeliveryInstructionService } from './services/delivery-instruction.service';
 
 @NgModule({
   declarations: [
@@ -59,6 +61,8 @@ import { AgmCoreModule } from '@agm/core';
     PaymentMethodService,
     SaleOrderService,
     DashboardService,
+    DeliveryService,
+    DeliveryInstructionService,
 
     LoaderService,
     ToastService,
