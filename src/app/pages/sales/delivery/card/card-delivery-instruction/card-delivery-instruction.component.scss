@@ -1,0 +1,21 @@
+.content {
+    display: flex;
+    flex-direction: column;
+    align-items: baseline;
+    justify-content: space-between;
+
+    .description {
+        font-weight: bold;
+        font-size: 14px;
+    }
+
+    .status {
+        font-weight: bold;
+        color: #fff;
+        border-radius: 20px;
+        padding: 2px 8px;
+        font-size: 12px;
+        margin: 2px 0;
+        opacity: 0.6;
+    }
+}

@@ -1,4 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
+import { Delivery } from '../../../../../models/api/delivery';
+import { DeliveryFinalizeEvent } from '../../models/delivery-finalize-event';
+import { DeliveryKambanColumn } from '../../models/delivery-kanban-column';
+
+export interface CardDeliveryInstructionInputData {
+  delivery: Delivery;
+  column: DeliveryKambanColumn;
+}
 
 @Component({
   selector: 'app-card-delivery-instruction',
@@ -6,6 +14,10 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./card-delivery-instruction.component.scss']
 })
 export class CardDeliveryInstructionComponent implements OnInit {
+
+  @Input('inputData') public inputData: CardDeliveryInstructionInputData;
+
+  @Output('openDeliveryFinalize') public openDeliveryFinalizeEmitter: EventEmitter<DeliveryFinalizeEvent> = new EventEmitter();
 
   constructor() { }
 

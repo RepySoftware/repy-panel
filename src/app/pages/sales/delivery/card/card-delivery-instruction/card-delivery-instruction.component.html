@@ -1,1 +1,13 @@
-<p>card-delivery-instruction works!</p>
+<div *ngIf="inputData"
+     class="content">
+
+    <div class="status"
+         [style.background]="inputData.delivery.deliveryInstruction.status | deliveryInstructionStatusColor">
+        {{ inputData.delivery.deliveryInstruction.status | deliveryInstructionStatus }}
+    </div>
+
+    <div class="description">
+        {{ inputData.delivery.deliveryInstruction.description }}
+    </div>
+
+</div>

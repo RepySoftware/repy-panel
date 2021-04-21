@@ -103,7 +103,7 @@ export class ConfirmDeliveryComponent implements OnInit {
     this._deliveryService.finalize(params, this.inputData.delivery.type).subscribe(response => {
       this._loader.dismiss();
       this._toast.open(`Finalizado`, 'success');
-      this._dialogRef.close({ refresh: true });
+      this._dialogRef.close({ hasUpdate: true });
     }, error => {
       this._loader.dismiss();
       this._toast.showHttpError(error);

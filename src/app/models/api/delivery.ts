@@ -1,6 +1,6 @@
 import { DeliveryType } from "../../enums/delivery-type";
 import { Employee } from "./employee";
-import { EmployeeDeliveryInstruction } from "./employee-delivery-instruction";
+import { DeliveryInstruction } from "./delivery-instruction";
 import { SaleOrder } from "./sale-order";
 
 export interface Delivery {
@@ -9,5 +9,5 @@ export interface Delivery {
     index: number;
     employeeDriver: Employee;
     saleOrder?: SaleOrder;
-    deliveryInstruction?: EmployeeDeliveryInstruction;
+    deliveryInstruction?: DeliveryInstruction;
 }

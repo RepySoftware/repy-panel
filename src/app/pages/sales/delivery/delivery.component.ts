@@ -1,10 +1,11 @@
-import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
+import { CdkDragDrop, copyArrayItem, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatExpansionPanel } from '@angular/material/expansion';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { DeliveryExtraCardType } from '../../../enums/delivery-extra-card-type';
 import { Delivery } from '../../../models/api/delivery';
 import { Employee } from '../../../models/api/employee';
 import { EmployeeFilter } from '../../../models/output/filters/employee.filter';
@@ -12,9 +13,10 @@ import { AutocompleteItem } from '../../../models/ui/autocomplete-item';
 import { AutocompleteOptions } from '../../../models/ui/autocomplete-options';
 import { DeliveryService } from '../../../services/delivery.service';
 import { EmployeeService } from '../../../services/employee.service';
+import { LoaderService } from '../../../services/loader.service';
 import { ToastService } from '../../../services/toast.service';
 import { ConfirmDeliveryComponent, ConfirmDeliveryInputData } from './confirm-delivery/confirm-delivery.component';
-import { DeliveryExtraCard, DeliveryExtraCardType } from './models/delivery-extra-card';
+import { DeliveryInstructionFormComponent, DeliveryInstructionFormInputData } from './delivery-instruction-form/delivery-instruction-form.component';
 import { DeliveryFinalizeEvent } from './models/delivery-finalize-event';
 import { DeliveryKanbanBoard } from './models/delivery-kanban-board';
 import { DeliveryKanbanCard } from './models/delivery-kanban-card';
@@ -62,7 +64,7 @@ export class DeliveryComponent implements OnInit, OnDestroy {
     private _toast: ToastService,
     private _employeeService: EmployeeService,
     private _dialog: MatDialog,
-    private _sanitizer: DomSanitizer
+    private _loader: LoaderService
   ) { }
 
   ngOnInit(): void {
@@ -104,11 +106,12 @@ export class DeliveryComponent implements OnInit, OnDestroy {
     console.log('clearRefreshInterval', this._refreshIntervalId);
   }
 
-  public refreshDeliveries(options?: { createColumns?: boolean }): Promise<void> {
-    return new Promise((resolve, reject) => {
-      this.getDeliveries().then(saleOrders => {
+  public refreshDeliveries(options?: { createColumns?: boolean, force?: boolean, showLoader?: boolean }): Promise<void> {
 
-        if (this._refreshIntervalActive) {
+    return new Promise((resolve, reject) => {
+      this.getDeliveries(options && options.showLoader).then(saleOrders => {
+
+        if (this._refreshIntervalActive || (options && options.force)) {
 
           if (options && options.createColumns) {
 
@@ -154,11 +157,23 @@ export class DeliveryComponent implements OnInit, OnDestroy {
     this.board.columns.forEach(column => column.cards.sort((a, b) => a.delivery.index - b.delivery.index));
   }
 
-  private getDeliveries(): Promise<Delivery[]> {
+  private getDeliveries(showLoader = false): Promise<Delivery[]> {
     return new Promise((resolve, reject) => {
+
+      if (showLoader)
+        this._loader.show();
+
       this._deliveryService.get().subscribe(response => {
+
+        if (showLoader)
+          this._loader.dismiss();
+
         resolve(response);
       }, error => {
+
+        if (showLoader)
+          this._loader.dismiss();
+
         this._toast.showHttpError(error);
       });
     });
@@ -239,25 +254,53 @@ export class DeliveryComponent implements OnInit, OnDestroy {
     this.clearRefreshInterval();
   }
 
-  public drop(event: CdkDragDrop<DeliveryKanbanCard[]>, currentColumn: DeliveryKambanColumn) {
+  public async drop(event: CdkDragDrop<DeliveryKanbanCard[]>, currentColumn: DeliveryKambanColumn) {
 
-    if (event.previousContainer.data[event.previousIndex].extra) {
+    const isExtraCard = !!event.previousContainer.data[event.previousIndex].extra;
 
-      this.extraCardDropped(event, currentColumn).then(() => {
+    if (isExtraCard) {
+
+      copyArrayItem(
+        event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex
+      );
+
+      try {
+        await this.extraCardDropped(event, currentColumn);
+        console.log('await this.extraCardDropped(event, currentColumn);');
+
+        await this.refreshIndexes(event);
+        console.log('await this.refreshIndexes(event);');
+
+        await this.refreshDeliveries({ showLoader: true, force: true });
+        console.log('await this.refreshDeliveries({ showLoader: true, force: true });');
+
         this.initRefreshInterval();
-      });
+      } catch (error) {
+        this.initRefreshInterval();
+        throw error;
+      }
 
       return;
     }
 
     if (event.previousContainer === event.container) {
-      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
 
-      this.refreshIndexes(event).then(() => {
+      moveItemInArray(
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex
+      );
+
+      try {
+        await this.refreshIndexes(event)
         this.initRefreshInterval();
-      }).catch(error => {
+      } catch (error) {
         this.initRefreshInterval();
-      });
+        throw error;
+      }
 
     } else {
 
@@ -268,21 +311,41 @@ export class DeliveryComponent implements OnInit, OnDestroy {
         event.currentIndex
       );
 
-      this.changeEmployeeDriver(event, currentColumn).then(() => {
-        this.refreshIndexes(event).then(() => {
-          this.initRefreshInterval();
-        }).catch(error => {
-          this.initRefreshInterval();
-        });
-      });
+      try {
+        await this.changeEmployeeDriver(event, currentColumn);
+        await this.refreshIndexes(event);
+        this.initRefreshInterval();
+      } catch (error) {
+        this.initRefreshInterval();
+        throw error;
+      }
     }
   }
 
   private extraCardDropped(event: CdkDragDrop<DeliveryKanbanCard[]>, currentColumn: DeliveryKambanColumn): Promise<void> {
-    // const card = event.previousContainer.data[event.previousIndex].extra;
-    // return nul
 
-    // TODO: create instruction
+    return new Promise((resolve, reject) => {
+
+      const card = event.previousContainer.data[event.previousIndex].extra;
+
+      if (card.type == DeliveryExtraCardType.deliveryInstruction) {
+
+        const dialog = this._dialog.open(DeliveryInstructionFormComponent, {
+          width: '50%',
+          data: {
+            employeeDriverId: currentColumn.employeeDriverId,
+            index: event.currentIndex
+          } as DeliveryInstructionFormInputData
+        });
+
+        dialog.afterClosed().subscribe(result => {
+          resolve();
+        });
+      } else {
+        resolve();
+      }
+
+    });
   }
 
   public removeColumn(employeeDriverId: number): void {
@@ -301,7 +364,7 @@ export class DeliveryComponent implements OnInit, OnDestroy {
     });
 
     dialog.afterClosed().subscribe(result => {
-      if (result && result.refresh) {
+      if (result && result.hasUpdate) {
         this.refreshDeliveries();
       }
     });
