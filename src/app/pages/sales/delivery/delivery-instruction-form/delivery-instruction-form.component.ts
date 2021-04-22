@@ -84,7 +84,7 @@ export class DeliveryInstructionFormComponent implements OnInit {
     this._loader.show();
     this._deliveryInstructionService.create(output).subscribe(response => {
       this._loader.dismiss();
-      this._dialogRef.close({ deliveryInstruction: response });
+      this._dialogRef.close({ hasUpdate: true });
     }, error => {
       this._loader.dismiss();
       this._toast.showHttpError(error);

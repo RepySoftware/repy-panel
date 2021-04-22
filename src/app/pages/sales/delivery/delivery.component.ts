@@ -289,14 +289,14 @@ export class DeliveryComponent implements OnInit, OnDestroy {
       );
 
       try {
-        await this.extraCardDropped(event, currentColumn);
-        console.log('await this.extraCardDropped(event, currentColumn);');
+        const result = await this.extraCardDropped(event, currentColumn);
 
-        await this.refreshIndexes(event, true);
-        console.log('await this.refreshIndexes(event);');
-
-        await this.refreshDeliveries({ showLoader: true, force: true });
-        console.log('await this.refreshDeliveries({ showLoader: true, force: true });');
+        if (result.hasUpdate) {
+          await this.refreshIndexes(event, true);
+          await this.refreshDeliveries({ showLoader: true, force: true });
+        } else {
+          currentColumn.cards.splice(event.currentIndex, 1);
+        }
 
         this.initRefreshInterval();
       } catch (error) {
@@ -343,7 +343,7 @@ export class DeliveryComponent implements OnInit, OnDestroy {
     }
   }
 
-  private extraCardDropped(event: CdkDragDrop<DeliveryKanbanCard[]>, currentColumn: DeliveryKambanColumn): Promise<void> {
+  private extraCardDropped(event: CdkDragDrop<DeliveryKanbanCard[]>, currentColumn: DeliveryKambanColumn): Promise<{ hasUpdate: boolean }> {
 
     return new Promise((resolve, reject) => {
 
@@ -360,11 +360,11 @@ export class DeliveryComponent implements OnInit, OnDestroy {
         });
 
         dialog.afterClosed().subscribe(result => {
-          resolve();
+          resolve({ hasUpdate: result && result.hasUpdate });
         });
 
       } else {
-        resolve();
+        resolve({ hasUpdate: false });
       }
 
     });
@@ -387,7 +387,7 @@ export class DeliveryComponent implements OnInit, OnDestroy {
 
     dialog.afterClosed().subscribe(result => {
       if (result && result.hasUpdate) {
-        this.refreshDeliveries();
+        this.refreshDeliveries({ force: true, showLoader: true });
       }
     });
   }
