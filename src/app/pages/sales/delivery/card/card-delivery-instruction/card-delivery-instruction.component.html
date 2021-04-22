@@ -10,4 +10,16 @@
         {{ inputData.delivery.deliveryInstruction.description }}
     </div>
 
+    <div style="width: 100%; margin-top: 8px;">
+
+        <button mat-stroked-button
+                class="confirm-delivery"
+                color="primary"
+                (click)="openDeliveryFinalize()"
+                *ngIf="!inputData.column.defaultColumn">
+            <mat-icon>check</mat-icon>
+        </button>
+
+    </div>
+
 </div>

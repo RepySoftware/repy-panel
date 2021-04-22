@@ -24,4 +24,8 @@ export class CardDeliveryInstructionComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  public openDeliveryFinalize(): void {
+    console.log(this.inputData.delivery)
+    this.openDeliveryFinalizeEmitter.emit({ delivery: this.inputData.delivery });
+  }
 }

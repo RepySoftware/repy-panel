@@ -1,6 +1,6 @@
 export enum DeliveryType {
     deliveryInstruction = 'deliveryInstruction',
-    saleOrder = 'deliveryInstruction'
+    saleOrder = 'saleOrder'
 }
 
 export function DeliveryTypeList(): string[] {

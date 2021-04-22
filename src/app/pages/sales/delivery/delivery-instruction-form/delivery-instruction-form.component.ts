@@ -77,14 +77,14 @@ export class DeliveryInstructionFormComponent implements OnInit {
 
     const output: DeliveryInstructionOutput = {
       employeeDriverId,
-      index: this.inputData.index,
+      index,
       description
     }
 
     this._loader.show();
     this._deliveryInstructionService.create(output).subscribe(response => {
       this._loader.dismiss();
-      this._dialogRef.close({ hasUpdate: true });
+      this._dialogRef.close({ deliveryInstruction: response });
     }, error => {
       this._loader.dismiss();
       this._toast.showHttpError(error);

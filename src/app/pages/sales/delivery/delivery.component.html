@@ -74,6 +74,7 @@
 
                     <app-card-delivery-instruction *ngIf="card.delivery?.deliveryInstruction"
                                                    style="width: 100%;"
+                                                   (openDeliveryFinalize)="openConfirmDelivery($event)"
                                                    [inputData]="{
                                                     delivery: card.delivery,
                                                     column: column

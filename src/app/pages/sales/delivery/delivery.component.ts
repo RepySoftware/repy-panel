@@ -6,7 +6,9 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { DeliveryExtraCardType } from '../../../enums/delivery-extra-card-type';
+import { DeliveryType } from '../../../enums/delivery-type';
 import { Delivery } from '../../../models/api/delivery';
+import { DeliveryInstruction } from '../../../models/api/delivery-instruction';
 import { Employee } from '../../../models/api/employee';
 import { EmployeeFilter } from '../../../models/output/filters/employee.filter';
 import { AutocompleteItem } from '../../../models/ui/autocomplete-item';
@@ -213,23 +215,42 @@ export class DeliveryComponent implements OnInit, OnDestroy {
     this.refreshDeliveries();
   }
 
-  private refreshIndexes(event: CdkDragDrop<DeliveryKanbanCard[]>): Promise<void> {
+  private refreshIndexes(event: CdkDragDrop<DeliveryKanbanCard[]>, showLoader = false): Promise<void> {
     return new Promise((resolve, reject) => {
-      const items = event.container.data.map((x, i) => {
 
-        x.delivery.index = i;
+      const items: { id: number, index: number, type: DeliveryType }[] = [];
 
-        return {
-          id: x.delivery[x.delivery.type].id,
-          index: x.delivery.index,
-          type: x.delivery.type
-        }
-      });
+      event.container.data
+        .forEach((x, i) => {
+
+          if (x.delivery) {
+            x.delivery.index = i;
+
+            items.push({
+              id: x.delivery[x.delivery.type].id,
+              index: x.delivery.index,
+              type: x.delivery.type
+            });
+          }
+
+        });
+
+      if (showLoader)
+        this._loader.show();
 
       this._deliveryService.updateIndex(items).subscribe(response => {
+
+        if (showLoader)
+          this._loader.dismiss();
+
         resolve();
       }, error => {
+
+        if (showLoader)
+          this._loader.dismiss();
+
         this._toast.showHttpError(error);
+        resolve();
       });
     });
   }
@@ -271,7 +292,7 @@ export class DeliveryComponent implements OnInit, OnDestroy {
         await this.extraCardDropped(event, currentColumn);
         console.log('await this.extraCardDropped(event, currentColumn);');
 
-        await this.refreshIndexes(event);
+        await this.refreshIndexes(event, true);
         console.log('await this.refreshIndexes(event);');
 
         await this.refreshDeliveries({ showLoader: true, force: true });
@@ -326,9 +347,9 @@ export class DeliveryComponent implements OnInit, OnDestroy {
 
     return new Promise((resolve, reject) => {
 
-      const card = event.previousContainer.data[event.previousIndex].extra;
+      const previousCard = event.previousContainer.data[event.previousIndex];
 
-      if (card.type == DeliveryExtraCardType.deliveryInstruction) {
+      if (previousCard.extra.type == DeliveryExtraCardType.deliveryInstruction) {
 
         const dialog = this._dialog.open(DeliveryInstructionFormComponent, {
           width: '50%',
@@ -341,6 +362,7 @@ export class DeliveryComponent implements OnInit, OnDestroy {
         dialog.afterClosed().subscribe(result => {
           resolve();
         });
+
       } else {
         resolve();
       }
