@@ -10,10 +10,10 @@ import { SaleOrder } from '../../../../../models/api/sale-order';
 import { ToastService } from '../../../../../services/toast.service';
 import { DeliveryFinalizeEvent } from '../../models/delivery-finalize-event';
 import { DeliveryKambanColumn } from '../../models/delivery-kanban-column';
+import { DeliverySaleOrderUpdateShowObservationToDriverEvent } from '../../models/delivery-sale-order-update-show-observation-to-driver';
 
 export interface CardSaleOrderInputData {
   delivery: Delivery;
-  copyObservation: boolean;
   column: DeliveryKambanColumn;
 }
 
@@ -26,7 +26,11 @@ export class CardSaleOrderComponent implements OnInit {
 
   @Input('inputData') public inputData: CardSaleOrderInputData;
 
-  @Output('openDeliveryFinalize') public openDeliveryFinalizeEmitter: EventEmitter<DeliveryFinalizeEvent> = new EventEmitter();
+  @Output('openDeliveryFinalize')
+  public openDeliveryFinalizeEmitter: EventEmitter<DeliveryFinalizeEvent> = new EventEmitter();
+
+  @Output('updateShowObservationToDriver')
+  public updateShowObservationToDriverEmitter: EventEmitter<DeliverySaleOrderUpdateShowObservationToDriverEvent> = new EventEmitter();
 
   constructor(
     private _toast: ToastService,
@@ -36,7 +40,7 @@ export class CardSaleOrderComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  public copySaleOrderToClipboard(saleOrder: SaleOrder, includeObservation: boolean = false): void {
+  public copySaleOrderToClipboard(saleOrder: SaleOrder): void {
 
     let content = '';
     content += `${saleOrder.personCustomer.name || ''}`;
@@ -44,7 +48,7 @@ export class CardSaleOrderComponent implements OnInit {
     content += `\n${saleOrder.products.map(p => `- ${p.quantity}x ${p.companyBranchProduct.product.name} - ${StringHelper.toMoney(p.salePrice)}`).join('\n')}`
     content += `\nTotal: *${StringHelper.toMoney(saleOrder.totalSalePrice)}*`;
 
-    if (includeObservation) {
+    if (saleOrder.showObservationToDriver) {
       content += `\n_Obs: ${saleOrder.observation}_`;
     }
 
@@ -75,6 +79,10 @@ export class CardSaleOrderComponent implements OnInit {
 
   public openDeliveryFinalize(): void {
     this.openDeliveryFinalizeEmitter.emit({ delivery: this.inputData.delivery });
+  }
+
+  public updateShowObservationToDriver(value: boolean): void {
+    this.updateShowObservationToDriverEmitter.emit({ saleOrderId: this.inputData.delivery.saleOrder.id, value });
   }
 
 }

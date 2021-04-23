@@ -23,6 +23,7 @@ import { DeliveryFinalizeEvent } from './models/delivery-finalize-event';
 import { DeliveryKanbanBoard } from './models/delivery-kanban-board';
 import { DeliveryKanbanCard } from './models/delivery-kanban-card';
 import { DeliveryKambanColumn } from './models/delivery-kanban-column';
+import { DeliverySaleOrderUpdateShowObservationToDriverEvent } from './models/delivery-sale-order-update-show-observation-to-driver';
 
 @Component({
   selector: 'app-delivery',
@@ -392,4 +393,12 @@ export class DeliveryComponent implements OnInit, OnDestroy {
     });
   }
 
+  public updateShowObservationToDriver(event: DeliverySaleOrderUpdateShowObservationToDriverEvent): void {
+
+    const { saleOrderId, value } = event;
+
+    this._deliveryService.updateShowObservationToDriver({ saleOrderId, value }).subscribe(response => response, error => {
+      this._toast.showHttpError(error);
+    });
+  }
 }

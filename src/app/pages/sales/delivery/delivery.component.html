@@ -66,9 +66,9 @@
                     <app-card-sale-order *ngIf="card.delivery?.saleOrder"
                                          style="width: 100%;"
                                          (openDeliveryFinalize)="openConfirmDelivery($event)"
+                                         (updateShowObservationToDriver)="updateShowObservationToDriver($event)"
                                          [inputData]="{
                                          delivery: card.delivery,
-                                         copyObservation: card.copyObservation,
                                          column: column
                                     }"></app-card-sale-order>
 

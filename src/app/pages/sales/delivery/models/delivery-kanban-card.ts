@@ -5,6 +5,4 @@ export interface DeliveryKanbanCard {
 
     delivery?: Delivery;
     extra?: DeliveryExtraCard;
-
-    copyObservation?: boolean;
 }

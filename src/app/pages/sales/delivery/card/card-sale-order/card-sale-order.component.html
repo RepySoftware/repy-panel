@@ -29,16 +29,17 @@
     </div>
     <div *ngIf="inputData.delivery.saleOrder.observation"
          class="observation">
-        <input *ngIf="!inputData.column.defaultColumn"
-               type="checkbox"
-               [(ngModel)]="inputData.copyObservation">
+        <input type="checkbox"
+               #showObservationToDriver
+               [(ngModel)]="inputData.delivery.saleOrder.showObservationToDriver"
+               (change)="updateShowObservationToDriver(showObservationToDriver.checked)">
         Obs: {{ inputData.delivery.saleOrder.observation }}
     </div>
 
     <div style="width: 100%; margin-top: 8px;">
         <button mat-stroked-button
                 color="primary"
-                (click)="copySaleOrderToClipboard(inputData.delivery.saleOrder, inputData.copyObservation); inputData.copyObservation = null"
+                (click)="copySaleOrderToClipboard(inputData.delivery.saleOrder)"
                 *ngIf="!inputData.column.defaultColumn">
             <mat-icon>content_copy</mat-icon>
         </button>
