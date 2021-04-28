@@ -1,0 +1,111 @@
+<mat-card>
+
+    <div class="row">
+        <div class="col-12">
+            <mat-card-title>Vendas por período</mat-card-title>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <mat-card-subtitle>
+                {{ startDateOfIssue.value | momentDate }} - {{ endDateOfIssue.value | momentDate }}
+            </mat-card-subtitle>
+        </div>
+    </div>
+
+    <mat-card-content>
+
+        <div class="row">
+
+            <div class="col-4">
+                <mat-form-field>
+                    <input #startDateOfIssue
+                           matInput
+                           type="date"
+                           placeholder="Data inicial"
+                           autocomplete="off">
+                </mat-form-field>
+            </div>
+
+            <div class="col-1">
+                <mat-icon class="btn-copy-date no-select"
+                          (click)="endDateOfIssue.value = startDateOfIssue.value">
+                    arrow_forward
+                </mat-icon>
+            </div>
+
+            <div class="col-4">
+                <mat-form-field>
+                    <input #endDateOfIssue
+                           matInput
+                           type="date"
+                           placeholder="Data final"
+                           autocomplete="off">
+                </mat-form-field>
+            </div>
+
+            <div class="col-3">
+                <div class="refresh">
+                    <button mat-flat-button
+                            color="primary"
+                            [disabled]="!startDateOfIssue.value || !endDateOfIssue.value"
+                            (click)="refreshSales()">
+                        Atualizar
+                    </button>
+
+                    <mat-spinner *ngIf="showButtonSpinner"
+                                 diameter="30"></mat-spinner>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="loading-spinner"
+             *ngIf="!sales">
+            <mat-spinner diameter="60"></mat-spinner>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <table class="sales-table"
+                       *ngIf="sales">
+
+                    <thead>
+                        <tr>
+                            <th>Produto</th>
+                            <th>Qtd. emitida</th>
+                            <th>Qtd. entregue</th>
+                            <th>Valor (emitido)</th>
+                            <th>Valor (entregue)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr *ngFor="let item of sales.items">
+                            <td>{{ item.product.name }} ({{ item.product.code }})</td>
+                            <td>{{ item.quantityIssued }}</td>
+                            <td>{{ item.quantityDelivered }}</td>
+                            <td>{{ item.totalIssuedSalePrice | money }}</td>
+                            <td>{{ item.totalDeliveredSalePrice | money }}</td>
+                        </tr>
+
+                        <tr *ngIf="!sales.items.length">
+                            <td colspan="5">Nenhum produto</td>
+                        </tr>
+
+                        <tr class="total">
+                            <td>Total:</td>
+                            <td>{{ sales.totalIssuedItems }}</td>
+                            <td>{{ sales.totalDeliveredItems }}</td>
+                            <td>{{ sales.totalIssuedSalePrice | money }}</td>
+                            <td>{{ sales.totalDeliveredSalePrice | money }}</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </mat-card-content>
+</mat-card>

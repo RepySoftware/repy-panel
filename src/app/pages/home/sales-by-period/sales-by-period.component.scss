@@ -1,0 +1,47 @@
+.loading-spinner {
+    display: flex;
+    justify-content: center;
+    padding: 6px;
+}
+
+.refresh {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+
+    button {
+        margin-top: 7px;
+    }
+
+    mat-spinner {
+        margin-top: 8px;
+    }
+}
+
+.btn-copy-date {
+    cursor: pointer;
+    margin-top: 18px;
+    font-weight: bold;
+}
+
+.sales-table {
+    width: 100%;
+
+    tr {
+        border-bottom: 1px solid #ddd;
+    }
+
+    th,
+    td {
+        padding: 6px;
+    }
+
+    .total {
+        font-weight: bold;
+    }
+
+    .total :not(td:first-child) {
+        font-size: 15px;
+        color: var(--color-pomegranate);
+    }
+}

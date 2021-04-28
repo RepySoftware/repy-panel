@@ -2,55 +2,8 @@
 
     <div class="row">
 
-        <div class="col-md-6 sales-today">
-            <mat-card>
-                <mat-card-title>Vendas hoje</mat-card-title>
-                <mat-card-subtitle>{{ today | momentDate }}</mat-card-subtitle>
-
-                <div class="loading-spinner"
-                     *ngIf="!salesToday">
-                    <mat-spinner diameter="60"></mat-spinner>
-                </div>
-
-                <mat-card-content *ngIf="salesToday">
-
-                    <table class="sales-table">
-                        <thead>
-                            <tr>
-                                <th>Produto</th>
-                                <th>Qtd. emitida</th>
-                                <th>Qtd. entregue</th>
-                                <th>Valor (emitido)</th>
-                                <th>Valor (entregue)</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-
-                            <tr *ngFor="let item of salesToday.items">
-                                <td>{{ item.product.name }} ({{ item.product.code }})</td>
-                                <td>{{ item.quantityIssued }}</td>
-                                <td>{{ item.quantityDelivered }}</td>
-                                <td>{{ item.totalIssuedSalePrice | money }}</td>
-                                <td>{{ item.totalDeliveredSalePrice | money }}</td>
-                            </tr>
-
-                            <tr *ngIf="!salesToday.items.length">
-                                <td colspan="5">Nenhum produto</td>
-                            </tr>
-
-                            <tr class="total">
-                                <td>Total:</td>
-                                <td>{{ salesToday.totalIssuedItems }}</td>
-                                <td>{{ salesToday.totalDeliveredItems }}</td>
-                                <td>{{ salesToday.totalIssuedSalePrice | money }}</td>
-                                <td>{{ salesToday.totalDeliveredSalePrice | money }}</td>
-                            </tr>
-
-                        </tbody>
-                    </table>
-
-                </mat-card-content>
-            </mat-card>
+        <div class="col-md-6">
+            <app-sales-by-period></app-sales-by-period>
         </div>
 
     </div>
