@@ -6,7 +6,6 @@ import { LoaderService } from '../../../services/loader.service';
 import { ToastService } from '../../../services/toast.service';
 import { DeviceDetailsService } from './device-details.service';
 import { DeviceGasLevelComponent } from './device-gas-level/device-gas-level.component';
-import * as moment from 'moment';
 
 @Component({
   selector: 'app-device-details',
