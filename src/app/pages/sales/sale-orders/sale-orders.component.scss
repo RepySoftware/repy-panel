@@ -27,3 +27,18 @@ table {
     bottom: 26px;
     right: 30px;
 }
+
+.datetime {
+    display: flex;
+    gap: 10px;
+}
+
+.btn-copy-date {
+    text-align: center;
+
+    mat-icon {
+        cursor: pointer;
+        margin-top: 18px;
+        font-weight: bold;
+    }
+}

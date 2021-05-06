@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { SaleOrderStatusList } from '../../../enums/sale-order-status';
 import { Employee } from '../../../models/api/employee';
+import { PaymentMethod } from '../../../models/api/payment-method';
 import { PersonSearch } from '../../../models/api/person-search';
 import { SaleOrder } from '../../../models/api/sale-order';
 import { EmployeeFilter } from '../../../models/output/filters/employee.filter';
@@ -16,6 +17,7 @@ import { AutocompleteOptions } from '../../../models/ui/autocomplete-options';
 import { AlertMessageService } from '../../../services/alert-message.service';
 import { EmployeeService } from '../../../services/employee.service';
 import { LoaderService } from '../../../services/loader.service';
+import { PaymentMethodService } from '../../../services/payment-method.service';
 import { PersonService } from '../../../services/person.service';
 import { SaleOrderService } from '../../../services/sale-order.service';
 import { ToastService } from '../../../services/toast.service';
@@ -35,6 +37,7 @@ export class SaleOrdersComponent implements OnInit {
   @ViewChild('startDateOfIssue') public startDateOfIssueElement: ElementRef;
   @ViewChild('endDateOfIssue') public endDateOfIssueElement: ElementRef;
   @ViewChild('saleOrderStatus') public saleOrderStatusElement: MatSelect;
+  @ViewChild('paymentMethod') public paymentMethodElement: MatSelect;
 
   public employeeDriverSearchAutocompleteOptions: AutocompleteOptions<Employee> = {
     placeholder: 'Entregador',
@@ -51,6 +54,8 @@ export class SaleOrdersComponent implements OnInit {
     emitOnClear: true
   }
   public personCustomerSelected: PersonSearch;
+
+  public paymentMethods: PaymentMethod[] = [];
 
   public saleOrderFilter: SaleOrderFilter = {
     limit: 50,
@@ -78,6 +83,7 @@ export class SaleOrdersComponent implements OnInit {
     private _toast: ToastService,
     private _saleOrderService: SaleOrderService,
     private _employeeService: EmployeeService,
+    private _paymentMethodService: PaymentMethodService,
     private _dialog: MatDialog,
     private _alert: AlertMessageService,
     private _personService: PersonService
@@ -85,6 +91,7 @@ export class SaleOrdersComponent implements OnInit {
 
   ngOnInit(): void {
     this.getSaleOrders();
+    this.getPaymentMethods();
   }
 
   private getSaleOrders(options: { reset?: boolean } = {}): Promise<void> {
@@ -122,6 +129,7 @@ export class SaleOrdersComponent implements OnInit {
     this.saleOrderFilter.endDateOfIssue = this.endDateOfIssueElement.nativeElement.value ? moment(this.endDateOfIssueElement.nativeElement.value).toISOString() : null;
     this.saleOrderFilter.status = this.saleOrderStatusElement.value;
     this.saleOrderFilter.personCustomerId = this.personCustomerSelected?.id;
+    this.saleOrderFilter.paymentMethodId = this.paymentMethodElement.value;
 
     this.getSaleOrders({ reset: true });
   }
@@ -132,6 +140,18 @@ export class SaleOrdersComponent implements OnInit {
     this.endDateOfIssueElement.nativeElement.value = null;
     this.saleOrderStatusElement.value = null;
     this.personCustomerSelected = null;
+    this.paymentMethodElement.value = null;
+
+    this.employeeDriverAutocomplete.clear();
+    this.personCustomerAutocomplete.clear();
+  }
+
+  private getPaymentMethods(): void {
+    this._paymentMethodService.getAll().subscribe(response => {
+      this.paymentMethods = response;
+    }, error => {
+      this._toast.showHttpError(error);
+    });
   }
 
   private employeeDriverSearchAutocompleteOnGetItems(query: string): Observable<AutocompleteItem<Employee>[]> {

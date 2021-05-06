@@ -1,12 +1,12 @@
 <div class="row"
      style="margin-top: 10px !important;">
 
-    <div class="col-4">
+    <div class="col-5">
         <app-autocomplete #employeeDriverAutocomplete
                           [options]="employeeDriverSearchAutocompleteOptions"></app-autocomplete>
     </div>
 
-    <div class="col-md-3">
+    <div class="col-md-3 datetime">
         <mat-form-field>
             <input #startDateOfIssue
                    matInput
@@ -14,13 +14,19 @@
                    autocomplete="off"
                    type="datetime-local">
         </mat-form-field>
-    </div>
-    <div class="col-1">
+
         <mat-icon style="cursor: pointer; margin-top: 24px;"
                   (click)="startDateOfIssue.value = null;">close</mat-icon>
     </div>
 
-    <div class="col-md-3">
+    <div class="col-1 btn-copy-date">
+        <mat-icon class="no-select"
+                  (click)="endDateOfIssue.value = startDateOfIssue.value">
+            arrow_forward
+        </mat-icon>
+    </div>
+
+    <div class="col-md-3 datetime">
         <mat-form-field>
             <input #endDateOfIssue
                    matInput
@@ -28,8 +34,7 @@
                    autocomplete="off"
                    type="datetime-local">
         </mat-form-field>
-    </div>
-    <div class="col-1">
+
         <mat-icon style="cursor: pointer; margin-top: 24px;"
                   (click)="startDateOfIssue.value = null;">close</mat-icon>
     </div>
@@ -49,6 +54,22 @@
                 <mat-option *ngFor="let sos of saleOrderStatusList"
                             [value]="sos">
                     {{ sos | saleOrderStatus }}
+                </mat-option>
+
+            </mat-select>
+        </mat-form-field>
+    </div>
+
+    <div class="col-4">
+        <mat-form-field>
+            <mat-label>Pagamento</mat-label>
+            <mat-select #paymentMethod>
+
+                <mat-option>-</mat-option>
+
+                <mat-option *ngFor="let pm of paymentMethods"
+                            [value]="pm.id">
+                    {{ pm.name }}
                 </mat-option>
 
             </mat-select>
