@@ -117,3 +117,14 @@ a[mat-stroked-button] {
     padding: 0 !important;
   }
 }
+
+.map-marker-label {
+  font-size: 14px;
+  font-weight: bold;
+  background: #fff;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  padding: 2px;
+  border: 3px solid #d5483b;
+}

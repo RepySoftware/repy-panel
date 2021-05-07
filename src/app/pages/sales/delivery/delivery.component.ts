@@ -24,6 +24,7 @@ import { DeliveryKanbanBoard } from './models/delivery-kanban-board';
 import { DeliveryKanbanCard } from './models/delivery-kanban-card';
 import { DeliveryKambanColumn } from './models/delivery-kanban-column';
 import { DeliverySaleOrderUpdateShowObservationToDriverEvent } from './models/delivery-sale-order-update-show-observation-to-driver';
+import { SalesDeliveryService } from './sales-delivery.service';
 
 @Component({
   selector: 'app-delivery',
@@ -67,7 +68,8 @@ export class DeliveryComponent implements OnInit, OnDestroy {
     private _toast: ToastService,
     private _employeeService: EmployeeService,
     private _dialog: MatDialog,
-    private _loader: LoaderService
+    private _loader: LoaderService,
+    private _salesDeliveryService: SalesDeliveryService
   ) { }
 
   ngOnInit(): void {
@@ -112,19 +114,22 @@ export class DeliveryComponent implements OnInit, OnDestroy {
   public refreshDeliveries(options?: { createColumns?: boolean, force?: boolean, showLoader?: boolean }): Promise<void> {
 
     return new Promise((resolve, reject) => {
-      this.getDeliveries(options && options.showLoader).then(saleOrders => {
+      this.getDeliveries(options && options.showLoader).then(deliveries => {
 
         if (this._refreshIntervalActive || (options && options.force)) {
 
+          this._salesDeliveryService.deliveries = deliveries;
+
           if (options && options.createColumns) {
 
-            saleOrders
+            deliveries
               .filter(so => so.employeeDriver)
               .forEach(so => {
                 if (!this.board.columns.find(x => x.employeeDriverId == so.employeeDriver.id)) {
                   this.board.columns.push({
                     employeeDriverId: so.employeeDriver.id,
                     title: so.employeeDriver.name,
+                    color: so.employeeDriver.color,
                     cards: []
                   });
                 }
@@ -136,9 +141,9 @@ export class DeliveryComponent implements OnInit, OnDestroy {
             let driverDeliveries: Delivery[] = [];
 
             if (!c.defaultColumn) {
-              driverDeliveries = saleOrders.filter(so => so.employeeDriver && so.employeeDriver.id == c.employeeDriverId);
+              driverDeliveries = deliveries.filter(so => so.employeeDriver && so.employeeDriver.id == c.employeeDriverId);
             } else {
-              driverDeliveries = saleOrders.filter(so => !so.employeeDriver);
+              driverDeliveries = deliveries.filter(so => !so.employeeDriver);
             }
 
             c.cards = driverDeliveries.map(dso => {
@@ -208,6 +213,7 @@ export class DeliveryComponent implements OnInit, OnDestroy {
     const column: DeliveryKambanColumn = {
       employeeDriverId: item.value.id,
       title: item.value.name,
+      color: item.value.color,
       cards: []
     };
 
@@ -317,8 +323,9 @@ export class DeliveryComponent implements OnInit, OnDestroy {
       );
 
       try {
-        await this.refreshIndexes(event)
+        await this.refreshIndexes(event);
         this.initRefreshInterval();
+        await this.refreshDeliveries({ force: true });
       } catch (error) {
         this.initRefreshInterval();
         throw error;
@@ -337,6 +344,7 @@ export class DeliveryComponent implements OnInit, OnDestroy {
         await this.changeEmployeeDriver(event, currentColumn);
         await this.refreshIndexes(event);
         this.initRefreshInterval();
+        await this.refreshDeliveries({ force: true });
       } catch (error) {
         this.initRefreshInterval();
         throw error;

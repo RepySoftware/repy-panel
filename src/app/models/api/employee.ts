@@ -5,6 +5,7 @@ export interface Employee extends ApiModel {
     name: string;
     documentNumber: string;
     email: string;
+    color?: string; 
     isManager: boolean;
     isAgent: boolean;
     isDriver: boolean;

@@ -26,6 +26,9 @@ import { SaleOrderProductFormComponent } from './sale-orders/sale-order-form/sal
 import { CardSaleOrderComponent } from './delivery/card/card-sale-order/card-sale-order.component';
 import { CardDeliveryInstructionComponent } from './delivery/card/card-delivery-instruction/card-delivery-instruction.component';
 import { DeliveryInstructionFormComponent } from './delivery/delivery-instruction-form/delivery-instruction-form.component';
+import { DeliveryMapComponent } from './delivery/delivery-map/delivery-map.component';
+import { SalesDeliveryService } from './delivery/sales-delivery.service';
+import { GoogleMapsModule } from '@angular/google-maps'
 
 @NgModule({
   declarations: [
@@ -46,6 +49,7 @@ import { DeliveryInstructionFormComponent } from './delivery/delivery-instructio
     CardSaleOrderComponent,
     CardDeliveryInstructionComponent,
     DeliveryInstructionFormComponent,
+    DeliveryMapComponent,
   ],
   imports: [
     CommonModule,
@@ -57,10 +61,12 @@ import { DeliveryInstructionFormComponent } from './delivery/delivery-instructio
     DirectivesModule,
     DragDropModule,
     FormsModule,
-    NgxJsonViewerModule
+    NgxJsonViewerModule,
+    GoogleMapsModule
   ],
   providers: [
-    SalesPosService
+    SalesPosService,
+    SalesDeliveryService
   ]
 })
 export class SalesModule { }

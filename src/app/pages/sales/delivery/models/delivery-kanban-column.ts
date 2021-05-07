@@ -4,6 +4,7 @@ export interface DeliveryKambanColumn {
 
     employeeDriverId?: number;
     title: string;
+    color?: string;
     cards: DeliveryKanbanCard[];
     defaultColumn?: boolean;
 }

@@ -1,91 +1,113 @@
-<div class="header-options">
+<mat-sidenav-container class="sidenav-container">
 
-     <div style="padding-top: 20px; padding-left: 25px;">
-          <mat-slide-toggle #autoRefreshEl
-                            (change)="autoRefreshChange(autoRefreshEl.checked)"
-                            [checked]="autoRefresh">Auto Refresh</mat-slide-toggle>
-     </div>
+     <mat-sidenav #mapSidenav
+                  class="map-sidenav"
+                  mode="side"
+                  position="end">
 
-     <div class="refresh">
-          <button mat-flat-button
-                  color="primary"
-                  (click)="refreshDeliveries({force: true})">Atualizar</button>
-     </div>
+          <app-delivery-map></app-delivery-map>
 
-     <div class="add-driver">
-          <app-autocomplete #employeeDriverAutocomplete
-                            [options]="employeeDriverSearchAutocompleteOptions"></app-autocomplete>
-     </div>
-</div>
+     </mat-sidenav>
 
-<div cdkDropListGroup
-     class="board">
+     <mat-sidenav-content>
 
-     <div class="column-container"
-          *ngFor="let column of board.columns">
-
-          <div class="column-header">
-               <h2>{{ column.title }}</h2>
-               <mat-icon class="column-close"
-                         *ngIf="!column.defaultColumn"
-                         (click)="removeColumn(column.employeeDriverId)">close</mat-icon>
+          <div class="map-sidenav-toggle"
+               (click)="mapSidenav.toggle()">
+               <mat-icon>{{ mapSidenav.opened ? 'close' : 'location_on' }}</mat-icon>
           </div>
 
-          <!-- extra cards -->
-          <div *ngIf="column.defaultColumn"
-               cdkDropList
-               [cdkDropListData]="extraCards"
-               class="card-list card-list-extra">
+          <div class="header-options">
 
-               <div class="card-box"
-                    *ngFor="let card of extraCards"
-                    (cdkDragStarted)="dragStarted()"
-                    cdkDrag>
+               <div style="padding-top: 20px; padding-left: 25px;">
+                    <mat-slide-toggle #autoRefreshEl
+                                      (change)="autoRefreshChange(autoRefreshEl.checked)"
+                                      [checked]="autoRefresh">Auto Refresh</mat-slide-toggle>
+               </div>
 
-                    <div class="card-custom-placeholder"
-                         *cdkDragPlaceholder></div>
+               <div class="refresh">
+                    <button mat-flat-button
+                            color="primary"
+                            (click)="refreshDeliveries({force: true})">Atualizar</button>
+               </div>
 
-                    {{ card.extra.type | deliveryExtraCardType }}
+               <div class="add-driver">
+                    <app-autocomplete #employeeDriverAutocomplete
+                                      [options]="employeeDriverSearchAutocompleteOptions"></app-autocomplete>
                </div>
           </div>
 
-          <!-- deliveries -->
-          <div cdkDropList
-               [cdkDropListData]="column.cards"
-               class="card-list"
-               (cdkDropListDropped)="drop($event, column)">
+          <div cdkDropListGroup
+               class="board">
 
-               <div class="card-box"
-                    *ngFor="let card of column.cards"
-                    cdkDrag
-                    (cdkDragStarted)="dragStarted()">
+               <div class="column-container"
+                    *ngFor="let column of board.columns">
 
-                    <div class="card-custom-placeholder"
-                         *cdkDragPlaceholder></div>
-
-                    <app-card-sale-order *ngIf="card.delivery?.saleOrder"
-                                         style="width: 100%;"
-                                         (openDeliveryFinalize)="openConfirmDelivery($event)"
-                                         (updateShowObservationToDriver)="updateShowObservationToDriver($event)"
-                                         [inputData]="{
-                                         delivery: card.delivery,
-                                         column: column
-                                    }"></app-card-sale-order>
-
-                    <app-card-delivery-instruction *ngIf="card.delivery?.deliveryInstruction"
-                                                   style="width: 100%;"
-                                                   (openDeliveryFinalize)="openConfirmDelivery($event)"
-                                                   [inputData]="{
-                                                    delivery: card.delivery,
-                                                    column: column
-                                               }"></app-card-delivery-instruction>
-
-                    <div *ngIf="card?.extra?.type == 'deliveryInstruction'">
-                         {{ card.extra.type | deliveryExtraCardType }}
+                    <div class="column-header">
+                         <h2 style="border-bottom: 3px solid {{ column.color }}">{{ column.title }}</h2>
+                         <mat-icon class="column-close"
+                                   *ngIf="!column.defaultColumn"
+                                   (click)="removeColumn(column.employeeDriverId)">close</mat-icon>
                     </div>
 
-               </div>
-          </div>
-     </div>
+                    <!-- extra cards -->
+                    <div *ngIf="column.defaultColumn"
+                         cdkDropList
+                         [cdkDropListData]="extraCards"
+                         class="card-list card-list-extra">
 
-</div>
+                         <div class="card-box"
+                              *ngFor="let card of extraCards"
+                              (cdkDragStarted)="dragStarted()"
+                              cdkDrag>
+
+                              <div class="card-custom-placeholder"
+                                   *cdkDragPlaceholder></div>
+
+                              {{ card.extra.type | deliveryExtraCardType }}
+                         </div>
+                    </div>
+
+                    <!-- deliveries -->
+                    <div cdkDropList
+                         [cdkDropListData]="column.cards"
+                         class="card-list"
+                         [style.height]="column.defaultColumn ? 'calc(100vh - 291px)' : null"
+                         (cdkDropListDropped)="drop($event, column)">
+
+                         <div class="card-box"
+                              *ngFor="let card of column.cards"
+                              cdkDrag
+                              (cdkDragStarted)="dragStarted()">
+
+                              <div class="card-custom-placeholder"
+                                   *cdkDragPlaceholder></div>
+
+                              <app-card-sale-order *ngIf="card.delivery?.saleOrder"
+                                                   style="width: 100%;"
+                                                   (openDeliveryFinalize)="openConfirmDelivery($event)"
+                                                   (updateShowObservationToDriver)="updateShowObservationToDriver($event)"
+                                                   [inputData]="{
+                                                   delivery: card.delivery,
+                                                   column: column
+                                              }"></app-card-sale-order>
+
+                              <app-card-delivery-instruction *ngIf="card.delivery?.deliveryInstruction"
+                                                             style="width: 100%;"
+                                                             (openDeliveryFinalize)="openConfirmDelivery($event)"
+                                                             [inputData]="{
+                                                              delivery: card.delivery,
+                                                              column: column
+                                                         }"></app-card-delivery-instruction>
+
+                              <div *ngIf="card?.extra?.type == 'deliveryInstruction'">
+                                   {{ card.extra.type | deliveryExtraCardType }}
+                              </div>
+
+                         </div>
+                    </div>
+               </div>
+
+          </div>
+
+     </mat-sidenav-content>
+</mat-sidenav-container>
