@@ -58,7 +58,9 @@ export class DeliveryMapComponent implements OnInit {
             label: {
               text: (d.index + 1).toString(),
               className: 'map-marker-label',
-              color: d.saleOrder.employeeDriver?.color || '#000'
+            },
+            options: {
+              icon: this.pinSymbol(d.saleOrder.employeeDriver?.color || '#000')
             }
           }
         });
@@ -74,4 +76,14 @@ export class DeliveryMapComponent implements OnInit {
     }
   }
 
+  private pinSymbol(color: string): google.maps.Symbol {
+    return {
+        path: 'M 0,0 C -2,-20 -10,-22 -10,-30 A 10,10 0 1,1 10,-30 C 10,-22 2,-20 0,0 z',
+        fillColor: color,
+        fillOpacity: 1,
+        strokeColor: '#444',
+        strokeWeight: 1,
+        scale: 1
+   };
+}
 }

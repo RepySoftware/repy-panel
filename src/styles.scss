@@ -122,9 +122,10 @@ a[mat-stroked-button] {
   font-size: 14px;
   font-weight: bold;
   background: #fff;
-  border-radius: 50%;
-  width: 28px;
-  height: 28px;
+  border-radius: 7px;
+  // width: 28px;
+  // height: 28px;
   padding: 2px;
-  border: 3px solid #d5483b;
+  border: 1px solid #444;
+  margin-bottom: 60px;
 }

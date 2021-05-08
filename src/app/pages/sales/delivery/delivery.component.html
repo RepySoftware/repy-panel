@@ -11,11 +11,6 @@
 
      <mat-sidenav-content>
 
-          <div class="map-sidenav-toggle"
-               (click)="mapSidenav.toggle()">
-               <mat-icon>{{ mapSidenav.opened ? 'close' : 'location_on' }}</mat-icon>
-          </div>
-
           <div class="header-options">
 
                <div style="padding-top: 20px; padding-left: 25px;">
@@ -33,6 +28,11 @@
                <div class="add-driver">
                     <app-autocomplete #employeeDriverAutocomplete
                                       [options]="employeeDriverSearchAutocompleteOptions"></app-autocomplete>
+               </div>
+
+               <div class="map-sidenav-toggle"
+                    (click)="mapSidenav.toggle()">
+                    <mat-icon>{{ mapSidenav.opened ? 'close' : 'location_on' }}</mat-icon>
                </div>
           </div>
 
