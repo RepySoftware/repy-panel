@@ -36,7 +36,7 @@
 
         <h4>Produtos</h4>
 
-        <table class="products-table">
+        <table class="p-table">
             <thead>
                 <tr>
                     <th>Cód</th>
@@ -102,29 +102,38 @@
 
         <div class="payment">
 
-            <div *ngIf="salesPosService.tabsOk.payment()">
-                <div>
-                    <strong *ngIf="salesPosService.paymentMethod">{{ salesPosService.paymentMethod.name }}</strong>
-                    <strong *ngIf="!salesPosService.paymentMethod">Método de pagamento não definido</strong>
-                </div>
+            <table class="p-table">
+                <thead>
+                    <tr>
+                        <th>Método</th>
+                        <th>Valor</th>
+                        <th>Vencimento</th>
+                        <th>Pagamento</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let p of salesPosService.payments; let i = index">
+                        <td>{{ p.paymentMethod.name }}</td>
+                        <td>{{ p.value | money }}</td>
+                        <td>{{ p.dueDate }}</td>
+                        <td>{{ p.payDate }}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="1"></td>
+                        <td style="font-weight: bold; color: var(--color-alizarin);">
+                            {{ salesPosService.paymentsTotalPrice | money }}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
 
-                <div style="font-size: 19px;"
-                     *ngIf="salesPosService.paymentInstallments > 1">
-                    <span>{{ salesPosService.paymentInstallments }}x </span>
-                    <span style="font-weight: bold;">
-                        {{ (salesPosService.productsTotalPrice / salesPosService.paymentInstallments) | money }}
-                    </span>
-                </div>
-
-                <div style="font-size: 23px;">
-                    <span>Total: </span>
-                    <span style="font-weight: bold; color: var(--color-alizarin);">
-                        {{ salesPosService.productsTotalPrice | money }}
-                    </span>
-                </div>
-
+            <div style="font-size: 23px;">
+                <span>Total: </span>
+                <span style="font-weight: bold; color: var(--color-alizarin);">
+                    {{ salesPosService.productsTotalPrice | money }}
+                </span>
             </div>
-
+            
         </div>
 
     </div>

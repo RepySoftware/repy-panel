@@ -24,7 +24,9 @@ import { PersonService } from '../../../../services/person.service';
 import { SaleOrderService } from '../../../../services/sale-order.service';
 import { ToastService } from '../../../../services/toast.service';
 import { AutocompleteComponent } from '../../../../shared/autocomplete/autocomplete.component';
+import { SaleOrderPaymentOptions } from '../../models/sale-order-payment-options';
 import { SaleOrderProductOptions } from '../../models/sale-order-product-options';
+import { SaleOrderPaymentFormInputData } from './sale-order-payment-form/sale-order-payment-form.component';
 import { SaleOrderProductFormComponent, SaleOrderProductFormInputData } from './sale-order-product-form/sale-order-product-form.component';
 
 export interface SaleOrderFormInputData {
@@ -47,10 +49,10 @@ export class SaleOrderFormComponent implements OnInit {
   public saleOrder: SaleOrder;
 
   public companyBranches: CompanyBranch[] = [];
-  public paymentMethods: PaymentMethod[] = [];
 
   public personCustomerSelected: PersonSearch;
   public products: SaleOrderProductOptions[] = [];
+  public payments: SaleOrderPaymentOptions[] = [];
   public employeeDriverSelected: Employee;
 
   public saleOrderForm: FormGroup;
@@ -115,7 +117,6 @@ export class SaleOrderFormComponent implements OnInit {
     private _personService: PersonService,
     private _companyBranchService: CompanyBranchService,
     private _employeeService: EmployeeService,
-    private _paymentMethodService: PaymentMethodService,
     private _activatedRoute: ActivatedRoute,
     private _saleOrderService: SaleOrderService,
     private _dialog: MatDialog,
@@ -149,7 +150,6 @@ export class SaleOrderFormComponent implements OnInit {
     }
 
     this.getCompanyBranches();
-    this.getPaymentMethods();
   }
 
   private setFormValues(): void {
@@ -189,6 +189,16 @@ export class SaleOrderFormComponent implements OnInit {
       }
     });
 
+    this.payments = this.saleOrder.payments.map(x => {
+      return {
+        id: x.id,
+        paymentMethod: x.paymentMethod,
+        value: x.value,
+        dueDate: x.dueDate,
+        payDate: x.payDate
+      }
+    });
+
     if (this.saleOrder.employeeDriver) {
       this.employeeDriverSelected = this.saleOrder.employeeDriver;
       this.employeeDriverAutocomplete.selectItem({
@@ -222,14 +232,6 @@ export class SaleOrderFormComponent implements OnInit {
   private getCompanyBranches(): void {
     this._companyBranchService.getAll().subscribe(response => {
       this.companyBranches = response;
-    }, error => {
-      this._toast.showHttpError(error);
-    });
-  }
-
-  private getPaymentMethods(): void {
-    this._paymentMethodService.getAll().subscribe(response => {
-      this.paymentMethods = response;
     }, error => {
       this._toast.showHttpError(error);
     });
@@ -287,6 +289,45 @@ export class SaleOrderFormComponent implements OnInit {
     });
   }
 
+  public openPaymentForm(index?: number): void {
+
+    const payment = index !== undefined && index !== null ? this.payments[index] : null;
+
+    const dialog = this._dialog.open(SaleOrderProductFormComponent, {
+      width: '45%',
+      data: { payment } as SaleOrderPaymentFormInputData
+    });
+
+    dialog.afterClosed().subscribe(result => {
+      if (result && result.saleOrderProduct) {
+        if (index !== undefined && index != null)
+          this.products[index] = result.saleOrderProduct;
+        else
+          this.products.push(result.saleOrderProduct);
+      }
+    });
+  }
+
+  public removePayment(index: number): void {
+
+    // const saleOrderProduct = this.products[index];
+
+    // this._alert.open({
+    //   message: `Excluir produto <strong>${saleOrderProduct.companyBranchProduct.product.name}</strong>?`,
+    //   buttons: [
+    //     {
+    //       text: 'Cancelar',
+    //       color: 'basic'
+    //     },
+    //     {
+    //       text: 'Excluir',
+    //       color: 'warn',
+    //       onClick: () => this.products.splice(index, 1)
+    //     }
+    //   ]
+    // });
+  }
+
   public save(): void {
 
     if (!this.personCustomerSelected) {
@@ -310,9 +351,15 @@ export class SaleOrderFormComponent implements OnInit {
       companyBranchId: this.saleOrderForm.get('companyBranch').value,
       employeeDriverId: this.employeeDriverSelected?.id,
       personCustomerId: this.personCustomerSelected.id,
-      payments: null,
-      // paymentMethodId: this.saleOrderForm.get('paymentMethod').value,
-      // paymentInstallments: this.saleOrderForm.get('paymentInstallments').value,
+      payments: this.payments.map(p => {
+        return {
+          id: p.id,
+          paymentMethodId: p.paymentMethod.id,
+          value: p.value,
+          dueDate: p.dueDate,
+          payDate: p.payDate
+        }
+      }),
       observation: this.saleOrderForm.get('observation').value,
       scheduledAt: deliverySchedule ? moment(deliverySchedule).toISOString() : null,
       dateOfIssue: dateOfIssue ? moment(dateOfIssue).toISOString() : null,
@@ -344,11 +391,13 @@ export class SaleOrderFormComponent implements OnInit {
       .reduce((a, b) => a + b, 0);
   }
 
-  public get saleOrderStatusList(): string[] {
-    return SaleOrderStatusList();
+  public get paymentsTotalPrice(): number {
+    return this.payments
+      .map(p => p.value)
+      .reduce((a, b) => a + b, 0);
   }
 
-  public get paymentMethodSelected(): PaymentMethod {
-    return this.paymentMethods.find(x => x.id == this.saleOrderForm.get('paymentMethod').value);
+  public get saleOrderStatusList(): string[] {
+    return SaleOrderStatusList();
   }
 }

@@ -48,8 +48,7 @@
                            matInput
                            type="date"
                            placeholder="Pagamento"
-                           autocomplete="off"
-                           [value]="!salesPosService.payments.length ? today : null">
+                           autocomplete="off">
                 </mat-form-field>
             </div>
 
@@ -58,6 +57,56 @@
                         [disabled]="!salesPosService.tabsOk.products()"
                         color="primary"
                         (click)="addPayment()">Incluir pagamento</button>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="col-6">
+
+        <div class="row">
+            <div class="col-12">
+                <table class="payments-table">
+                    <thead>
+                        <tr>
+                            <th>Método</th>
+                            <th>Valor</th>
+                            <th>Vencimento</th>
+                            <th>Pagamento</th>
+                            <th>Opt</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let p of salesPosService.payments; let i = index">
+                            <td>{{ p.paymentMethod.name }}</td>
+                            <td>{{ p.value | money }}</td>
+                            <td>{{ p.dueDate | momentDate }}</td>
+                            <td>{{ p.payDate | momentDate }}</td>
+                            <td>
+                                <a href="javascript:;"
+                                   (click)="editPayment(i)">
+                                    <mat-icon>edit</mat-icon>
+                                </a>
+                                <a href="javascript:;"
+                                   (click)="removePayment(i)">
+                                    <mat-icon>close</mat-icon>
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="1"></td>
+                            <td style="font-weight: bold; color: var(--color-alizarin);">
+                                {{ salesPosService.paymentsTotalPrice | money }}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div
+                     *ngIf="salesPosService.payments.length && salesPosService.paymentsTotalPrice != salesPosService.productsTotalPrice">
+                    Valor informado é diferente do valor total da venda
+                </div>
+
             </div>
 
             <div class="col-12">
@@ -71,37 +120,6 @@
             </div>
 
         </div>
-    </div>
 
-    <div class="col-6">
-        <table class="payments-table">
-            <thead>
-                <tr>
-                    <th>Método</th>
-                    <th>Valor</th>
-                    <th>Vencimento</th>
-                    <th>Pagamento</th>
-                    <th>Opt</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let p of salesPosService.payments; let i = index">
-                    <td>{{ p.paymentMethod.name }}</td>
-                    <td>{{ p.value }}</td>
-                    <td>{{ p.dueDate }}</td>
-                    <td>{{ p.payDate }}</td>
-                    <td>
-                        <a href="javascript:;"
-                           (click)="editProduct(i)">
-                            <mat-icon>edit</mat-icon>
-                        </a>
-                        <a href="javascript:;"
-                           (click)="removeProduct(i)">
-                            <mat-icon>close</mat-icon>
-                        </a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
     </div>
 </div>

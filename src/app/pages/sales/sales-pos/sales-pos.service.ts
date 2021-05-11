@@ -52,7 +52,7 @@ export class SalesPosService {
     customer: () => !!this.personCustomer,
     products: () => this.products.length > 0,
     delivery: () => true,
-    payment: () => !!this.companyBranch
+    payment: () => !!this.companyBranch && this.products.length && (this.paymentsTotalPrice == this.productsTotalPrice)
   }
 
   public deliveryAddressMapUrl: SafeResourceUrl;
@@ -90,6 +90,12 @@ export class SalesPosService {
   public get productsTotalPrice(): number {
     return this.products
       .map(p => p.quantity * p.salePriceValue)
+      .reduce((a, b) => a + b, 0);
+  }
+
+  public get paymentsTotalPrice(): number {
+    return this.payments
+      .map(p => p.value)
       .reduce((a, b) => a + b, 0);
   }
 

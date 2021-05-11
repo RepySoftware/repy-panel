@@ -136,7 +136,7 @@
         <td mat-cell
             *matCellDef="let element"
             style="font-weight: bold;"
-            [style.color]="element.employeeDriver.color || '#000'">
+            [style.color]="element.employeeDriver?.color || '#000'">
             {{ element.employeeDriver?.name || '-' }}
         </td>
     </ng-container>

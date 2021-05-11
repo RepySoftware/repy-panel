@@ -1,0 +1,67 @@
+<button-dialog-close></button-dialog-close>
+
+<form>
+
+    <div class="row">
+
+        <div class="col-6">
+            <mat-form-field>
+                <mat-label>Método de pagamento</mat-label>
+                <mat-select #paymentMethod
+                            formControlName="paymentMethod">
+
+                    <mat-option>-</mat-option>
+
+                    <mat-option *ngFor="let pm of paymentMethods"
+                                [value]="pm.id">
+                        {{ pm.name }}
+                    </mat-option>
+                    <mat-error *ngIf="!paymentForm.get('paymentMethod').valid">
+                        Este campo é obrigatório
+                    </mat-error>
+                </mat-select>
+            </mat-form-field>
+        </div>
+
+        <div class="col-6">
+            <mat-form-field>
+                <input #value
+                       type="value"
+                       matInput
+                       placeholder="Valor"
+                       autocomplete="off"
+                       formControlName="value">
+            </mat-form-field>
+        </div>
+
+        <div class="col-6">
+            <mat-form-field>
+                <input #dueDate
+                       matInput
+                       type="date"
+                       placeholder="Vencimento"
+                       autocomplete="off"
+                       formControlName="dueDate">
+            </mat-form-field>
+        </div>
+
+        <div class="col-6">
+            <mat-form-field>
+                <input #payDate
+                       matInput
+                       type="date"
+                       placeholder="Pagamento"
+                       autocomplete="off"
+                       formControl="payDate">
+            </mat-form-field>
+        </div>
+
+        <div class="col-12">
+            <button mat-flat-button
+                    color="primary"
+                    (click)="save()">Salvar</button>
+        </div>
+
+    </div>
+
+</form>

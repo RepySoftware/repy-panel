@@ -82,14 +82,14 @@ export class ConfirmDeliveryComponent implements OnInit {
       id: this.inputData.delivery[this.inputData.delivery.type].id
     }
 
-    if (this.inputData.delivery.type == DeliveryType.saleOrder) {
-      params = {
-        ...params,
-        paymentMethodId: Number(this.paymentMethodElement.value),
-        installments: this.installmentsElement && this.installmentsElement.nativeElement.value ? Number(this.installmentsElement.nativeElement.value) : null,
-        deliveredAt: moment(this.deliveredAtElement.nativeElement.value).toISOString()
-      }
-    }
+    // if (this.inputData.delivery.type == DeliveryType.saleOrder) {
+    //   params = {
+    //     ...params,
+    //     paymentMethodId: Number(this.paymentMethodElement.value),
+    //     installments: this.installmentsElement && this.installmentsElement.nativeElement.value ? Number(this.installmentsElement.nativeElement.value) : null,
+    //     deliveredAt: moment(this.deliveredAtElement.nativeElement.value).toISOString()
+    //   }
+    // }
 
     this._loader.show();
     this._deliveryService.finalize(params, this.inputData.delivery.type).subscribe(response => {

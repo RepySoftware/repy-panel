@@ -28,7 +28,8 @@ import { CardDeliveryInstructionComponent } from './delivery/card/card-delivery-
 import { DeliveryInstructionFormComponent } from './delivery/delivery-instruction-form/delivery-instruction-form.component';
 import { DeliveryMapComponent } from './delivery/delivery-map/delivery-map.component';
 import { SalesDeliveryService } from './delivery/sales-delivery.service';
-import { GoogleMapsModule } from '@angular/google-maps'
+import { GoogleMapsModule } from '@angular/google-maps';
+import { SaleOrderPaymentFormComponent } from './sale-orders/sale-order-form/sale-order-payment-form/sale-order-payment-form.component'
 
 @NgModule({
   declarations: [
@@ -50,6 +51,7 @@ import { GoogleMapsModule } from '@angular/google-maps'
     CardDeliveryInstructionComponent,
     DeliveryInstructionFormComponent,
     DeliveryMapComponent,
+    SaleOrderPaymentFormComponent,
   ],
   imports: [
     CommonModule,
