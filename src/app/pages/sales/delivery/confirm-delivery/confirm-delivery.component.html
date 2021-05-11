@@ -25,7 +25,7 @@
         </mat-form-field>
     </div>
 
-    <div class="col-8"
+    <!-- <div class="col-8"
          *ngIf="inputData.delivery.saleOrder">
         <mat-form-field>
             <mat-label>Tipo de pagamento</mat-label>
@@ -39,22 +39,7 @@
 
             </mat-select>
         </mat-form-field>
-    </div>
-
-    <div class="col-4"
-         *ngIf="inputData.delivery.saleOrder && hasInstallments">
-        <mat-form-field>
-            <input #installments
-                   matInput
-                   placeholder="Número de parcelas"
-                   autocomplete="off"
-                   type="number"
-                   [value]="inputData.delivery.saleOrder.paymentInstallments || 1">
-            <mat-error *ngIf="installments.value <= 0">
-                Número de parcelas deve ser superior ou igual a 1
-            </mat-error>
-        </mat-form-field>
-    </div>
+    </div> -->
 
     <div class="col-12"
          style="display: flex; gap: 10px;">

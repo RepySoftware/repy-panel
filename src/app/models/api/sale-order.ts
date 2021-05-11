@@ -3,8 +3,8 @@ import { ApiModel } from "../abstraction/api-model";
 import { Address } from "./address";
 import { CompanyBranch } from "./company-brach";
 import { Employee } from "./employee";
-import { PaymentMethod } from "./payment-method";
 import { Person } from "./person";
+import { SaleOrderPayment } from "./sale-order-payment";
 import { SaleOrderProduct } from "./sale-order-product";
 
 export interface SaleOrder extends ApiModel {
@@ -14,9 +14,7 @@ export interface SaleOrder extends ApiModel {
     employeeDriver?: Employee;
     personCustomer: Person;
     deliveryAddress: Address;
-    paymentMethod: PaymentMethod;
     totalSalePrice: number;
-    paymentInstallments: number;
     status: SaleOrderStatus;
     index: number;
     observation?: string;
@@ -27,4 +25,5 @@ export interface SaleOrder extends ApiModel {
     createdAt: string;
     updatedAt: string;
     products: SaleOrderProduct[];
+    payments: SaleOrderPayment[];
 }

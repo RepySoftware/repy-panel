@@ -26,7 +26,6 @@ export class ConfirmDeliveryComponent implements OnInit {
 
   @ViewChild('deliveredAt') public deliveredAtElement: ElementRef;
   @ViewChild('paymentMethod') public paymentMethodElement: MatSelect;
-  @ViewChild('installments') public installmentsElement: ElementRef;
 
   public now = moment().format('YYYY-MM-DDTHH:mm');
   public paymentMethods: PaymentMethod[] = [];
@@ -71,13 +70,6 @@ export class ConfirmDeliveryComponent implements OnInit {
 
       if (!this.paymentMethodElement.value)
         errors.push('Método de pagamento é obrigatório');
-
-      if (
-        this.hasInstallments
-        && (!this.installmentsElement.nativeElement.value || Number(this.installmentsElement.nativeElement.value) <= 0)
-      ) {
-        errors.push('Número de parcelas inválido');
-      }
     }
 
     if (errors.length) {

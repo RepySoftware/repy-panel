@@ -1,58 +1,107 @@
 <div class="row">
 
-    <div class="col-4">
-        <mat-form-field>
-            <mat-label>Método de pagamento</mat-label>
-            <mat-select #paymentMethod
+    <div class="col-6">
+        <div class="row">
+
+            <div class="col-6">
+                <mat-form-field>
+                    <mat-label>Método de pagamento</mat-label>
+                    <mat-select #paymentMethod
+                                [disabled]="!salesPosService.tabsOk.products()">
+
+                        <mat-option>-</mat-option>
+
+                        <mat-option *ngFor="let pm of salesPosService.paymentMethods"
+                                    [value]="pm.id">
+                            {{ pm.name }}
+                        </mat-option>
+
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+            <div class="col-6">
+                <mat-form-field>
+                    <input #value
+                           type="value"
+                           matInput
+                           placeholder="Valor"
+                           autocomplete="off"
+                           [value]="!salesPosService.payments.length ? salesPosService.productsTotalPrice : null">
+                </mat-form-field>
+            </div>
+
+            <div class="col-6">
+                <mat-form-field>
+                    <input #dueDate
+                           matInput
+                           type="date"
+                           placeholder="Vencimento"
+                           autocomplete="off"
+                           [value]="!salesPosService.payments.length ? today : null">
+                </mat-form-field>
+            </div>
+
+            <div class="col-6">
+                <mat-form-field>
+                    <input #payDate
+                           matInput
+                           type="date"
+                           placeholder="Pagamento"
+                           autocomplete="off"
+                           [value]="!salesPosService.payments.length ? today : null">
+                </mat-form-field>
+            </div>
+
+            <div class="col-12">
+                <button mat-flat-button
                         [disabled]="!salesPosService.tabsOk.products()"
-                        (selectionChange)="onSelectPaymentMethod()"
-                        [value]="salesPosService.paymentMethod?.id">
+                        color="primary"
+                        (click)="addPayment()">Incluir pagamento</button>
+            </div>
 
-                <mat-option>-</mat-option>
+            <div class="col-12">
+                <div style="font-size: 23px;"
+                     *ngIf="salesPosService.tabsOk.products()">
+                    <span>Total: </span>
+                    <span style="font-weight: bold; color: var(--color-alizarin);">
+                        {{ salesPosService.productsTotalPrice | money }}
+                    </span>
+                </div>
+            </div>
 
-                <mat-option *ngFor="let pm of salesPosService.paymentMethods"
-                            [value]="pm.id">
-                    {{ pm.name }}
-                </mat-option>
-
-            </mat-select>
-        </mat-form-field>
-    </div>
-
-    <div class="col-4"
-         *ngIf="salesPosService.paymentMethod?.hasInstallments">
-        <mat-form-field>
-            <input #installments
-                   matInput
-                   placeholder="Número de parcelas"
-                   autocomplete="off"
-                   type="number"
-                   [value]="salesPosService.paymentInstallments || 1"
-                   (input)="onDefineInstallments()">
-            <mat-error *ngIf="salesPosService.paymentInstallments <= 0">
-                Número de parcelas deve ser superior ou igual a 1
-            </mat-error>
-        </mat-form-field>
-    </div>
-
-    <div class="col-12"
-         *ngIf="salesPosService.paymentInstallments > 1">
-        <div style="font-size: 19px;">
-            <span>{{ salesPosService.paymentInstallments }}x </span>
-            <span style="font-weight: bold;">
-                {{ (salesPosService.productsTotalPrice / salesPosService.paymentInstallments) | money }}
-            </span>
         </div>
     </div>
 
-    <div class="col-12">
-        <div style="font-size: 23px;"
-             *ngIf="salesPosService.tabsOk.products()">
-            <span>Total: </span>
-            <span style="font-weight: bold; color: var(--color-alizarin);">
-                {{ salesPosService.productsTotalPrice | money }}
-            </span>
-        </div>
+    <div class="col-6">
+        <table class="payments-table">
+            <thead>
+                <tr>
+                    <th>Método</th>
+                    <th>Valor</th>
+                    <th>Vencimento</th>
+                    <th>Pagamento</th>
+                    <th>Opt</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let p of salesPosService.payments; let i = index">
+                    <td>{{ p.paymentMethod.name }}</td>
+                    <td>{{ p.value }}</td>
+                    <td>{{ p.dueDate }}</td>
+                    <td>{{ p.payDate }}</td>
+                    <td>
+                        <a href="javascript:;"
+                           (click)="editProduct(i)">
+                            <mat-icon>edit</mat-icon>
+                        </a>
+                        <a href="javascript:;"
+                           (click)="removeProduct(i)">
+                            <mat-icon>close</mat-icon>
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </div>
-
 </div>

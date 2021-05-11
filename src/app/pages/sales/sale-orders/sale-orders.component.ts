@@ -5,6 +5,7 @@ import * as moment from 'moment';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { SaleOrderStatusList } from '../../../enums/sale-order-status';
+import { StringHelper } from '../../../helpers/string-helper';
 import { Employee } from '../../../models/api/employee';
 import { PaymentMethod } from '../../../models/api/payment-method';
 import { PersonSearch } from '../../../models/api/person-search';
@@ -263,6 +264,12 @@ export class SaleOrdersComponent implements OnInit {
     return saleOrder.products
       .map(so => `${so.quantity}x ${so.companyBranchProduct.product.name}`)
       .join(', ');
+  }
+
+  public formatPayments(saleOrder: SaleOrder, showValue = false): string {
+    return saleOrder.payments
+      .map(p => `${p.paymentMethod.name}${showValue ? ' ' + StringHelper.toMoney(p.value) : ''}`)
+      .join(showValue ? ' - ' : ', ');
   }
 
   public get saleOrderStatusList(): string[] {

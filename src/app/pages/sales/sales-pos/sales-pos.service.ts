@@ -18,6 +18,7 @@ import { SaleOrderCreateOutput } from "../../../models/output/sale-order-create.
 import { LoaderService } from "../../../services/loader.service";
 import { SaleOrderService } from "../../../services/sale-order.service";
 import { Router } from "@angular/router";
+import { SaleOrderPaymentOptions } from "../models/sale-order-payment-options";
 
 @Injectable()
 export class SalesPosService {
@@ -44,8 +45,7 @@ export class SalesPosService {
   public companyBranch: CompanyBranch;
   public employeeDriver: Employee;
   public deliverySchedule: Moment;
-  public paymentMethod: PaymentMethod;
-  public paymentInstallments: number;
+  public payments: SaleOrderPaymentOptions[] = [];
   public observation: string;
 
   public tabsOk = {
@@ -135,8 +135,14 @@ export class SalesPosService {
       companyBranchId: this.companyBranch.id,
       employeeDriverId: this.employeeDriver ? this.employeeDriver.id : null,
       personCustomerId: this.personCustomer.id,
-      paymentMethodId: this.paymentMethod ? this.paymentMethod.id : null,
-      paymentInstallments: this.paymentMethod && this.paymentMethod.hasInstallments ? (this.paymentInstallments || 1) : null,
+      payments: this.payments.map(p => {
+        return {
+          paymentMethodId: p.paymentMethod.id,
+          value: p.value,
+          dueDate: p.dueDate,
+          payDate: p.payDate
+        }
+      }),
       observation: this.observation,
       scheduledAt: this.deliverySchedule ? moment(this.deliverySchedule).toISOString() : null,
       products: this.products.map(p => {
@@ -171,8 +177,11 @@ export class SalesPosService {
     if (!this.personCustomer)
       errors.push('Cliente não definido');
 
-    if (this.products.length <= 0)
+    if (!this.products.length)
       errors.push('Nenhum produto definido');
+
+    if (!this.payments.length)
+      errors.push('Nenhum pagamento definido');
 
     if (errors.length > 0) {
 
@@ -191,8 +200,7 @@ export class SalesPosService {
     this.products = [];
     this.employeeDriver = null;
     this.deliverySchedule = null;
-    this.paymentMethod = null;
-    this.paymentInstallments = null;
+    this.payments = [];
     this.deliveryAddressMapUrl = null;
     this.observation = null;
   }

@@ -234,21 +234,6 @@
             </mat-form-field>
         </div>
 
-        <div class="col-6"
-             *ngIf="paymentMethodSelected?.hasInstallments">
-            <mat-form-field>
-                <input #paymentInstallments
-                       formControlName="paymentInstallments"
-                       matInput
-                       placeholder="Número de parcelas"
-                       autocomplete="off"
-                       type="number">
-                <mat-error *ngIf="!paymentInstallments.valid">
-                    Número de parcelas deve ser superior ou igual a 1
-                </mat-error>
-            </mat-form-field>
-        </div>
-
     </div>
 
     <div class="row">

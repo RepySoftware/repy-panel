@@ -134,7 +134,9 @@
         <th mat-header-cell
             *matHeaderCellDef>Entregador</th>
         <td mat-cell
-            *matCellDef="let element">
+            *matCellDef="let element"
+            style="font-weight: bold;"
+            [style.color]="element.employeeDriver.color || '#000'">
             {{ element.employeeDriver?.name || '-' }}
         </td>
     </ng-container>
@@ -161,15 +163,13 @@
         <th mat-header-cell
             *matHeaderCellDef>Método pagamento</th>
         <td mat-cell
-            *matCellDef="let element">
+            *matCellDef="let element"
+            [matTooltip]="formatPayments(element, true)"
+            style="color: #797979; font-weight: bold;">
 
-            <mat-chip-list *ngIf="element.paymentMethod">
-                <mat-chip>
-                    {{ element.paymentMethod.name }}
-                </mat-chip>
-            </mat-chip-list>
+            {{ formatPayments(element) }}
 
-            <span *ngIf="!element.paymentMethod">-</span>
+            <span *ngIf="!element.payments">-</span>
 
         </td>
     </ng-container>

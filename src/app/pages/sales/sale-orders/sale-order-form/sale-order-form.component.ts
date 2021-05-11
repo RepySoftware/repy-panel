@@ -202,8 +202,6 @@ export class SaleOrderFormComponent implements OnInit {
     this.saleOrderForm.get('deliveredAt').setValue(this.saleOrder.deliveredAt ? moment(this.saleOrder.deliveredAt).format('YYYY-MM-DDTHH:mm') : null);
     this.saleOrderForm.get('companyBranch').setValue(this.saleOrder.companyBranch?.id);
     this.saleOrderForm.get('deliverySchedule').setValue(this.saleOrder.scheduledAt ? moment(this.saleOrder.scheduledAt).format('YYYY-MM-DDTHH:mm') : null);
-    this.saleOrderForm.get('paymentMethod').setValue(this.saleOrder.paymentMethod?.id);
-    this.saleOrderForm.get('paymentInstallments').setValue(this.saleOrder.paymentInstallments);
     this.saleOrderForm.get('observation').setValue(this.saleOrder.observation);
   }
 
@@ -312,8 +310,9 @@ export class SaleOrderFormComponent implements OnInit {
       companyBranchId: this.saleOrderForm.get('companyBranch').value,
       employeeDriverId: this.employeeDriverSelected?.id,
       personCustomerId: this.personCustomerSelected.id,
-      paymentMethodId: this.saleOrderForm.get('paymentMethod').value,
-      paymentInstallments: this.saleOrderForm.get('paymentInstallments').value,
+      payments: null,
+      // paymentMethodId: this.saleOrderForm.get('paymentMethod').value,
+      // paymentInstallments: this.saleOrderForm.get('paymentInstallments').value,
       observation: this.saleOrderForm.get('observation').value,
       scheduledAt: deliverySchedule ? moment(deliverySchedule).toISOString() : null,
       dateOfIssue: dateOfIssue ? moment(dateOfIssue).toISOString() : null,

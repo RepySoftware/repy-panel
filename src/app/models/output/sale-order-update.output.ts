@@ -1,5 +1,6 @@
 import { SaleOrderStatus } from "../../enums/sale-order-status";
 import { AddressOutput } from "./address.output";
+import { SaleOrderPaymentOutput } from "./sale-order-payment.output";
 import { SaleOrderProductUpdateOutput } from "./sale-order-product-update.output";
 
 export interface SaleOrderUpdateOutput {
@@ -8,8 +9,7 @@ export interface SaleOrderUpdateOutput {
     companyBranchId: number;
     employeeDriverId?: number;
     personCustomerId: number;
-    paymentMethodId: number;
-    paymentInstallments: number;
+    payments: SaleOrderPaymentOutput[];
     // deliveryAddress: AddressOutput;
     observation?: string;
     scheduledAt?: string;
