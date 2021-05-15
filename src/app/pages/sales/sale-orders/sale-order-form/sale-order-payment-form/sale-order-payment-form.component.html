@@ -1,6 +1,6 @@
 <button-dialog-close></button-dialog-close>
 
-<form>
+<form [formGroup]="paymentForm">
 
     <div class="row">
 
@@ -16,10 +16,10 @@
                                 [value]="pm.id">
                         {{ pm.name }}
                     </mat-option>
-                    <mat-error *ngIf="!paymentForm.get('paymentMethod').valid">
-                        Este campo é obrigatório
-                    </mat-error>
                 </mat-select>
+                <mat-error *ngIf="!paymentForm.get('paymentMethod').valid">
+                    Este campo é obrigatório
+                </mat-error>
             </mat-form-field>
         </div>
 
@@ -45,15 +45,19 @@
             </mat-form-field>
         </div>
 
-        <div class="col-6">
+        <div class="col-6"
+             style="display: flex; gap: 10px;">
             <mat-form-field>
                 <input #payDate
                        matInput
                        type="date"
                        placeholder="Pagamento"
                        autocomplete="off"
-                       formControl="payDate">
+                       formControlName="payDate">
             </mat-form-field>
+
+            <mat-icon style="cursor: pointer; margin-top: 24px;"
+                      (click)="payDate.value = null;">close</mat-icon>
         </div>
 
         <div class="col-12">

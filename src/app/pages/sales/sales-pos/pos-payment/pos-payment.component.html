@@ -103,7 +103,7 @@
                 </table>
 
                 <div
-                     *ngIf="salesPosService.payments.length && salesPosService.paymentsTotalPrice != salesPosService.productsTotalPrice">
+                     *ngIf="salesPosService.payments.length && salesPosService.paymentsTotalPrice != salesPosService.productsTotalPrice" style="color: var(--color-orange)">
                     Valor informado é diferente do valor total da venda
                 </div>
 

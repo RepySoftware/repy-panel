@@ -236,7 +236,7 @@
                         <td>{{ p.payDate | momentDate }}</td>
                         <td>
                             <a href="javascript:;"
-                               (click)="editPayment(i)">
+                               (click)="openPaymentForm(i)">
                                 <mat-icon>edit</mat-icon>
                             </a>
                             <a href="javascript:;"
@@ -253,6 +253,19 @@
                     </tr>
                 </tbody>
             </table>
+        </div>
+
+        <div class="col-12"
+             *ngIf="payments.length && paymentsTotalPrice != productsTotalPrice"
+             style="color: var(--color-orange)">
+            Valor informado é diferente do valor total da venda
+        </div>
+
+        <div class="col-12">
+            <button mat-stroked-button
+                    color="primary"
+                    style="margin-top: 10px;"
+                    (click)="openPaymentForm()">Incluir pagamento</button>
         </div>
 
     </div>

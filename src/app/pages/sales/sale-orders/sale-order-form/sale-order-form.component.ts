@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import * as moment from 'moment';
 import { map } from 'rxjs/operators';
 import { SaleOrderStatusList } from '../../../../enums/sale-order-status';
+import { StringHelper } from '../../../../helpers/string-helper';
 import { CompanyBranch } from '../../../../models/api/company-brach';
 import { Employee } from '../../../../models/api/employee';
 import { PaymentMethod } from '../../../../models/api/payment-method';
@@ -26,7 +27,7 @@ import { ToastService } from '../../../../services/toast.service';
 import { AutocompleteComponent } from '../../../../shared/autocomplete/autocomplete.component';
 import { SaleOrderPaymentOptions } from '../../models/sale-order-payment-options';
 import { SaleOrderProductOptions } from '../../models/sale-order-product-options';
-import { SaleOrderPaymentFormInputData } from './sale-order-payment-form/sale-order-payment-form.component';
+import { SaleOrderPaymentFormComponent, SaleOrderPaymentFormInputData } from './sale-order-payment-form/sale-order-payment-form.component';
 import { SaleOrderProductFormComponent, SaleOrderProductFormInputData } from './sale-order-product-form/sale-order-product-form.component';
 
 export interface SaleOrderFormInputData {
@@ -293,39 +294,39 @@ export class SaleOrderFormComponent implements OnInit {
 
     const payment = index !== undefined && index !== null ? this.payments[index] : null;
 
-    const dialog = this._dialog.open(SaleOrderProductFormComponent, {
-      width: '45%',
+    const dialog = this._dialog.open(SaleOrderPaymentFormComponent, {
+      width: '50%',
       data: { payment } as SaleOrderPaymentFormInputData
     });
 
     dialog.afterClosed().subscribe(result => {
-      if (result && result.saleOrderProduct) {
+      if (result && result.payment) {
         if (index !== undefined && index != null)
-          this.products[index] = result.saleOrderProduct;
+          this.payments[index] = result.payment;
         else
-          this.products.push(result.saleOrderProduct);
+          this.payments.push(result.payment);
       }
     });
   }
 
   public removePayment(index: number): void {
 
-    // const saleOrderProduct = this.products[index];
+    const payment = this.payments[index];
 
-    // this._alert.open({
-    //   message: `Excluir produto <strong>${saleOrderProduct.companyBranchProduct.product.name}</strong>?`,
-    //   buttons: [
-    //     {
-    //       text: 'Cancelar',
-    //       color: 'basic'
-    //     },
-    //     {
-    //       text: 'Excluir',
-    //       color: 'warn',
-    //       onClick: () => this.products.splice(index, 1)
-    //     }
-    //   ]
-    // });
+    this._alert.open({
+      message: `Excluir pagamento <strong>${payment.paymentMethod.name} ${StringHelper.toMoney(payment.value)}</strong>?`,
+      buttons: [
+        {
+          text: 'Cancelar',
+          color: 'basic'
+        },
+        {
+          text: 'Excluir',
+          color: 'warn',
+          onClick: () => this.payments.splice(index, 1)
+        }
+      ]
+    });
   }
 
   public save(): void {
@@ -333,6 +334,11 @@ export class SaleOrderFormComponent implements OnInit {
     if (!this.personCustomerSelected) {
       this._toast.open('Cliente não definido', 'error');
       throw new Error('Customer not defined');
+    }
+
+    if (this.payments.length && this.productsTotalPrice != this.paymentsTotalPrice) {
+      this._toast.open('Valor de pagamento diferente do total', 'error');
+      throw new Error('Payment value incorrect');
     }
 
     if (!this.saleOrderForm.valid) {

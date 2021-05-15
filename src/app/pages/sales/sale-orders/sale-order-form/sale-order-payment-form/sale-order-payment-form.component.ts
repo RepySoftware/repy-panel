@@ -7,6 +7,7 @@ import { LoaderService } from '../../../../../services/loader.service';
 import { PaymentMethodService } from '../../../../../services/payment-method.service';
 import { ToastService } from '../../../../../services/toast.service';
 import { SaleOrderPaymentOptions } from '../../../models/sale-order-payment-options';
+import * as moment from 'moment';
 
 export interface SaleOrderPaymentFormInputData {
   payment: SaleOrderPayment
@@ -17,7 +18,7 @@ export interface SaleOrderPaymentFormInputData {
   templateUrl: './sale-order-payment-form.component.html',
   styleUrls: ['./sale-order-payment-form.component.scss']
 })
-export class SaleOrderPaymentFormComponent implements OnInit, AfterViewInit {
+export class SaleOrderPaymentFormComponent implements OnInit {
 
   public paymentForm: FormGroup;
 
@@ -29,14 +30,13 @@ export class SaleOrderPaymentFormComponent implements OnInit, AfterViewInit {
     private _loader: LoaderService,
     private _dialogRef: MatDialogRef<SaleOrderPaymentFormComponent>,
     @Inject(MAT_DIALOG_DATA) public inputData: SaleOrderPaymentFormInputData
-  ) { }
-
-  ngOnInit(): void {
+  ) {
     this.initForm();
-    this.getPaymentMethods();
   }
 
-  ngAfterViewInit(): void {
+  ngOnInit(): void {
+    this.getPaymentMethods();
+
     if (this.inputData.payment)
       this.setFormValues();
   }
@@ -45,16 +45,16 @@ export class SaleOrderPaymentFormComponent implements OnInit, AfterViewInit {
     this.paymentForm = new FormGroup({
       paymentMethod: new FormControl(null, Validators.required),
       value: new FormControl(null, [Validators.required, Validators.min(0)]),
-      dueDate: new FormControl(null, Validators.required),
-      payDate: new FormControl(null, Validators.required),
+      dueDate: new FormControl(moment().format('YYYY-MM-DD'), Validators.required),
+      payDate: new FormControl(moment().format('YYYY-MM-DD'))
     });
   }
 
   public setFormValues(): void {
     this.paymentForm.get('paymentMethod').setValue(this.inputData.payment.paymentMethod.id);
     this.paymentForm.get('value').setValue(this.inputData.payment.value);
-    this.paymentForm.get('dueDate').setValue(this.inputData.payment.dueDate);
-    this.paymentForm.get('payDate').setValue(this.inputData.payment.payDate);
+    this.paymentForm.get('dueDate').setValue(moment(this.inputData.payment.dueDate).format('YYYY-MM-DD'));
+    this.paymentForm.get('payDate').setValue(this.inputData.payment.payDate ? moment(this.inputData.payment.payDate).format('YYYY-MM-DD') : null);
   }
 
   private getPaymentMethods(): void {
@@ -74,11 +74,11 @@ export class SaleOrderPaymentFormComponent implements OnInit, AfterViewInit {
     }
 
     const payment: SaleOrderPaymentOptions = {
-      id: this.inputData.payment.id,
+      id: this.inputData?.payment?.id,
       paymentMethod: this.paymentMethods.find(x => x.id == this.paymentForm.get('paymentMethod').value),
-      value: this.paymentForm.get('value').value,
+      value: Number(this.paymentForm.get('value').value),
       dueDate: this.paymentForm.get('dueDate').value,
-      payDate: this.paymentForm.get('payDate').value,
+      payDate: this.paymentForm.get('payDate').value
     }
 
     this._dialogRef.close({ payment });

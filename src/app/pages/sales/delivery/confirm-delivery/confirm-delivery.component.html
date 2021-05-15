@@ -25,24 +25,74 @@
         </mat-form-field>
     </div>
 
-    <!-- <div class="col-8"
-         *ngIf="inputData.delivery.saleOrder">
-        <mat-form-field>
-            <mat-label>Tipo de pagamento</mat-label>
-            <mat-select #paymentMethod
-                        [value]="inputData.delivery.saleOrder?.paymentMethod?.id">
-
-                <mat-option *ngFor="let pm of paymentMethods"
-                            [value]="pm.id">
-                    {{ pm.name }}
-                </mat-option>
-
-            </mat-select>
-        </mat-form-field>
-    </div> -->
+    <div class="col-12">
+        <div style="font-size: 23px;">
+            <span>Total: </span>
+            <span style="font-weight: bold; color: var(--color-alizarin);">
+                {{ productsTotalPrice | money }}
+            </span>
+        </div>
+    </div>
 
     <div class="col-12"
-         style="display: flex; gap: 10px;">
+         style="margin-top: 14px;">
+        <mat-divider style="margin: 8px 0;"></mat-divider>
+        <h5>Pagamento</h5>
+    </div>
+
+    <div class="col-12">
+        <table class="payments-table">
+            <thead>
+                <tr>
+                    <th>Método</th>
+                    <th>Valor</th>
+                    <th>Vencimento</th>
+                    <th>Pagamento</th>
+                    <th>Opt</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let p of payments; let i = index">
+                    <td>{{ p.paymentMethod.name }}</td>
+                    <td>{{ p.value | money }}</td>
+                    <td>{{ p.dueDate | momentDate }}</td>
+                    <td>{{ p.payDate | momentDate }}</td>
+                    <td>
+                        <a href="javascript:;"
+                           (click)="openPaymentForm(i)">
+                            <mat-icon>edit</mat-icon>
+                        </a>
+                        <a href="javascript:;"
+                           (click)="removePayment(i)">
+                            <mat-icon>close</mat-icon>
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="1"></td>
+                    <td style="font-weight: bold; color: var(--color-alizarin);">
+                        {{ paymentsTotalPrice | money }}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="col-12"
+         *ngIf="payments.length && paymentsTotalPrice != productsTotalPrice"
+         style="color: var(--color-orange)">
+        Valor informado é diferente do valor total da venda
+    </div>
+
+    <div class="col-12">
+        <button mat-stroked-button
+                color="primary"
+                style="margin-top: 10px; padding: 4px; line-height: 1.5;"
+                (click)="openPaymentForm()">Incluir pagamento</button>
+    </div>
+
+    <div class="col-12"
+         style="display: flex; gap: 10px; margin-top: 25px;">
 
         <button mat-stroked-button
                 color="primary"

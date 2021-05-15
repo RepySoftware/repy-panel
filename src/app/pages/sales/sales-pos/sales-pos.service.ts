@@ -186,8 +186,8 @@ export class SalesPosService {
     if (!this.products.length)
       errors.push('Nenhum produto definido');
 
-    if (!this.payments.length)
-      errors.push('Nenhum pagamento definido');
+    if (this.payments.length && this.productsTotalPrice != this.paymentsTotalPrice)
+      errors.push('Valor de pagamento é diferente do valor total da venda');
 
     if (errors.length > 0) {
 
