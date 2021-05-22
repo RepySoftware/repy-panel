@@ -5,6 +5,7 @@ import { Delivery } from '../../../../models/api/delivery';
 import { DeliveryMapMarker } from '../models/delivery-map-marker';
 import { SalesDeliveryService } from '../sales-delivery.service';
 import { MapInfoWindow, MapMarker, GoogleMap } from '@angular/google-maps';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-delivery-map',
@@ -44,27 +45,53 @@ export class DeliveryMapComponent implements OnInit {
 
     this.markers = [];
 
-    deliveries
-      .filter(d => d.type == DeliveryType.saleOrder)
-      .forEach(d => {
-        this.markers.push({
-          delivery: d,
-          marker: {
-            position: {
-              lat: d.saleOrder.deliveryAddress.latitude,
-              lng: d.saleOrder.deliveryAddress.longitude
-            },
-            title: `#${d.saleOrder.id}`,
-            label: {
-              text: (d.index + 1).toString(),
-              className: 'map-marker-label',
-            },
-            options: {
-              icon: this.pinSymbol(d.saleOrder.employeeDriver?.color || '#000')
-            }
-          }
-        });
+    _(deliveries)
+      .groupBy(d => d.employeeDriver.id)
+      .forEach(deliveriesByDriver => {
+        deliveriesByDriver
+          .filter(x => x.type == DeliveryType.saleOrder)
+          .forEach((d, i) => {
+            this.markers.push({
+              delivery: d,
+              marker: {
+                position: {
+                  lat: d.saleOrder.deliveryAddress.latitude,
+                  lng: d.saleOrder.deliveryAddress.longitude
+                },
+                title: `#${d.saleOrder.id}`,
+                label: {
+                  text: (i + 1).toString(),
+                  className: 'map-marker-label',
+                },
+                options: {
+                  icon: this.pinSymbol(d.saleOrder.employeeDriver?.color || '#000')
+                }
+              }
+            });
+          });
       });
+
+    // deliveries
+    //   .filter(d => d.type == DeliveryType.saleOrder)
+    //   .forEach(d => {
+    //     this.markers.push({
+    //       delivery: d,
+    //       marker: {
+    //         position: {
+    //           lat: d.saleOrder.deliveryAddress.latitude,
+    //           lng: d.saleOrder.deliveryAddress.longitude
+    //         },
+    //         title: `#${d.saleOrder.id}`,
+    //         label: {
+    //           text: (d.index + 1).toString(),
+    //           className: 'map-marker-label',
+    //         },
+    //         options: {
+    //           icon: this.pinSymbol(d.saleOrder.employeeDriver?.color || '#000')
+    //         }
+    //       }
+    //     });
+    //   });
 
     if (this._firstLoading) {
       this.mapCenter = {
@@ -78,12 +105,12 @@ export class DeliveryMapComponent implements OnInit {
 
   private pinSymbol(color: string): google.maps.Symbol {
     return {
-        path: 'M 0,0 C -2,-20 -10,-22 -10,-30 A 10,10 0 1,1 10,-30 C 10,-22 2,-20 0,0 z',
-        fillColor: color,
-        fillOpacity: 1,
-        strokeColor: '#444',
-        strokeWeight: 1,
-        scale: 1
-   };
-}
+      path: 'M 0,0 C -2,-20 -10,-22 -10,-30 A 10,10 0 1,1 10,-30 C 10,-22 2,-20 0,0 z',
+      fillColor: color,
+      fillOpacity: 1,
+      strokeColor: '#444',
+      strokeWeight: 1,
+      scale: 1
+    };
+  }
 }
