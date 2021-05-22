@@ -50,6 +50,7 @@ export class DeliveryMapComponent implements OnInit {
       .forEach(deliveriesByDriver => {
         deliveriesByDriver
           .filter(x => x.type == DeliveryType.saleOrder)
+          .sort((a, b) => a.index - b.index)
           .forEach((d, i) => {
             this.markers.push({
               delivery: d,
