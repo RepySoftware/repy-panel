@@ -46,7 +46,7 @@ export class DeliveryMapComponent implements OnInit {
     this.markers = [];
 
     _(deliveries)
-      .groupBy(d => d.employeeDriver.id)
+      .groupBy(d => d.employeeDriver?.id)
       .forEach(deliveriesByDriver => {
         deliveriesByDriver
           .filter(x => x.type == DeliveryType.saleOrder)
