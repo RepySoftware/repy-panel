@@ -6,6 +6,7 @@ import { DeliveryMapMarker } from '../models/delivery-map-marker';
 import { SalesDeliveryService } from '../sales-delivery.service';
 import { MapInfoWindow, MapMarker, GoogleMap } from '@angular/google-maps';
 import * as _ from 'lodash';
+import { Employee } from '../../../../models/api/employee';
 
 @Component({
   selector: 'app-delivery-map',
@@ -45,6 +46,27 @@ export class DeliveryMapComponent implements OnInit {
 
     this.markers = [];
 
+    // create markers for drivers
+    _(deliveries)
+      .filter(d => !!d.employeeDriver && (!!d.employeeDriver.currentLatitude && !!d.employeeDriver.currentLongitude))
+      .groupBy(d => d.employeeDriver?.id)
+      .map(x => x[0].employeeDriver)
+      .forEach(e => {
+        this.markers.push({
+          employeeDriver: e,
+          marker: {
+            position: {
+              lat: e.currentLatitude,
+              lng: e.currentLongitude
+            },
+            options: {
+              icon: this.pinSymbol(e.color)
+            }
+          }
+        });
+      });
+
+    // create markers for deliveries
     _(deliveries)
       .groupBy(d => d.employeeDriver?.id)
       .forEach(deliveriesByDriver => {
