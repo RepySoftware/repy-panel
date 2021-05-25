@@ -5,11 +5,18 @@
             [center]="mapCenter"
             [options]="mapOptions">
 
-    <map-marker *ngFor="let m of markers"
+    <map-marker *ngFor="let m of markers; let i = index"
                 [position]="m.marker.position"
                 [title]="m.marker.title"
                 [label]="m.marker.label"
-                [options]="m.marker.options">
-    </map-marker>
+                [options]="m.marker.options"
+                #marker="mapMarker"
+                (mapClick)="openInfoWindow(marker, i)">
 
+        <map-info-window #infoWindow
+                         *ngIf="m.employeeDriverCoordinates">
+            Última atualização {{ (m.employeeDriverCoordinates.coordinatesUpdatedAt | momentCalendar) | lowercase}}
+        </map-info-window>
+
+    </map-marker>
 </google-map>

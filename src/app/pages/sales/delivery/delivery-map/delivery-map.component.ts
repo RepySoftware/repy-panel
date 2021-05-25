@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { DeliveryType } from '../../../../enums/delivery-type';
 import { AddressHelper } from '../../../../helpers/address.helper';
 import { Delivery } from '../../../../models/api/delivery';
@@ -7,6 +7,7 @@ import { SalesDeliveryService } from '../sales-delivery.service';
 import { MapInfoWindow, MapMarker, GoogleMap } from '@angular/google-maps';
 import * as _ from 'lodash';
 import { Employee } from '../../../../models/api/employee';
+import { EmployeeCoordinates } from '../../../../models/api/employee-coordinates';
 
 @Component({
   selector: 'app-delivery-map',
@@ -15,6 +16,7 @@ import { Employee } from '../../../../models/api/employee';
 })
 export class DeliveryMapComponent implements OnInit {
 
+  @ViewChildren(MapInfoWindow) infoWindowsView: QueryList<MapInfoWindow>;
   @ViewChild('map') public map: GoogleMap;
 
   public mapZoom = 12;
@@ -39,34 +41,34 @@ export class DeliveryMapComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this._salesDeliveryService.deliveriesSubject.subscribe(deliveries => this.refreshMarkers(deliveries));
+    this._salesDeliveryService.deliveriesSubject.subscribe(deliveries => this.refreshDeliveriesMarkers(deliveries));
+    this._salesDeliveryService.employeesCoordinatesSubject.subscribe(employeesCoordinates => this.refreshEmployeesMarkers(employeesCoordinates));
   }
 
-  private refreshMarkers(deliveries: Delivery[]): void {
+  private refreshEmployeesMarkers(employeesCoordinates: EmployeeCoordinates[]): void {
 
-    this.markers = [];
+    this.markers = this.markers.filter(m => m.delivery);
 
-    // create markers for drivers
-    _(deliveries)
-      .filter(d => !!d.employeeDriver && (!!d.employeeDriver.currentLatitude && !!d.employeeDriver.currentLongitude))
-      .groupBy(d => d.employeeDriver?.id)
-      .map(x => x[0].employeeDriver)
-      .forEach(e => {
-        this.markers.push({
-          employeeDriver: e,
-          marker: {
-            position: {
-              lat: e.currentLatitude,
-              lng: e.currentLongitude
-            },
-            options: {
-              icon: this.pinSymbol(e.color)
-            }
+    employeesCoordinates.forEach(ec => {
+      this.markers.push({
+        employeeDriverCoordinates: ec,
+        marker: {
+          position: {
+            lat: ec.latitude,
+            lng: ec.longitude
+          },
+          options: {
+            icon: this.pinSymbol(ec.color)
           }
-        });
+        }
       });
+    });
+  }
 
-    // create markers for deliveries
+  private refreshDeliveriesMarkers(deliveries: Delivery[]): void {
+
+    this.markers = this.markers.filter(m => m.employeeDriverCoordinates);
+
     _(deliveries)
       .groupBy(d => d.employeeDriver?.id)
       .forEach(deliveriesByDriver => {
@@ -94,28 +96,6 @@ export class DeliveryMapComponent implements OnInit {
           });
       });
 
-    // deliveries
-    //   .filter(d => d.type == DeliveryType.saleOrder)
-    //   .forEach(d => {
-    //     this.markers.push({
-    //       delivery: d,
-    //       marker: {
-    //         position: {
-    //           lat: d.saleOrder.deliveryAddress.latitude,
-    //           lng: d.saleOrder.deliveryAddress.longitude
-    //         },
-    //         title: `#${d.saleOrder.id}`,
-    //         label: {
-    //           text: (d.index + 1).toString(),
-    //           className: 'map-marker-label',
-    //         },
-    //         options: {
-    //           icon: this.pinSymbol(d.saleOrder.employeeDriver?.color || '#000')
-    //         }
-    //       }
-    //     });
-    //   });
-
     if (this._firstLoading) {
       this.mapCenter = {
         lat: deliveries[0].saleOrder.deliveryAddress.latitude,
@@ -124,6 +104,14 @@ export class DeliveryMapComponent implements OnInit {
 
       this._firstLoading = false;
     }
+  }
+
+  public openInfoWindow(marker: MapMarker, index: number): void {
+    const infoWindow = Array.from(this.infoWindowsView)[index];
+    
+    try {
+      infoWindow.open({ getAnchor: () => marker.getAnchor() });
+    } catch { }
   }
 
   private pinSymbol(color: string): google.maps.Symbol {

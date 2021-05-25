@@ -1,4 +1,5 @@
 import { ApiModel } from "../abstraction/api-model";
+import { Coordinates } from "./coordinates";
 
 export interface Employee extends ApiModel {
 
@@ -10,9 +11,7 @@ export interface Employee extends ApiModel {
     isAgent: boolean;
     isDriver: boolean;
     isActive: boolean;
-    currentLatitude?: number;
-    currentLongitude?: number;
-    currentSpeed?: number;
+    coordinates?: Coordinates;
     createdAt: string;
     updatedAt: string;
 }

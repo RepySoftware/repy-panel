@@ -2,13 +2,11 @@ import { CdkDragDrop, copyArrayItem, moveItemInArray, transferArrayItem } from '
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatExpansionPanel } from '@angular/material/expansion';
-import { DomSanitizer } from '@angular/platform-browser';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { DeliveryExtraCardType } from '../../../enums/delivery-extra-card-type';
 import { DeliveryType } from '../../../enums/delivery-type';
 import { Delivery } from '../../../models/api/delivery';
-import { DeliveryInstruction } from '../../../models/api/delivery-instruction';
 import { Employee } from '../../../models/api/employee';
 import { EmployeeFilter } from '../../../models/output/filters/employee.filter';
 import { AutocompleteItem } from '../../../models/ui/autocomplete-item';
@@ -74,6 +72,7 @@ export class DeliveryComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.refreshDeliveries({ createColumns: true });
+    this.refreshEmployeesGeolocation();
 
     if (this.autoRefresh)
       this.initRefreshInterval();
@@ -86,8 +85,10 @@ export class DeliveryComponent implements OnInit, OnDestroy {
   private initRefreshInterval(): void {
     if (!this._refreshIntervalActive) {
 
-      this._refreshIntervalId = setInterval(() =>
-        this.refreshDeliveries(), DeliveryComponent.REFRESH_INTERVAL
+      this._refreshIntervalId = setInterval(() => {
+        this.refreshDeliveries();
+        this.refreshEmployeesGeolocation();
+      }, DeliveryComponent.REFRESH_INTERVAL
       );
 
       this._refreshIntervalActive = true;
@@ -161,6 +162,27 @@ export class DeliveryComponent implements OnInit, OnDestroy {
     });
   }
 
+  public refreshEmployeesGeolocation(options?: { force?: boolean }): Promise<void> {
+
+    return new Promise((resolve, reject) => {
+
+      if (this._refreshIntervalActive || (options && options.force)) {
+
+        const employeesIds = this.board.columns
+          .filter(c => c.employeeDriverId)
+          .map(c => c.employeeDriverId);
+
+        this._employeeService.getGeolocation({ employeesIds }).subscribe(response => {
+          this._salesDeliveryService.employeesCoordinates = response;
+          resolve();
+        }, error => {
+          this._toast.showHttpError(error);
+        });
+      }
+
+    });
+  }
+
   private sortCards(): void {
     this.board.columns.forEach(column => column.cards.sort((a, b) => a.delivery.index - b.delivery.index));
   }
@@ -219,7 +241,8 @@ export class DeliveryComponent implements OnInit, OnDestroy {
 
     this.board.columns.push(column);
 
-    this.refreshDeliveries();
+    this.refreshDeliveries({ force: true });
+    this.refreshEmployeesGeolocation({ force: true });
   }
 
   private refreshIndexes(event: CdkDragDrop<DeliveryKanbanCard[]>, showLoader = false): Promise<void> {

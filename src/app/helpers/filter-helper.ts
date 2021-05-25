@@ -6,7 +6,9 @@ export abstract class HttpQueryParamsHelper {
 
         Object.entries(obj)
             .filter(x => x[1] !== undefined && x[1] !== null)
-            .forEach(x => newObj[x[0]] = String(x[1]));
+            .forEach(x => {
+                newObj[x[0]] = Array.isArray(x[1]) ? x[1].join(',') : String(x[1])
+            });
 
         return newObj;
     }

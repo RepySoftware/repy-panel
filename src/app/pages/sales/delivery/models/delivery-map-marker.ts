@@ -1,10 +1,9 @@
 import { Delivery } from "../../../../models/api/delivery";
-import { MapInfoWindow, MapMarker, GoogleMap } from '@angular/google-maps'
-import { Employee } from "../../../../models/api/employee";
+import { EmployeeCoordinates } from "../../../../models/api/employee-coordinates";
 
 export interface DeliveryMapMarker {
     delivery?: Delivery;
-    employeeDriver?: Employee;
+    employeeDriverCoordinates?: EmployeeCoordinates;
     marker: {
         title?: string;
         label?: google.maps.MarkerLabel;
