@@ -4,6 +4,7 @@ import { Person } from '../../../models/api/person';
 import { PersonFilter } from '../../../models/output/filters/person.filter';
 import { LoaderService } from '../../../services/loader.service';
 import { PersonService } from '../../../services/person.service';
+import { TitleService } from '../../../services/title.service';
 import { ToastService } from '../../../services/toast.service';
 import { PersonFormComponent, PersonFormInputData } from '../person-form/person-form.component';
 
@@ -34,10 +35,12 @@ export class PersonsListComponent implements OnInit {
     private _personService: PersonService,
     private _loader: LoaderService,
     private _toast: ToastService,
-    private _dialog: MatDialog
+    private _dialog: MatDialog,
+    private _title: TitleService
   ) { }
 
   ngOnInit(): void {
+    this._title.set('Pessoas - Lista');
     this.getPersons();
   }
 

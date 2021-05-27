@@ -4,6 +4,7 @@ import { environment } from '../../../../environments/environment';
 import { DeviceType } from '../../../enums/device-type';
 import { Device } from '../../../models/api/device';
 import { LoaderService } from '../../../services/loader.service';
+import { TitleService } from '../../../services/title.service';
 import { ToastService } from '../../../services/toast.service';
 import { DevicesViewService } from '../devices-view.service';
 
@@ -33,11 +34,13 @@ export class DevicesMapComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(
     private _loader: LoaderService,
     private _toast: ToastService,
-    private _devicesViewService: DevicesViewService
+    private _devicesViewService: DevicesViewService,
+    private _title: TitleService
   ) {
   }
 
   ngOnInit() {
+    this._title.set('Dispositivos - Mapa')
   }
 
   ngAfterViewInit() {

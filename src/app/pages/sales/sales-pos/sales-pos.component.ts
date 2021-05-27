@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { TitleService } from '../../../services/title.service';
 import { SalesPosService } from './sales-pos.service';
 
 export interface SalesPosTab {
@@ -43,10 +44,12 @@ export class SalesPosComponent implements OnInit {
   ]
 
   constructor(
-    public salesPosService: SalesPosService
+    public salesPosService: SalesPosService,
+    private _title: TitleService
   ) { }
 
   ngOnInit(): void {
+    this._title.set('PDV');
   }
 
 }

@@ -13,6 +13,7 @@ import { PersonPhoneView } from '../../../models/ui/person-phone-view';
 import { AlertMessageService } from '../../../services/alert-message.service';
 import { LoaderService } from '../../../services/loader.service';
 import { PersonService } from '../../../services/person.service';
+import { TitleService } from '../../../services/title.service';
 import { ToastService } from '../../../services/toast.service';
 import { AddressConfigService } from '../../../shared/address-config/address-config.service';
 
@@ -67,7 +68,9 @@ export class PersonFormComponent implements OnInit {
     this.isModal = !!this.inputData.personId;
 
     if (this.personId) {
-      this.getPerson().then(() => this.setFormValues());
+      this.getPerson().then(person => {
+        this.setFormValues();
+      });
     }
   }
 
@@ -109,7 +112,7 @@ export class PersonFormComponent implements OnInit {
     this.phones = this.person.phones;
   }
 
-  private getPerson(personId: number = this.personId): Promise<void> {
+  private getPerson(personId: number = this.personId): Promise<Person> {
 
     return new Promise((resolve, reject) => {
       this._loader.show();
@@ -117,7 +120,7 @@ export class PersonFormComponent implements OnInit {
         this._loader.dismiss();
         this.person = response;
 
-        resolve();
+        resolve(response);
       }, error => {
         this._loader.dismiss();
         this._toast.showHttpError(error);

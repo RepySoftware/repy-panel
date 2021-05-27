@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { DeviceType } from '../../../enums/device-type';
 import { Device } from '../../../models/api/device';
 import { LoaderService } from '../../../services/loader.service';
+import { TitleService } from '../../../services/title.service';
 import { ToastService } from '../../../services/toast.service';
 import { DeviceDetailsService } from './device-details.service';
 import { DeviceGasLevelComponent } from './device-gas-level/device-gas-level.component';
@@ -30,10 +31,14 @@ export class DeviceDetailsComponent implements OnInit, OnDestroy {
     private _loader: LoaderService,
     private _toast: ToastService,
     public deviceDetailsService: DeviceDetailsService,
-    private _componentFactoryResolver: ComponentFactoryResolver
+    private _componentFactoryResolver: ComponentFactoryResolver,
+    private _title: TitleService
   ) { }
 
   ngOnInit(): void {
+
+    this._title.set('Dispositivo - Detalhes')
+
     const deviceId = this._activatedRoute.snapshot.params.id;
 
     if (!deviceId) {
@@ -53,6 +58,9 @@ export class DeviceDetailsComponent implements OnInit, OnDestroy {
       id: deviceId,
       showLoader: true
     }).then(device => {
+
+      this._title.set(`Dispositivo - ${device.name}`);
+
       this.deviceContainer.clear();
       const componentFactory = this._componentFactoryResolver.resolveComponentFactory(this.deviceTypeComponent[device.type]);
       this.deviceContainer.createComponent(componentFactory);

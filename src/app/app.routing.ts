@@ -5,7 +5,7 @@ import { OnlyLoggedGuard } from './guards/only-logged.guard';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'login',
+    redirectTo: 'home',
     pathMatch: 'full'
   },
   {

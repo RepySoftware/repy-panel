@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { TitleService } from '../../services/title.service';
 
 @Component({
   selector: 'app-sales',
@@ -7,9 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SalesComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private _title: TitleService
+  ) { }
 
   ngOnInit(): void {
+    this._title.set('Pedidos de Venda');
   }
 
 }

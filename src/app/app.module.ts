@@ -29,6 +29,8 @@ import { NgMaterialMultilevelMenuModule } from 'ng-material-multilevel-menu';
 import { AlertMessageService } from './services/alert-message.service';
 import { DeliveryService } from './services/delivery.service';
 import { DeliveryInstructionService } from './services/delivery-instruction.service';
+import { TitleService } from './services/title.service';
+import { ImageService } from './services/image.service';
 
 @NgModule({
   declarations: [
@@ -59,6 +61,8 @@ import { DeliveryInstructionService } from './services/delivery-instruction.serv
     DashboardService,
     DeliveryService,
     DeliveryInstructionService,
+    TitleService,
+    ImageService,
 
     LoaderService,
     ToastService,

@@ -21,6 +21,7 @@ import { LoaderService } from '../../../services/loader.service';
 import { PaymentMethodService } from '../../../services/payment-method.service';
 import { PersonService } from '../../../services/person.service';
 import { SaleOrderService } from '../../../services/sale-order.service';
+import { TitleService } from '../../../services/title.service';
 import { ToastService } from '../../../services/toast.service';
 import { AutocompleteComponent } from '../../../shared/autocomplete/autocomplete.component';
 import { SaleOrderDetailsComponent, SaleOrderDetailsInputData } from './sale-order-details/sale-order-details.component';
@@ -87,10 +88,12 @@ export class SaleOrdersComponent implements OnInit {
     private _paymentMethodService: PaymentMethodService,
     private _dialog: MatDialog,
     private _alert: AlertMessageService,
-    private _personService: PersonService
+    private _personService: PersonService,
+    private _title: TitleService
   ) { }
 
   ngOnInit(): void {
+    this._title.set('Pedidos de Venda - Lista');
     this.getSaleOrders();
     this.getPaymentMethods();
   }

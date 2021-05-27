@@ -14,6 +14,7 @@ import { AutocompleteOptions } from '../../../models/ui/autocomplete-options';
 import { DeliveryService } from '../../../services/delivery.service';
 import { EmployeeService } from '../../../services/employee.service';
 import { LoaderService } from '../../../services/loader.service';
+import { TitleService } from '../../../services/title.service';
 import { ToastService } from '../../../services/toast.service';
 import { ConfirmDeliveryComponent, ConfirmDeliveryInputData } from './confirm-delivery/confirm-delivery.component';
 import { DeliveryInstructionFormComponent, DeliveryInstructionFormInputData } from './delivery-instruction-form/delivery-instruction-form.component';
@@ -67,10 +68,13 @@ export class DeliveryComponent implements OnInit, OnDestroy {
     private _employeeService: EmployeeService,
     private _dialog: MatDialog,
     private _loader: LoaderService,
-    private _salesDeliveryService: SalesDeliveryService
+    private _salesDeliveryService: SalesDeliveryService,
+    private _title: TitleService
   ) { }
 
   ngOnInit(): void {
+    this._title.set('Entregas');
+
     this.refreshDeliveries({ createColumns: true });
     this.refreshEmployeesGeolocation();
 

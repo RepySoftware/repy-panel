@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { TitleService } from '../../services/title.service';
 import { DevicesViewService } from './devices-view.service';
 
 @Component({
@@ -10,10 +11,12 @@ import { DevicesViewService } from './devices-view.service';
 export class DevicesComponent implements OnInit, OnDestroy {
 
   constructor(
-    public devicesViewService: DevicesViewService
+    public devicesViewService: DevicesViewService,
+    private _title: TitleService
   ) { }
 
   ngOnInit() {
+    this._title.set('Dispositivos');
     this.devicesViewService.refreshDevices();
   }
 
