@@ -13,6 +13,7 @@ export class SalesByPeriodComponent implements AfterViewInit {
 
   @ViewChild('startDateOfIssue') public startDateOfIssueElement: ElementRef;
   @ViewChild('endDateOfIssue') public endDateOfIssueElement: ElementRef;
+  @ViewChild('scheduleNextDays') public scheduleNextDaysElement: ElementRef;
 
   public sales: SalesByDate;
 
@@ -28,13 +29,15 @@ export class SalesByPeriodComponent implements AfterViewInit {
 
     const startDate = moment().startOf('day');
     const endDate = moment().endOf('day');
+    const scheduleNextDays = 3;
 
     this.startDateOfIssueElement.nativeElement.value = startDate.format('YYYY-MM-DD');
     this.endDateOfIssueElement.nativeElement.value = endDate.format('YYYY-MM-DD');
+    this.scheduleNextDaysElement.nativeElement.value = scheduleNextDays;
 
     this._cdRef.detectChanges();
 
-    this.getSales(startDate.toISOString(), endDate.toISOString());
+    this.getSales(startDate.toISOString(), endDate.toISOString(), scheduleNextDays);
   }
 
   public refreshSales(): void {
@@ -47,15 +50,17 @@ export class SalesByPeriodComponent implements AfterViewInit {
       .endOf('day')
       .toISOString();
 
-    this.getSales(startDate, endDate);
+    const scheduleNextDays = Number(this.scheduleNextDaysElement.nativeElement.value);
+
+    this.getSales(startDate, endDate, scheduleNextDays);
   }
 
-  private getSales(startDateOfIssue: string, endDateOfIssue: string): void {
+  private getSales(startDateOfIssue: string, endDateOfIssue: string, scheduleNextDays: number): void {
 
     this.showButtonSpinner = true;
     this._cdRef.detectChanges();
 
-    this._dashboardService.getSalesByDate(startDateOfIssue, endDateOfIssue).subscribe(response => {
+    this._dashboardService.getSalesByDate(startDateOfIssue, endDateOfIssue, scheduleNextDays).subscribe(response => {
       this.showButtonSpinner = false;
 
       this.sales = response;
