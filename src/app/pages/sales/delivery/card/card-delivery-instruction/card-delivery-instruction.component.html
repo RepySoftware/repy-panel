@@ -13,6 +13,14 @@
     <div style="width: 100%; margin-top: 8px;">
 
         <button mat-stroked-button
+                color="primary"
+                class="delete-instruction"
+                (click)="deleteInstruction()"
+                *ngIf="!inputData.column.defaultColumn">
+            <mat-icon>close</mat-icon>
+        </button>
+
+        <button mat-stroked-button
                 class="confirm-delivery"
                 color="primary"
                 (click)="openDeliveryFinalize()"

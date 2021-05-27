@@ -96,7 +96,7 @@ export class DeliveryMapComponent implements OnInit {
           });
       });
 
-    if (this._firstLoading) {
+    if (this._firstLoading && deliveries.filter(d => d.type == DeliveryType.saleOrder).length) {
       this.mapCenter = {
         lat: deliveries[0].saleOrder.deliveryAddress.latitude,
         lng: deliveries[0].saleOrder.deliveryAddress.longitude
@@ -108,7 +108,7 @@ export class DeliveryMapComponent implements OnInit {
 
   public openInfoWindow(marker: MapMarker, index: number): void {
     const infoWindow = Array.from(this.infoWindowsView)[index];
-    
+
     try {
       infoWindow.open({ getAnchor: () => marker.getAnchor() });
     } catch { }

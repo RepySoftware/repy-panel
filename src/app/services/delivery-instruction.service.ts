@@ -25,4 +25,8 @@ export class DeliveryInstructionService {
     public create(params: DeliveryInstructionOutput): Observable<DeliveryInstruction> {
         return this._http.post<DeliveryInstruction>(`${URLS.api.deliveryInstructions}`, params);
     }
+
+    public delete(id: number): Observable<void> {
+        return this._http.delete<void>(`${URLS.api.deliveryInstructions}/${id}`);
+    }
 }

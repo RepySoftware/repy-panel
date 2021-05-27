@@ -25,7 +25,8 @@
         </mat-form-field>
     </div>
 
-    <div class="col-12">
+    <div class="col-12"
+         *ngIf="inputData.delivery.saleOrder">
         <div style="font-size: 23px;">
             <span>Total: </span>
             <span style="font-weight: bold; color: var(--color-alizarin);">
@@ -35,12 +36,14 @@
     </div>
 
     <div class="col-12"
-         style="margin-top: 14px;">
+         style="margin-top: 14px;"
+         *ngIf="inputData.delivery.saleOrder">
         <mat-divider style="margin: 8px 0;"></mat-divider>
         <h5>Pagamento</h5>
     </div>
 
-    <div class="col-12">
+    <div class="col-12"
+         *ngIf="inputData.delivery.saleOrder">
         <table class="payments-table">
             <thead>
                 <tr>
@@ -79,12 +82,13 @@
     </div>
 
     <div class="col-12"
-         *ngIf="payments.length && paymentsTotalPrice != productsTotalPrice"
+         *ngIf="inputData.delivery.saleOrder && payments.length && paymentsTotalPrice != productsTotalPrice"
          style="color: var(--color-orange)">
         Valor informado é diferente do valor total da venda
     </div>
 
-    <div class="col-12">
+    <div class="col-12"
+         *ngIf="inputData.delivery.saleOrder">
         <button mat-stroked-button
                 color="primary"
                 style="margin-top: 10px; padding: 4px; line-height: 1.5;"

@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { DeliveryType } from '../../../../../enums/delivery-type';
 import { copyToClipboard } from '../../../../../functions/copy-to-clipboard';
@@ -8,6 +9,8 @@ import { Address } from '../../../../../models/api/address';
 import { Delivery } from '../../../../../models/api/delivery';
 import { SaleOrder } from '../../../../../models/api/sale-order';
 import { ToastService } from '../../../../../services/toast.service';
+import { PersonFormComponent, PersonFormInputData } from '../../../../persons/person-form/person-form.component';
+import { SaleOrderFormComponent, SaleOrderFormInputData } from '../../../sale-orders/sale-order-form/sale-order-form.component';
 import { DeliveryFinalizeEvent } from '../../models/delivery-finalize-event';
 import { DeliveryKambanColumn } from '../../models/delivery-kanban-column';
 import { DeliverySaleOrderUpdateShowObservationToDriverEvent } from '../../models/delivery-sale-order-update-show-observation-to-driver';
@@ -32,9 +35,13 @@ export class CardSaleOrderComponent implements OnInit {
   @Output('updateShowObservationToDriver')
   public updateShowObservationToDriverEmitter: EventEmitter<DeliverySaleOrderUpdateShowObservationToDriverEvent> = new EventEmitter();
 
+  @Output('refreshDeliveries')
+  public refreshDeliveriesEmitter: EventEmitter<void> = new EventEmitter();
+
   constructor(
     private _toast: ToastService,
-    private _sanitizer: DomSanitizer
+    private _sanitizer: DomSanitizer,
+    private _dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
@@ -83,6 +90,40 @@ export class CardSaleOrderComponent implements OnInit {
 
   public updateShowObservationToDriver(value: boolean): void {
     this.updateShowObservationToDriverEmitter.emit({ saleOrderId: this.inputData.delivery.saleOrder.id, value });
+  }
+
+  public openSaleOrderForm(): void {
+
+    const data: SaleOrderFormInputData = { saleOrderId: this.inputData.delivery.saleOrder.id };
+
+    const dialog = this._dialog.open(SaleOrderFormComponent, {
+      width: '90%',
+      height: '90%',
+      data
+    });
+
+    dialog.afterClosed().subscribe(result => {
+      if (result && result.hasUpdate) {
+        this.refreshDeliveriesEmitter.emit();
+      }
+    });
+  }
+
+  public openPersonForm(): void {
+
+    const data: PersonFormInputData = { personId: this.inputData.delivery.saleOrder.personCustomer.id };
+
+    const dialog = this._dialog.open(PersonFormComponent, {
+      width: '90%',
+      height: '90%',
+      data
+    });
+
+    dialog.afterClosed().subscribe(result => {
+      if (result && result.hasUpdate) {
+        this.refreshDeliveriesEmitter.emit();
+      }
+    });
   }
 
 }

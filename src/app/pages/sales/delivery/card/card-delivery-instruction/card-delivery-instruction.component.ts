@@ -1,5 +1,9 @@
 import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
 import { Delivery } from '../../../../../models/api/delivery';
+import { AlertMessageService } from '../../../../../services/alert-message.service';
+import { DeliveryInstructionService } from '../../../../../services/delivery-instruction.service';
+import { LoaderService } from '../../../../../services/loader.service';
+import { ToastService } from '../../../../../services/toast.service';
 import { DeliveryFinalizeEvent } from '../../models/delivery-finalize-event';
 import { DeliveryKambanColumn } from '../../models/delivery-kanban-column';
 
@@ -19,7 +23,15 @@ export class CardDeliveryInstructionComponent implements OnInit {
 
   @Output('openDeliveryFinalize') public openDeliveryFinalizeEmitter: EventEmitter<DeliveryFinalizeEvent> = new EventEmitter();
 
-  constructor() { }
+  @Output('refreshDeliveries')
+  public refreshDeliveriesEmitter: EventEmitter<void> = new EventEmitter();
+
+  constructor(
+    private _deliveryInstructionService: DeliveryInstructionService,
+    private _loader: LoaderService,
+    private _toast: ToastService,
+    private _alert: AlertMessageService
+  ) { }
 
   ngOnInit(): void {
   }
@@ -27,5 +39,33 @@ export class CardDeliveryInstructionComponent implements OnInit {
   public openDeliveryFinalize(): void {
     console.log(this.inputData.delivery)
     this.openDeliveryFinalizeEmitter.emit({ delivery: this.inputData.delivery });
+  }
+
+  public deleteInstruction(): void {
+    this._alert.open({
+      message: 'Excluir instrução de entrega?',
+      buttons: [
+        {
+          text: 'Cancelar',
+          color: 'basic',
+          closeOnClick: true
+        },
+        {
+          text: 'Excluir',
+          color: 'primary',
+          onClick: () => {
+            this._loader.show();
+            this._deliveryInstructionService.delete(this.inputData.delivery.deliveryInstruction.id).subscribe(response => {
+              this._loader.dismiss();
+              this._toast.open('Excluído', 'success');
+              this.refreshDeliveriesEmitter.emit();
+            }, error => {
+              this._loader.dismiss();
+              this._toast.showHttpError(error);
+            });
+          }
+        }
+      ]
+    });
   }
 }

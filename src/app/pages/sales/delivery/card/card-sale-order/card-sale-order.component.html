@@ -1,13 +1,18 @@
 <div *ngIf="inputData"
      class="content">
 
-    <div class="id">#{{ inputData.delivery.saleOrder.id }}</div>
+    <div class="id">
+        <a href="javascript:;"
+           (click)="openSaleOrderForm()">#{{ inputData.delivery.saleOrder.id }}</a>
+    </div>
     <div class="status"
          [style.background]="inputData.delivery.saleOrder.status | saleOrderStatusColor">
         {{ inputData.delivery.saleOrder.status | saleOrderStatus }}
     </div>
-    <div class="customer">{{ inputData.delivery.saleOrder.personCustomer.name }} ({{
-        inputData.delivery.saleOrder.personCustomer.id }})
+    <div class="customer">
+        <a href="javascript:;"
+           (click)="openPersonForm()">{{ inputData.delivery.saleOrder.personCustomer.name }} ({{
+            inputData.delivery.saleOrder.personCustomer.id }})</a>
     </div>
     <div class="products"
          [innerHTML]="getSaleOrderProductsFormatted(inputData.delivery.saleOrder)"></div>

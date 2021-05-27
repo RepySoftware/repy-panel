@@ -86,6 +86,7 @@
                                                    style="width: 100%;"
                                                    (openDeliveryFinalize)="openConfirmDelivery($event)"
                                                    (updateShowObservationToDriver)="updateShowObservationToDriver($event)"
+                                                   (refreshDeliveries)="refreshDeliveries({ force: true, showLoader: true })"
                                                    [inputData]="{
                                                    delivery: card.delivery,
                                                    column: column
@@ -94,6 +95,7 @@
                               <app-card-delivery-instruction *ngIf="card.delivery?.deliveryInstruction"
                                                              style="width: 100%;"
                                                              (openDeliveryFinalize)="openConfirmDelivery($event)"
+                                                             (refreshDeliveries)="refreshDeliveries({ force: true, showLoader: true })"
                                                              [inputData]="{
                                                               delivery: card.delivery,
                                                               column: column

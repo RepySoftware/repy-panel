@@ -1,6 +1,7 @@
 import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSelect } from '@angular/material/select';
+import { MatSlideToggle } from '@angular/material/slide-toggle';
 import { DefaultDeliveryInstruction } from '../../../../models/api/default-delivery-instruction';
 import { DeliveryInstructionOutput } from '../../../../models/output/delivery-instruction.output';
 import { DeliveryInstructionService } from '../../../../services/delivery-instruction.service';
@@ -21,6 +22,7 @@ export class DeliveryInstructionFormComponent implements OnInit {
 
   @ViewChild('deliveryInstruction') public deliveryInstructionElement: MatSelect;
   @ViewChild('description') public descriptionElement: ElementRef;
+  @ViewChild('checkableByDriver') public checkableByDriverElement: MatSlideToggle;
 
   public readonly deliveryInstructionOtherValue = '#other';
 
@@ -73,12 +75,15 @@ export class DeliveryInstructionFormComponent implements OnInit {
 
     const description = this.deliveryInstructionElement.value != this.deliveryInstructionOtherValue ? this.deliveryInstructionElement.value : this.descriptionElement.nativeElement.value;
 
+    const checkableByDriver: boolean = this.checkableByDriverElement.checked;
+
     const { employeeDriverId, index } = this.inputData;
 
     const output: DeliveryInstructionOutput = {
       employeeDriverId,
       index,
-      description
+      description,
+      checkableByDriver
     }
 
     this._loader.show();
