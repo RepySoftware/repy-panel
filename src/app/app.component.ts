@@ -50,6 +50,8 @@ export class AppComponent implements OnInit {
   public menuClick(action?: () => void): void {
     // this.sidenav.close();
 
+    console.log(action)
+
     if (action)
       action();
   }
@@ -65,6 +67,17 @@ export class AppComponent implements OnInit {
         title: 'Pessoas',
         icon: 'people',
         route: '/persons'
+      },
+      {
+        title: 'Estoque',
+        icon: 'inventory',
+        subMenus: [
+          {
+            title: 'Depósitos',
+            icon: 'all_inbox',
+            route: '/stock/deposits'
+          }
+        ]
       },
       {
         title: 'Vendas',

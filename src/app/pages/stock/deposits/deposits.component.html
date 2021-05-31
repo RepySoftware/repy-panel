@@ -1,0 +1,53 @@
+<table mat-table
+       [dataSource]="deposits">
+
+    <ng-container matColumnDef="id">
+        <th mat-header-cell
+            *matHeaderCellDef>#</th>
+        <td mat-cell
+            *matCellDef="let element">{{element.id}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="name">
+        <th mat-header-cell
+            *matHeaderCellDef>Nome</th>
+        <td mat-cell
+            *matCellDef="let element">
+            {{element.name}}
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="companyBranch">
+        <th mat-header-cell
+            *matHeaderCellDef>Unidade</th>
+        <td mat-cell
+            *matCellDef="let element">
+            {{element.companyBranch.name}}
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="options">
+        <th mat-header-cell
+            *matHeaderCellDef></th>
+        <td mat-cell
+            *matCellDef="let element">
+            <a href="javascript:;"
+               (click)="openForm(element.id)">
+                <mat-icon>edit</mat-icon>
+            </a>
+        </td>
+    </ng-container>
+
+    <tr mat-header-row
+        *matHeaderRowDef="tableColumns"></tr>
+    <tr mat-row
+        *matRowDef="let row; columns: tableColumns;"></tr>
+</table>
+
+<button href="javascript:;"
+        (click)="openForm()"
+        mat-fab
+        color="primary"
+        class="btn-add">
+    <mat-icon>add</mat-icon>
+</button>
