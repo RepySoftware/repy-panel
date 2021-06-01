@@ -1,7 +1,7 @@
-<h1 style="font-size: 32px; margin: 16px;">Depósitos</h1>
+<h1 style="font-size: 32px; margin: 16px;">Funcionários</h1>
 
 <table mat-table
-       [dataSource]="deposits">
+       [dataSource]="employees">
 
     <ng-container matColumnDef="id">
         <th mat-header-cell
@@ -19,12 +19,35 @@
         </td>
     </ng-container>
 
-    <ng-container matColumnDef="companyBranch">
+    <ng-container matColumnDef="color">
         <th mat-header-cell
-            *matHeaderCellDef>Unidade</th>
+            *matHeaderCellDef>Cor</th>
         <td mat-cell
             *matCellDef="let element">
-            {{element.companyBranch.name}}
+            <div class="employee-color"
+                 [style.background]="element.color"></div>
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="roles">
+        <th mat-header-cell
+            *matHeaderCellDef>Funções</th>
+        <td mat-cell
+            *matCellDef="let element">
+
+            {{ getEmployeeTypes(element) }}
+
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="vehicle">
+        <th mat-header-cell
+            *matHeaderCellDef>Funções</th>
+        <td mat-cell
+            *matCellDef="let element">
+
+            {{ element.vehicle?.nickname ? element.vehicle?.nickname + ' - ' : '' }}{{ element.vehicle?.description }}
+
         </td>
     </ng-container>
 

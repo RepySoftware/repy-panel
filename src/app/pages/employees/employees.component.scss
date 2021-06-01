@@ -1,0 +1,22 @@
+table {
+    width: 100%;
+
+    th {
+        position: sticky;
+        top: 64px;
+        background: #eee;
+        z-index: 10;
+    }
+
+    .employee-color {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+    }
+}
+
+.btn-add {
+    position: fixed;
+    bottom: 26px;
+    right: 30px;
+}

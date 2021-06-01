@@ -13,6 +13,7 @@ export const URLS = {
         deliveries: `${environment.apiUrl}/deliveries`,
         dashboard: `${environment.apiUrl}/dashboard`,
         deliveryInstructions: `${environment.apiUrl}/deliveryInstructions`,
-        deposits: `${environment.apiUrl}/deposits`
+        deposits: `${environment.apiUrl}/deposits`,
+        vehicles: `${environment.apiUrl}/vehicles`
     }
 }

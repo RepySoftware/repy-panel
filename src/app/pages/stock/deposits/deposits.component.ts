@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Title } from '@angular/platform-browser';
 import { Deposit } from '../../../models/api/deposit';
 import { DepositService } from '../../../services/deposit.service';
 import { LoaderService } from '../../../services/loader.service';
+import { TitleService } from '../../../services/title.service';
 import { ToastService } from '../../../services/toast.service';
 import { DepositFormComponent, DepositFormInputData } from './deposit-form/deposit-form.component';
 
@@ -26,10 +28,12 @@ export class DepositsComponent implements OnInit {
     private _loader: LoaderService,
     private _toast: ToastService,
     private _depositService: DepositService,
-    private _dialog: MatDialog
+    private _dialog: MatDialog,
+    private _title: TitleService
   ) { }
 
   ngOnInit(): void {
+    this._title.set('Depósitos');
     this.getDeposits();
   }
 

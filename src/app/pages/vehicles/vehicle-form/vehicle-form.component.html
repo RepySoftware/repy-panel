@@ -1,0 +1,84 @@
+<button-dialog-close *ngIf="isModal"></button-dialog-close>
+
+<div class="row">
+    <div class="col-sm-12">
+        <h3 class="title"
+            *ngIf="!vehicle">Novo veículo</h3>
+        <h3 class="title"
+            *ngIf="vehicle">Edição {{ vehicle.nickname || vehicle.description }}</h3>
+    </div>
+</div>
+
+<form [formGroup]="vehicleForm">
+
+    <div class="row">
+
+        <div class="col-6">
+            <mat-form-field>
+                <input #description
+                       matInput
+                       placeholder="Descrição"
+                       autocomplete="off"
+                       formControlName="description">
+                <mat-error *ngIf="!description.valid">
+                    Este campo é obrigatório
+                </mat-error>
+            </mat-form-field>
+        </div>
+
+        <div class="col-6">
+            <mat-form-field>
+                <input #nickname
+                       matInput
+                       placeholder="Nome (opcional)"
+                       autocomplete="off"
+                       formControlName="nickname">
+            </mat-form-field>
+        </div>
+
+
+        <div class="col-6">
+            <mat-form-field>
+                <input #licensePlate
+                       matInput
+                       placeholder="Placa"
+                       autocomplete="off"
+                       formControlName="licensePlate">
+                <mat-error *ngIf="!licensePlate.valid">
+                    Este campo é obrigatório
+                </mat-error>
+            </mat-form-field>
+        </div>
+
+        <div class="col-6">
+            <mat-form-field>
+                <mat-label>Depósito (opcional)</mat-label>
+                <mat-select #type
+                            formControlName="deposit">
+                    <mat-option *ngFor="let d of deposits"
+                                [value]="d.id">
+                        {{ d.name }} - {{ d.companyBranch.name }}
+                    </mat-option>
+                </mat-select>
+                <mat-error *ngIf="!vehicleForm.get('deposit').valid">
+                    Este campo é obrigatório
+                </mat-error>
+            </mat-form-field>
+        </div>
+
+    </div>
+
+    <hr>
+
+    <div class="row">
+
+        <div class="col-sm-12">
+            <button mat-flat-button
+                    color="primary"
+                    (click)="save()"
+                    style="margin: 24px 0;">Salvar</button>
+        </div>
+
+    </div>
+
+</form>

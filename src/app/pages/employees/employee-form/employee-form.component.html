@@ -1,0 +1,103 @@
+<button-dialog-close *ngIf="isModal"></button-dialog-close>
+
+<div class="row">
+    <div class="col-sm-12">
+        <h3 class="title"
+            *ngIf="!employee">Novo funcionário</h3>
+        <h3 class="title"
+            *ngIf="employee">Edição {{ employee.name }}</h3>
+    </div>
+</div>
+
+<form [formGroup]="employeeForm">
+
+    <div class="row">
+
+        <div class="col-8">
+            <mat-form-field>
+                <input #name
+                       matInput
+                       placeholder="Nome"
+                       autocomplete="off"
+                       formControlName="name">
+                <mat-error *ngIf="!name.valid">
+                    Este campo é obrigatório
+                </mat-error>
+            </mat-form-field>
+        </div>
+
+        <div class="col-4">
+            <mat-form-field>
+                <input #documentNumber
+                       matInput
+                       placeholder="Documento (opcional)"
+                       autocomplete="off"
+                       formControlName="documentNumber">
+            </mat-form-field>
+        </div>
+
+        <div class="col-4">
+            <mat-form-field>
+                <input #email
+                       matInput
+                       type="email"
+                       placeholder="E-mail (opcional)"
+                       autocomplete="off"
+                       formControlName="email">
+            </mat-form-field>
+        </div>
+
+        <div class="col-4">
+            <mat-form-field>
+                <input #color
+                       matInput
+                       type="color"
+                       placeholder="Cor (opcional)"
+                       autocomplete="off"
+                       formControlName="color">
+            </mat-form-field>
+        </div>
+
+        <div class="col-4">
+            <mat-form-field>
+                <mat-label>Veículo (opcional)</mat-label>
+                <mat-select #type
+                            formControlName="vehicle">
+
+                    <mat-option>-</mat-option>
+
+                    <mat-option *ngFor="let v of vehicles"
+                                [value]="v.id">
+                        {{ v.nickname ? v.nickname + ' - ' : '' }}{{ v.description }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+
+        <div class="col-12">
+
+            <div style="display: flex; flex-direction: row; gap: 10px;">
+                <mat-slide-toggle formControlName="isManager">Gerente</mat-slide-toggle>
+                <mat-slide-toggle formControlName="isAgent">Agente</mat-slide-toggle>
+                <mat-slide-toggle formControlName="isDriver">Entregador</mat-slide-toggle>
+                <mat-slide-toggle formControlName="isActive">Ativo</mat-slide-toggle>
+            </div>
+
+        </div>
+
+    </div>
+
+    <hr>
+
+    <div class="row">
+
+        <div class="col-sm-12">
+            <button mat-flat-button
+                    color="primary"
+                    (click)="save()"
+                    style="margin: 24px 0;">Salvar</button>
+        </div>
+
+    </div>
+
+</form>

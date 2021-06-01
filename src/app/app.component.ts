@@ -69,6 +69,16 @@ export class AppComponent implements OnInit {
         route: '/persons'
       },
       {
+        title: 'Funcionários',
+        icon: 'badge',
+        route: '/employees'
+      },
+      {
+        title: 'Veículos',
+        icon: 'local_shipping',
+        route: '/vehicles'
+      },
+      {
         title: 'Estoque',
         icon: 'inventory',
         subMenus: [

@@ -36,6 +36,16 @@ const routes: Routes = [
     path: 'stock',
     loadChildren: () => import('./pages/stock/stock.module').then(x => x.StockModule),
     canActivate: [OnlyLoggedGuard]
+  },
+  {
+    path: 'vehicles',
+    loadChildren: () => import('./pages/vehicles/vehicles.module').then(x => x.VehiclesModule),
+    canActivate: [OnlyLoggedGuard]
+  },
+  {
+    path: 'employees',
+    loadChildren: () => import('./pages/employees/employees.module').then(x => x.EmployeesModule),
+    canActivate: [OnlyLoggedGuard]
   }
 ];
 

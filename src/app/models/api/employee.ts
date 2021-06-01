@@ -1,5 +1,6 @@
 import { ApiModel } from "../abstraction/api-model";
 import { Coordinates } from "./coordinates";
+import { Vehicle } from "./vehicle";
 
 export interface Employee extends ApiModel {
 
@@ -7,6 +8,7 @@ export interface Employee extends ApiModel {
     documentNumber: string;
     email: string;
     color?: string;
+    vehicle?: Vehicle;
     isManager: boolean;
     isAgent: boolean;
     isDriver: boolean;

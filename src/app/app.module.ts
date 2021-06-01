@@ -32,6 +32,7 @@ import { DeliveryInstructionService } from './services/delivery-instruction.serv
 import { TitleService } from './services/title.service';
 import { ImageService } from './services/image.service';
 import { DepositService } from './services/deposit.service';
+import { VehicleService } from './services/vehicle.service';
 
 @NgModule({
   declarations: [
@@ -65,6 +66,7 @@ import { DepositService } from './services/deposit.service';
     TitleService,
     ImageService,
     DepositService,
+    VehicleService,
 
     LoaderService,
     ToastService,

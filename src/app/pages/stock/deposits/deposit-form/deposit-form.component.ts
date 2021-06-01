@@ -88,7 +88,7 @@ export class DepositFormComponent implements OnInit {
       throw new Error('Invalid form');
     }
 
-    const personOutput: DepositOutput = {
+    const depositOutput: DepositOutput = {
       name: this.depositForm.get('name').value,
       companyBranchId: this.depositForm.get('companyBranch').value
     }
@@ -96,10 +96,10 @@ export class DepositFormComponent implements OnInit {
     let apiCall: Observable<Deposit>;
 
     if (this.deposit) {
-      personOutput.id = this.deposit.id;
-      apiCall = this._depositService.update(personOutput);
+      depositOutput.id = this.deposit.id;
+      apiCall = this._depositService.update(depositOutput);
     } else {
-      apiCall = this._depositService.create(personOutput);
+      apiCall = this._depositService.create(depositOutput);
     }
 
     this._loader.show();
