@@ -1,27 +1,38 @@
 <h1 style="font-size: 32px; margin: 16px;">Controle de estoque</h1>
 
 <div class="row">
-    <div class="col-md-4">
-        <mat-form-field>
-            <mat-label>Unidade</mat-label>
-            <mat-select #companyBranch
-                        [(ngModel)]="companyBranchIdValue"
-                        (selectionChange)="getStockDeposits({ showLoader: true })">
+    <div class="col-md-12">
 
-                <mat-option *ngFor="let cb of companyBranches"
-                            [value]="cb.id">
-                    {{ cb.tradeName }} - {{ cb.name }}
-                </mat-option>
+        <div style="display: flex; gap: 48px; align-items: center;">
 
-            </mat-select>
-        </mat-form-field>
-    </div>
+            <mat-form-field style="width: 50%;">
+                <mat-label>Unidade</mat-label>
+                <mat-select #companyBranch
+                            [(ngModel)]="companyBranchIdValue"
+                            (selectionChange)="getStockDeposits({ showLoader: true })">
 
-    <div class="col-md-3">
-        <button [disabled]="!companyBranch.value"
-                mat-flat-button
-                color="primary"
-                (click)="getStockDeposits({ showLoader: true })">Atualizar</button>
+                    <mat-option *ngFor="let cb of companyBranches"
+                                [value]="cb.id">
+                        {{ cb.tradeName }} - {{ cb.name }}
+                    </mat-option>
+
+                </mat-select>
+            </mat-form-field>
+
+            <button [disabled]="!companyBranch.value"
+                    mat-flat-button
+                    color="primary"
+                    (click)="getStockDeposits({ showLoader: true })">Atualizar</button>
+
+            <button *ngIf="companyBranch.value"
+                    mat-stroked-button
+                    color="primary"
+                    (click)="openDepositTransfer()">
+                Transferência de estoque
+                <mat-icon>swap_horiz</mat-icon>
+            </button>
+        </div>
+
     </div>
 </div>
 

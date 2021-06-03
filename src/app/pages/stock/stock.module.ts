@@ -11,9 +11,10 @@ import { StockControlComponent } from './stock-control/stock-control.component';
 import { StockPostsComponent } from './stock-control/stock-posts/stock-posts.component';
 import { PipesModule } from '../../pipes/pipes.module';
 import { StockPostFormComponent } from './stock-control/stock-posts/stock-post-form/stock-post-form.component';
+import { DepositTransferComponent } from './stock-control/deposit-transfer/deposit-transfer.component';
 
 @NgModule({
-  declarations: [StockComponent, DepositsComponent, DepositFormComponent, StockControlComponent, StockPostsComponent, StockPostFormComponent],
+  declarations: [StockComponent, DepositsComponent, DepositFormComponent, StockControlComponent, StockPostsComponent, StockPostFormComponent, DepositTransferComponent],
   imports: [
     CommonModule,
     AngularMaterialModule,

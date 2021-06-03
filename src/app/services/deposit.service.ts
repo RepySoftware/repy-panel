@@ -1,8 +1,10 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
+import { HttpQueryParamsHelper } from "../helpers/filter-helper";
 import { Deposit } from "../models/api/deposit";
 import { DepositOutput } from "../models/output/deposit.output";
+import { DepositFilter } from "../models/output/filters/deposit.filter";
 import { URLS } from "./urls";
 
 @Injectable()
@@ -13,8 +15,10 @@ export class DepositService {
     ) {
     }
 
-    public getAll(): Observable<Deposit[]> {
-        return this._http.get<Deposit[]>(`${URLS.api.deposits}`);
+    public getAll(filter: DepositFilter = {}): Observable<Deposit[]> {
+        return this._http.get<Deposit[]>(`${URLS.api.deposits}`, {
+            params: HttpQueryParamsHelper.objectToParams(filter)
+        });
     }
 
     public getById(id: number): Observable<Deposit> {

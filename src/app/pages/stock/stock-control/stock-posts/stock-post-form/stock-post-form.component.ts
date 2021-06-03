@@ -29,7 +29,8 @@ export class StockPostFormComponent implements OnInit {
   public productSearchAutocompleteOptions: AutocompleteOptions<CompanyBranchProduct> = {
     placeholder: 'Produto',
     onGetItems: query => this.productSearchAutocompleteOnGetItems(query),
-    onSelectItem: item => this.productSearchAutocompleteOnSelectItem(item)
+    onSelectItem: item => this.productSearchAutocompleteOnSelectItem(item),
+    emitOnClear: true
   }
 
   public stockForm: FormGroup;

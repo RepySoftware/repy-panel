@@ -7,6 +7,7 @@ import { LoaderService } from '../../../services/loader.service';
 import { StockService } from '../../../services/stock.service';
 import { TitleService } from '../../../services/title.service';
 import { ToastService } from '../../../services/toast.service';
+import { DepositTransferComponent, DepositTransferInputData } from './deposit-transfer/deposit-transfer.component';
 import { StockPostsComponent, StockPostsInputData } from './stock-posts/stock-posts.component';
 
 @Component({
@@ -73,8 +74,26 @@ export class StockControlComponent implements OnInit {
     };
 
     const dialog = this._dialog.open(StockPostsComponent, {
+      maxWidth: '90%',
       width: '90%',
       height: '90%',
+      data
+    });
+
+    dialog.afterClosed().subscribe(result => {
+      this.getStockDeposits();
+    });
+  }
+
+  public openDepositTransfer(): void {
+
+    const data: DepositTransferInputData = {
+      companyBranchId: Number(this.companyBranchIdValue)
+    };
+
+    const dialog = this._dialog.open(DepositTransferComponent, {
+      width: '50%',
+      height: '80%',
       data
     });
 

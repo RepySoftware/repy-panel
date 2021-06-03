@@ -4,6 +4,7 @@ import { Observable } from "rxjs";
 import { HttpQueryParamsHelper } from "../helpers/filter-helper";
 import { Deposit } from "../models/api/deposit";
 import { StockPost } from "../models/api/stock-post";
+import { DepositTransferOutput } from "../models/output/deposit-transfer.output";
 import { StockPostFilter } from "../models/output/filters/stock-post.filter";
 import { StockPostOutput } from "../models/output/stock-post.output";
 import { URLS } from "./urls";
@@ -25,6 +26,10 @@ export class StockService {
 
     public getDepositById(depositId: number): Observable<Deposit> {
         return this._http.get<Deposit>(`${URLS.api.stock}/deposits/${depositId}`);
+    }
+
+    public depositTransfer(params: DepositTransferOutput): Observable<void> {
+        return this._http.post<void>(`${URLS.api.stock}/depositTransfer`, params);
     }
 
     public createPost(params: StockPostOutput): Observable<StockPost> {

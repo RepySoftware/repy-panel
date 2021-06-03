@@ -58,7 +58,8 @@
                 <th mat-header-cell
                     *matHeaderCellDef>Observação</th>
                 <td mat-cell
-                    *matCellDef="let element">
+                    *matCellDef="let element"
+                    [matTooltip]="element.observation">
                     {{element.observation}}
                 </td>
             </ng-container>
