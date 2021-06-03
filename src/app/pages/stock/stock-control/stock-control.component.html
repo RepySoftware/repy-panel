@@ -1,0 +1,69 @@
+<h1 style="font-size: 32px; margin: 16px;">Controle de estoque</h1>
+
+<div class="row">
+    <div class="col-md-4">
+        <mat-form-field>
+            <mat-label>Unidade</mat-label>
+            <mat-select #companyBranch
+                        [(ngModel)]="companyBranchIdValue"
+                        (selectionChange)="getStockDeposits({ showLoader: true })">
+
+                <mat-option *ngFor="let cb of companyBranches"
+                            [value]="cb.id">
+                    {{ cb.tradeName }} - {{ cb.name }}
+                </mat-option>
+
+            </mat-select>
+        </mat-form-field>
+    </div>
+
+    <div class="col-md-3">
+        <button [disabled]="!companyBranch.value"
+                mat-flat-button
+                color="primary"
+                (click)="getStockDeposits({ showLoader: true })">Atualizar</button>
+    </div>
+</div>
+
+<div class="row">
+
+    <div class="col-md-4"
+         *ngFor="let d of deposits">
+        <mat-card>
+
+            <mat-card-header>
+                <mat-card-title style="font-weight: bold;">{{ d.name }}</mat-card-title>
+            </mat-card-header>
+
+            <mat-card-content>
+                <table class="stock-table"
+                       *ngIf="d.products.length">
+
+                    <thead>
+                        <tr>
+                            <th>Produto</th>
+                            <th>Quantidade</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr *ngFor="let p of d.products">
+                            <td>
+                                {{ p.companyBranchProduct.product.name }} ({{ p.companyBranchProduct.product.code }})
+                            </td>
+                            <td>{{ p.quantity }}</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </mat-card-content>
+
+            <mat-card-actions>
+                <button mat-button
+                        (click)="openStockPosts(d.id)">Lançamentos</button>
+            </mat-card-actions>
+
+        </mat-card>
+    </div>
+
+</div>

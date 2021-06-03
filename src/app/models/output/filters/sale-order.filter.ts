@@ -6,6 +6,8 @@ export interface SaleOrderFilter extends PaginationFilter {
     employeeDriverId?: number;
     startDateOfIssue?: string;
     endDateOfIssue?: string;
+    startDeliveredAt?: string;
+    endDeliveredAt?: string;
     personCustomerId?: number;
     paymentMethodId?: number;
 }

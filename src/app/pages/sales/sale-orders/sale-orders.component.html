@@ -1,12 +1,7 @@
 <div class="row"
      style="margin-top: 10px !important;">
 
-    <div class="col-5">
-        <app-autocomplete #employeeDriverAutocomplete
-                          [options]="employeeDriverSearchAutocompleteOptions"></app-autocomplete>
-    </div>
-
-    <div class="col-md-3 datetime">
+    <div class="col-md-2 datetime">
         <mat-form-field>
             <input #startDateOfIssue
                    matInput
@@ -26,7 +21,7 @@
         </mat-icon>
     </div>
 
-    <div class="col-md-3 datetime">
+    <div class="col-md-2 datetime">
         <mat-form-field>
             <input #endDateOfIssue
                    matInput
@@ -39,12 +34,17 @@
                   (click)="endDateOfIssue.value = null;">close</mat-icon>
     </div>
 
-    <div class="col-4">
+    <div class="col-3">
+        <app-autocomplete #employeeDriverAutocomplete
+                          [options]="employeeDriverSearchAutocompleteOptions"></app-autocomplete>
+    </div>
+
+    <div class="col-3">
         <app-autocomplete #personCustomerAutocomplete
                           [options]="personCustomerSearchAutocompleteOptions"></app-autocomplete>
     </div>
 
-    <div class="col-4">
+    <div class="col-3">
         <mat-form-field>
             <mat-label>Status</mat-label>
             <mat-select #saleOrderStatus>
@@ -60,7 +60,7 @@
         </mat-form-field>
     </div>
 
-    <div class="col-4">
+    <div class="col-3">
         <mat-form-field>
             <mat-label>Pagamento</mat-label>
             <mat-select #paymentMethod>

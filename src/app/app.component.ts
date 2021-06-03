@@ -48,9 +48,6 @@ export class AppComponent implements OnInit {
   }
 
   public menuClick(action?: () => void): void {
-    // this.sidenav.close();
-
-    console.log(action)
 
     if (action)
       action();
@@ -84,8 +81,11 @@ export class AppComponent implements OnInit {
         subMenus: [
           {
             title: 'Depósitos',
-            icon: 'all_inbox',
             route: '/stock/deposits'
+          },
+          {
+            title: 'Controle de estoque',
+            route: '/stock/stock-control'
           }
         ]
       },
@@ -95,17 +95,14 @@ export class AppComponent implements OnInit {
         subMenus: [
           {
             title: 'PDV',
-            icon: 'point_of_sale',
             route: '/sales/pos'
           },
           {
             title: 'Pedidos',
-            icon: 'assignment',
             route: '/sales/orders'
           },
           {
             title: 'Entregas',
-            icon: 'local_shipping',
             route: '/sales/delivery'
           }
         ]

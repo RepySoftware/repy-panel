@@ -6,16 +6,21 @@ import { StockRoutingModule } from './stock.routing';
 import { AngularMaterialModule } from '../../shared/angular-material.module';
 import { DepositFormComponent } from './deposits/deposit-form/deposit-form.component';
 import { SharedModule } from '../../shared/shared.module';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { StockControlComponent } from './stock-control/stock-control.component';
+import { StockPostsComponent } from './stock-control/stock-posts/stock-posts.component';
+import { PipesModule } from '../../pipes/pipes.module';
 
 @NgModule({
-  declarations: [StockComponent, DepositsComponent, DepositFormComponent],
+  declarations: [StockComponent, DepositsComponent, DepositFormComponent, StockControlComponent, StockPostsComponent],
   imports: [
     CommonModule,
     AngularMaterialModule,
     StockRoutingModule,
     SharedModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FormsModule,
+    PipesModule
   ]
 })
 export class StockModule { }

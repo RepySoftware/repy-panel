@@ -1,0 +1,103 @@
+<h1 style="font-size: 24px; margin: 16px;">{{ deposit?.name }}</h1>
+
+<div class="row">
+
+    <div class="col-md-8">
+
+        <h2 style="font-size: 18px;">Lançamentos</h2>
+
+        <table mat-table
+               [dataSource]="stockPosts"
+               style="width: 100%;">
+
+            <ng-container matColumnDef="product">
+                <th mat-header-cell
+                    *matHeaderCellDef>Produto</th>
+                <td mat-cell
+                    *matCellDef="let element">
+                    {{element.depositProduct?.companyBranchProduct.product.name}}
+                    ({{element.depositProduct?.companyBranchProduct.product.code}})
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="type">
+                <th mat-header-cell
+                    *matHeaderCellDef>Tipo</th>
+                <td mat-cell
+                    *matCellDef="let element"
+                    style="font-weight: bold;"
+                    [style.color]="element.quantity > 0 ? 'var(--color-nephritis)' : 'var(--color-peterriver)'">
+                    {{element.quantity > 0 ? 'Entrada' : 'Saída'}}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="quantity">
+                <th mat-header-cell
+                    *matHeaderCellDef>Quantidade</th>
+                <td mat-cell
+                    *matCellDef="let element"
+                    style="font-weight: bold;">
+                    {{element.quantity}}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="observation">
+                <th mat-header-cell
+                    *matHeaderCellDef>Observação</th>
+                <td mat-cell
+                    *matCellDef="let element">
+                    {{element.observation}}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="createdAt">
+                <th mat-header-cell
+                    *matHeaderCellDef>Data</th>
+                <td mat-cell
+                    *matCellDef="let element">
+                    {{element.createdAt | momentDate:'DD/MM/YYYY HH:mm'}}
+                </td>
+            </ng-container>
+
+            <tr mat-header-row
+                *matHeaderRowDef="tableColumns"></tr>
+            <tr mat-row
+                *matRowDef="let row; columns: tableColumns;"></tr>
+        </table>
+    </div>
+
+    <div class="col-md-4">
+
+        <h2 style="font-size: 18px;">Total</h2>
+
+        <table class="stock-table"
+               *ngIf="deposit?.products.length">
+
+            <thead>
+                <tr>
+                    <th>Produto</th>
+                    <th>Quantidade</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <tr *ngFor="let p of deposit.products">
+                    <td>
+                        {{ p.companyBranchProduct.product.name }} ({{ p.companyBranchProduct.product.code }})
+                    </td>
+                    <td>{{ p.quantity }}</td>
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+<!-- <button href="javascript:;"
+        (click)="openForm()"
+        mat-fab
+        color="primary"
+        class="btn-add">
+    <mat-icon>add</mat-icon>
+</button> -->
