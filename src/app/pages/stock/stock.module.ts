@@ -10,9 +10,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { StockControlComponent } from './stock-control/stock-control.component';
 import { StockPostsComponent } from './stock-control/stock-posts/stock-posts.component';
 import { PipesModule } from '../../pipes/pipes.module';
+import { StockPostFormComponent } from './stock-control/stock-posts/stock-post-form/stock-post-form.component';
 
 @NgModule({
-  declarations: [StockComponent, DepositsComponent, DepositFormComponent, StockControlComponent, StockPostsComponent],
+  declarations: [StockComponent, DepositsComponent, DepositFormComponent, StockControlComponent, StockPostsComponent, StockPostFormComponent],
   imports: [
     CommonModule,
     AngularMaterialModule,

@@ -1,10 +1,23 @@
+<button-dialog-close></button-dialog-close>
+
 <h1 style="font-size: 24px; margin: 16px;">{{ deposit?.name }}</h1>
 
 <div class="row">
 
     <div class="col-md-8">
 
-        <h2 style="font-size: 18px;">Lançamentos</h2>
+        <div style="display: flex; gap: 48px; align-items: center;">
+            <h2 style="font-size: 18px;">Lançamentos</h2>
+
+            <button mat-flat-button
+                    style="width: 40%;"
+                    color="primary"
+                    (click)="openPostForm()">Novo lançamento</button>
+
+            <app-autocomplete style="width: 100%;"
+                              #productAutocomplete
+                              [options]="productSearchAutocompleteOptions"></app-autocomplete>
+        </div>
 
         <table mat-table
                [dataSource]="stockPosts"
@@ -55,7 +68,21 @@
                     *matHeaderCellDef>Data</th>
                 <td mat-cell
                     *matCellDef="let element">
-                    {{element.createdAt | momentDate:'DD/MM/YYYY HH:mm'}}
+                    {{element.dateOfIssue | momentDate:'DD/MM/YYYY HH:mm'}}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="options">
+                <th mat-header-cell
+                    *matHeaderCellDef></th>
+                <td mat-cell
+                    *matCellDef="let element">
+
+                    <a href="javascript:;"
+                       (click)="deletePost(element)">
+                        <mat-icon>delete</mat-icon>
+                    </a>
+
                 </td>
             </ng-container>
 
@@ -64,6 +91,14 @@
             <tr mat-row
                 *matRowDef="let row; columns: tableColumns;"></tr>
         </table>
+
+        <div style="text-align: center; padding: 10px;">
+            <button mat-flat-button
+                    *ngIf="stockPosts.length >= filter.limit"
+                    color="primary"
+                    (click)="loadMore()">Mais...</button>
+        </div>
+
     </div>
 
     <div class="col-md-4">

@@ -1,0 +1,87 @@
+<button-dialog-close></button-dialog-close>
+
+<div class="row">
+    <div class="col-sm-12">
+        <h3 class="title">Novo lançamento</h3>
+    </div>
+</div>
+
+<form [formGroup]="stockForm">
+
+    <div class="row">
+
+        <div class="col-12">
+            <app-autocomplete #productAutocomplete
+                              [options]="productSearchAutocompleteOptions"></app-autocomplete>
+        </div>
+
+        <div class="col-md-4">
+            <mat-form-field>
+                <mat-label>Tipo</mat-label>
+                <mat-select #type
+                            formControlName="type">
+                    <mat-option *ngFor="let t of postTypes.list"
+                                [value]="t.id">
+                        {{ t.label }}
+                    </mat-option>
+                </mat-select>
+                <mat-error *ngIf="!stockForm.get('type').valid">
+                    Este campo é obrigatório
+                </mat-error>
+            </mat-form-field>
+        </div>
+
+        <div class="col-md-4">
+            <mat-form-field>
+                <input #quantity
+                       matInput
+                       placeholder="Quantidade"
+                       type="number"
+                       autocomplete="off"
+                       formControlName="quantity">
+                <mat-error *ngIf="!quantity.valid">
+                    Este campo é obrigatório
+                </mat-error>
+            </mat-form-field>
+        </div>
+
+        <div class="col-md-4">
+            <mat-form-field>
+                <input #dateOfIssue
+                       matInput
+                       type="datetime-local"
+                       placeholder="Data"
+                       autocomplete="off"
+                       formControlName="dateOfIssue">
+                <mat-error *ngIf="!dateOfIssue.valid">
+                    Este campo é obrigatório
+                </mat-error>
+            </mat-form-field>
+        </div>
+
+        <div class="col-md-12">
+            <mat-form-field>
+                <input #observation
+                       matInput
+                       placeholder="Observação"
+                       autocomplete="off"
+                       formControlName="observation">
+            </mat-form-field>
+        </div>
+
+    </div>
+
+    <hr>
+
+    <div class="row">
+
+        <div class="col-sm-12">
+            <button mat-flat-button
+                    color="primary"
+                    (click)="save()"
+                    style="margin: 24px 0;">Salvar</button>
+        </div>
+
+    </div>
+
+</form>

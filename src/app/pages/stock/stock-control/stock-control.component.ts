@@ -67,7 +67,10 @@ export class StockControlComponent implements OnInit {
   }
 
   public openStockPosts(depositId: number): void {
-    const data: StockPostsInputData = { depositId };
+    const data: StockPostsInputData = {
+      depositId,
+      companyBranchId: Number(this.companyBranchIdValue)
+    };
 
     const dialog = this._dialog.open(StockPostsComponent, {
       width: '90%',
@@ -76,9 +79,7 @@ export class StockControlComponent implements OnInit {
     });
 
     dialog.afterClosed().subscribe(result => {
-      if (result && result.hasUpdate) {
-        this.getStockDeposits();
-      }
+      this.getStockDeposits();
     });
   }
 }

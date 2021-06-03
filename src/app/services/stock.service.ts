@@ -15,10 +15,6 @@ export class StockService {
         private _http: HttpClient
     ) { }
 
-    public post(params: StockPostOutput): Observable<StockPost> {
-        return this._http.post<StockPost>(`${URLS.api.stock}`, params);
-    }
-
     public getDeposits(companyBranchId: number): Observable<Deposit[]> {
         return this._http.get<Deposit[]>(`${URLS.api.stock}/deposits`, {
             params: {
@@ -31,9 +27,17 @@ export class StockService {
         return this._http.get<Deposit>(`${URLS.api.stock}/deposits/${depositId}`);
     }
 
+    public createPost(params: StockPostOutput): Observable<StockPost> {
+        return this._http.post<StockPost>(`${URLS.api.stock}/posts`, params);
+    }
+
     public getPosts(filter: StockPostFilter): Observable<StockPost[]> {
         return this._http.get<StockPost[]>(`${URLS.api.stock}/posts`, {
             params: HttpQueryParamsHelper.objectToParams(filter)
         });
+    }
+
+    public deletePost(postId: number): Observable<void> {
+        return this._http.delete<void>(`${URLS.api.stock}/posts/${postId}`);
     }
 }

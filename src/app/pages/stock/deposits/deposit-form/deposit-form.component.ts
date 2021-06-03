@@ -82,6 +82,7 @@ export class DepositFormComponent implements OnInit {
   }
 
   public save(): void {
+    
     if (!this.depositForm.valid) {
       this.depositForm.markAllAsTouched();
       this._toast.open('Preencha todos os campos obrigatórios');

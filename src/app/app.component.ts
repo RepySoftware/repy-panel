@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, ViewChild, OnInit, ChangeDetectorRef, AfterViewInit } from '@angular/core';
 import { UserService } from './services/user.service';
 import { MatSidenav } from '@angular/material/sidenav';
 import { SidenavMenu } from './models/ui/sidenav-item';
@@ -7,14 +7,13 @@ import { LoaderService } from './services/loader.service';
 import { StorageService } from './services/storage.service';
 import { AuthService } from './services/auth.service';
 import { User } from './models/api/user';
-import { Configuration, MultilevelNodes } from 'ng-material-multilevel-menu/lib/app.model';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, AfterViewInit {
 
   @ViewChild('sidenav') public sidenav: MatSidenav;
 
@@ -33,8 +32,6 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
 
-    // document.body.style.zoom = '80%';
-
     this._loaderService.loaderEmitter.subscribe(
       state => {
         this.loaderState = state;
@@ -45,6 +42,12 @@ export class AppComponent implements OnInit {
     this.checkAuth();
 
     this.setMenuItens();
+  }
+
+  ngAfterViewInit() {
+    setTimeout(() => {
+      this.sidenav.open();
+    }, 1000);
   }
 
   public menuClick(action?: () => void): void {
