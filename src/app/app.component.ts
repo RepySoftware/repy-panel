@@ -7,6 +7,7 @@ import { LoaderService } from './services/loader.service';
 import { StorageService } from './services/storage.service';
 import { AuthService } from './services/auth.service';
 import { User } from './models/api/user';
+import { SidenavService } from './services/sidenav.service';
 
 @Component({
   selector: 'app-root',
@@ -27,7 +28,8 @@ export class AppComponent implements OnInit, AfterViewInit {
     private _loaderService: LoaderService,
     private _cdRef: ChangeDetectorRef,
     private _storageService: StorageService,
-    private _authService: AuthService
+    private _authService: AuthService,
+    private _sidenavService: SidenavService
   ) { }
 
   ngOnInit() {
@@ -45,8 +47,11 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
+
+    this._sidenavService.sidenavActionEmitter.subscribe(action => this.sidenav[action]());
+
     setTimeout(() => {
-      this.sidenav.open();
+      this.sidenav?.open();
     }, 1000);
   }
 

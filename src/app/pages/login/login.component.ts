@@ -1,14 +1,13 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
 import { LoginOutput } from 'src/app/models/output/login-output';
 import { ToastService } from 'src/app/services/toast.service';
 import { LoaderService } from 'src/app/services/loader.service';
-import { HttpResponseHelper } from 'src/app/helpers/http-response-helper';
-import { StorageService } from 'src/app/services/storage.service';
 import { TitleService } from '../../services/title.service';
 import { ImageService } from '../../services/image.service';
+import { SidenavService } from '../../services/sidenav.service';
 
 @Component({
   selector: 'app-login',
@@ -27,7 +26,8 @@ export class LoginComponent implements OnInit {
     private _loaderService: LoaderService,
     private _imageService: ImageService,
     private _router: Router,
-    private _title: TitleService
+    private _title: TitleService,
+    private _sidenavService: SidenavService
   ) {
 
     this._title.set('Login');
@@ -60,10 +60,12 @@ export class LoginComponent implements OnInit {
     this._loaderService.show();
     this._authService.login(l).subscribe(response => {
       this._loaderService.dismiss();
-      this._router.navigate(['/home']);
+      this._router.navigate(['/home'], {
+        queryParams: { sn: true }
+      });
     }, error => {
       this._loaderService.dismiss();
-      this._toastService.open(HttpResponseHelper.mapErrorResponse(error).message);
+      this._toastService.showHttpError(error);
     });
 
   }

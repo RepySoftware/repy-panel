@@ -34,6 +34,7 @@ import { ImageService } from './services/image.service';
 import { DepositService } from './services/deposit.service';
 import { VehicleService } from './services/vehicle.service';
 import { StockService } from './services/stock.service';
+import { SidenavService } from './services/sidenav.service';
 
 @NgModule({
   declarations: [
@@ -52,7 +53,6 @@ import { StockService } from './services/stock.service';
   providers: [
     UserService,
     AuthService,
-    StorageService,
     DeviceService,
     PersonService,
     AddressConfigService,
@@ -64,15 +64,18 @@ import { StockService } from './services/stock.service';
     DashboardService,
     DeliveryService,
     DeliveryInstructionService,
-    TitleService,
     ImageService,
     DepositService,
     VehicleService,
     StockService,
-
+    
     LoaderService,
     ToastService,
+    TitleService,
+    StorageService,
     AlertMessageService,
+    SidenavService,
+
     { provide: MAT_DIALOG_DATA, useValue: {} },
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
 
