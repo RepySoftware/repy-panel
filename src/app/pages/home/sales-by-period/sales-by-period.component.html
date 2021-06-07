@@ -45,16 +45,6 @@
                 </mat-form-field>
             </div>
 
-            <div class="col-3">
-                <mat-form-field>
-                    <input #scheduleNextDays
-                           matInput
-                           type="number"
-                           [placeholder]="'Dias de agendamento ' + (endDateOfIssue.value ? '(até ' + (endDateOfIssue.value | momentDate) + ')' : '')"
-                           autocomplete="off">
-                </mat-form-field>
-            </div>
-
             <div class="col-2">
                 <div class="refresh">
                     <button mat-flat-button

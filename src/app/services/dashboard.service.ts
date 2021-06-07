@@ -13,9 +13,9 @@ export class DashboardService {
     ) {
     }
 
-    public getSalesByDate(startDateOfIssue: string, endDateOfIssue: string, scheduleNextDays: number): Observable<SalesByDate> {
+    public getSalesByDate(startDateOfIssue: string, endDateOfIssue: string): Observable<SalesByDate> {
         return this._http.get<SalesByDate>(`${URLS.api.dashboard}/salesByDate`, {
-            params: HttpQueryParamsHelper.objectToParams({ startDateOfIssue, endDateOfIssue, scheduleNextDays })
+            params: HttpQueryParamsHelper.objectToParams({ startDateOfIssue, endDateOfIssue })
         });
     }
 }
