@@ -38,45 +38,80 @@
 
 <div class="row">
 
-    <div class="col-md-4"
-         *ngFor="let d of deposits"
-         style="margin-bottom: 24px;">
+    <div class="col-md-9">
 
-        <mat-card>
+        <div class="row">
+            <div class="col-md-4"
+                 *ngFor="let d of deposits"
+                 style="margin-bottom: 24px;">
 
-            <mat-card-header>
-                <mat-card-title style="font-weight: bold;">{{ d.name }}</mat-card-title>
-            </mat-card-header>
+                <mat-card>
 
-            <mat-card-content>
-                <table class="stock-table"
-                       *ngIf="d.products.length">
+                    <mat-card-header>
+                        <mat-card-title style="font-weight: bold;">{{ d.name }}</mat-card-title>
+                    </mat-card-header>
 
-                    <thead>
-                        <tr>
-                            <th>Produto</th>
-                            <th>Quantidade</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+                    <mat-card-content>
+                        <table class="stock-table"
+                               *ngIf="d.products.length">
 
-                        <tr *ngFor="let p of d.products">
-                            <td>
-                                {{ p.companyBranchProduct.product.name }} ({{ p.companyBranchProduct.product.code }})
-                            </td>
-                            <td>{{ p.quantity }}</td>
-                        </tr>
+                            <thead>
+                                <tr>
+                                    <th>Produto</th>
+                                    <th>Quantidade</th>
+                                </tr>
+                            </thead>
+                            <tbody>
 
-                    </tbody>
-                </table>
-            </mat-card-content>
+                                <tr *ngFor="let p of d.products">
+                                    <td>
+                                        {{ p.companyBranchProduct.product.name }} ({{
+                                        p.companyBranchProduct.product.code }})
+                                    </td>
+                                    <td>{{ p.quantity }}</td>
+                                </tr>
 
-            <mat-card-actions>
-                <button mat-button
-                        (click)="openStockPosts(d.id)">Lançamentos</button>
-            </mat-card-actions>
+                            </tbody>
+                        </table>
+                    </mat-card-content>
 
-        </mat-card>
+                    <mat-card-actions>
+                        <button mat-button
+                                (click)="openStockPosts(d.id)">Lançamentos</button>
+                    </mat-card-actions>
+
+                </mat-card>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-3"
+         *ngIf="deposits.length">
+
+        <h5>Total</h5>
+
+        <table class="stock-table">
+
+            <thead>
+                <tr>
+                    <th>Produto</th>
+                    <th>Quantidade</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <tr *ngFor="let p of productsTotals">
+                    <td>
+                        {{ p.product.product.name }} ({{
+                        p.product.product.code }})
+                    </td>
+                    <td>{{ p.quantity }}</td>
+                </tr>
+
+            </tbody>
+        </table>
     </div>
 
 </div>

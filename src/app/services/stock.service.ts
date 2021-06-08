@@ -28,12 +28,12 @@ export class StockService {
         return this._http.get<Deposit>(`${URLS.api.stock}/deposits/${depositId}`);
     }
 
-    public depositTransfer(params: DepositTransferOutput): Observable<void> {
+    public depositTransfer(params: DepositTransferOutput[]): Observable<void> {
         return this._http.post<void>(`${URLS.api.stock}/depositTransfer`, params);
     }
 
-    public createPost(params: StockPostOutput): Observable<StockPost> {
-        return this._http.post<StockPost>(`${URLS.api.stock}/posts`, params);
+    public createPosts(params: StockPostOutput[]): Observable<StockPost[]> {
+        return this._http.post<StockPost[]>(`${URLS.api.stock}/posts`, params);
     }
 
     public getPosts(filter: StockPostFilter): Observable<StockPost[]> {

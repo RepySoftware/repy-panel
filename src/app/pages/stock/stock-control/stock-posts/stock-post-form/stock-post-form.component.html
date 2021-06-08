@@ -75,6 +75,19 @@
 
     <div class="row">
 
+        <div class="col-sm-12"
+             *ngIf="relatedProducts?.length">
+            <h4>Incluir também:</h4>
+
+            <div>
+                <mat-checkbox *ngFor="let rp of relatedProducts"
+                              [(ngModel)]="rp.selected"
+                              [ngModelOptions]="{standalone: true}">
+                    {{ rp.product.product.name }} ({{ rp.product.product.code }})
+                </mat-checkbox>
+            </div>
+        </div>
+
         <div class="col-sm-12">
             <button mat-flat-button
                     color="primary"

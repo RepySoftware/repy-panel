@@ -15,6 +15,7 @@ import { StockService } from '../../../../services/stock.service';
 import { ToastService } from '../../../../services/toast.service';
 import * as moment from 'moment';
 import { DepositTransferOutput } from '../../../../models/output/deposit-transfer.output';
+import { RelatedProduct } from '../../../../models/api/related-product';
 
 export interface DepositTransferInputData {
   companyBranchId: number;
@@ -39,6 +40,11 @@ export class DepositTransferComponent implements OnInit {
   public deposits: Deposit[] = [];
 
   public depositTransferForm: FormGroup;
+
+  public relatedProducts: {
+    product: CompanyBranchProduct,
+    selected: boolean
+  }[] = [];
 
   constructor(
     private _toast: ToastService,
@@ -102,6 +108,25 @@ export class DepositTransferComponent implements OnInit {
   private productSearchAutocompleteOnSelectItem(item: AutocompleteItem<CompanyBranchProduct>): void {
     this.selectedProduct = item.value;
     this.depositTransferForm.get('companyBranchProduct').setValue(item.value?.id || null);
+
+    if (this.selectedProduct) {
+      this.getRelatedProducts();
+    } else {
+      this.relatedProducts = [];
+    }
+  }
+
+  private getRelatedProducts(): void {
+    this._productService.getRelated(this.selectedProduct.id).subscribe(response => {
+      this.relatedProducts = response.map(cbp => {
+        return {
+          product: cbp.referencedCompanyBranchProduct,
+          selected: cbp.isDefault
+        }
+      });
+    }, error => {
+      this._toast.showHttpError(error);
+    });
   }
 
   public transfer(): void {
@@ -112,14 +137,33 @@ export class DepositTransferComponent implements OnInit {
       throw new Error('Invalid form');
     }
 
-    const params: DepositTransferOutput = {
-      originDepositId: this.depositTransferForm.get('originDeposit').value,
-      destinationDepositId: this.depositTransferForm.get('destinationDeposit').value,
-      companyBranchProductId: this.depositTransferForm.get('companyBranchProduct').value,
-      quantity: this.depositTransferForm.get('quantity').value,
-      dateOfIssue: moment(this.depositTransferForm.get('dateOfIssue').value).toISOString(),
-      observation: this.depositTransferForm.get('observation').value
-    }
+    const originDepositId = this.depositTransferForm.get('originDeposit').value;
+    const destinationDepositId = this.depositTransferForm.get('destinationDeposit').value;
+    const companyBranchProductId = this.depositTransferForm.get('companyBranchProduct').value;
+    const quantity = this.depositTransferForm.get('quantity').value;
+    const dateOfIssue = moment(this.depositTransferForm.get('dateOfIssue').value).toISOString();
+    const observation = this.depositTransferForm.get('observation').value;
+
+    const params: DepositTransferOutput[] = [
+      {
+        originDepositId,
+        destinationDepositId,
+        companyBranchProductId,
+        quantity,
+        dateOfIssue,
+        observation
+      },
+      ...this.relatedProducts.filter(x => x.selected).map(rp => {
+        return {
+          originDepositId,
+          destinationDepositId,
+          companyBranchProductId: rp.product.id,
+          quantity,
+          dateOfIssue,
+          observation: `[Rel.] ${observation || ''}`
+        } as DepositTransferOutput
+      })
+    ]
 
     this._loader.show();
     this._stockService.depositTransfer(params).subscribe(response => {

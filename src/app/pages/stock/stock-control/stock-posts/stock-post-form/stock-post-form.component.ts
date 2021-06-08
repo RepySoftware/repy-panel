@@ -5,6 +5,7 @@ import * as moment from 'moment';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { CompanyBranchProduct } from '../../../../../models/api/company-branch-product';
+import { RelatedProduct } from '../../../../../models/api/related-product';
 import { ProductFilter } from '../../../../../models/output/filters/product.filter';
 import { StockPostOutput } from '../../../../../models/output/stock-post.output';
 import { AutocompleteItem } from '../../../../../models/ui/autocomplete-item';
@@ -32,6 +33,11 @@ export class StockPostFormComponent implements OnInit {
     onSelectItem: item => this.productSearchAutocompleteOnSelectItem(item),
     emitOnClear: true
   }
+
+  public relatedProducts: {
+    product: CompanyBranchProduct,
+    selected: boolean
+  }[] = [];
 
   public stockForm: FormGroup;
 
@@ -99,6 +105,25 @@ export class StockPostFormComponent implements OnInit {
   private productSearchAutocompleteOnSelectItem(item: AutocompleteItem<CompanyBranchProduct>): void {
     this.selectedProduct = item.value;
     this.stockForm.get('companyBranchProduct').setValue(item.value?.id || null);
+
+    if (this.selectedProduct) {
+      this.getRelatedProducts();
+    } else {
+      this.relatedProducts = [];
+    }
+  }
+
+  private getRelatedProducts(): void {
+    this._productService.getRelated(this.selectedProduct.id).subscribe(response => {
+      this.relatedProducts = response.map(cbp => {
+        return {
+          product: cbp.referencedCompanyBranchProduct,
+          selected: cbp.isDefault
+        }
+      });
+    }, error => {
+      this._toast.showHttpError(error);
+    });
   }
 
   public save(): void {
@@ -111,17 +136,31 @@ export class StockPostFormComponent implements OnInit {
 
     const type = this.postTypes.types[this.stockForm.get('type').value];
     const quantity = Number(this.stockForm.get('quantity').value) * this.postTypes.factor[type];
+    const depositId = this.inputData.depositId;
+    const dateOfIssue = moment(this.stockForm.get('dateOfIssue').value).toISOString();
+    const observation = this.stockForm.get('observation').value;
 
-    const stockPostOutput: StockPostOutput = {
-      companyBranchProductId: this.selectedProduct.id,
-      depositId: this.inputData.depositId,
-      quantity,
-      dateOfIssue: moment(this.stockForm.get('dateOfIssue').value).toISOString(),
-      observation: this.stockForm.get('observation').value
-    }
+    const stockPostsOutput: StockPostOutput[] = [
+      {
+        companyBranchProductId: this.selectedProduct.id,
+        depositId,
+        quantity,
+        dateOfIssue,
+        observation
+      },
+      ...this.relatedProducts.filter(x => x.selected).map(rp => {
+        return {
+          companyBranchProductId: rp.product.id,
+          depositId,
+          quantity,
+          dateOfIssue,
+          observation: `[Rel.] ${observation || ''}`
+        } as StockPostOutput
+      })
+    ];
 
     this._loader.show();
-    this._stockService.createPost(stockPostOutput).subscribe(response => {
+    this._stockService.createPosts(stockPostsOutput).subscribe(response => {
       this._loader.dismiss();
       this._toast.open('Lançamento salvo!', 'success');
       this._dialogRef.close({ hasUpdate: true });

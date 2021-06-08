@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { CompanyBranch } from '../../../models/api/company-brach';
+import { CompanyBranchProduct } from '../../../models/api/company-branch-product';
 import { Deposit } from '../../../models/api/deposit';
 import { CompanyBranchService } from '../../../services/company-branch.service';
 import { LoaderService } from '../../../services/loader.service';
@@ -21,6 +22,11 @@ export class StockControlComponent implements OnInit {
   public deposits: Deposit[] = [];
 
   public companyBranchIdValue: number;
+
+  public productsTotals: {
+    product: CompanyBranchProduct,
+    quantity: number
+  }[] = [];
 
   constructor(
     private _title: TitleService,
@@ -49,7 +55,7 @@ export class StockControlComponent implements OnInit {
 
       this.deposits = response;
 
-      console.log(response);
+      this.calculeProductsTotals();
     }, error => {
 
       if (options?.showLoader)
@@ -100,5 +106,25 @@ export class StockControlComponent implements OnInit {
     dialog.afterClosed().subscribe(result => {
       this.getStockDeposits();
     });
+  }
+
+  public calculeProductsTotals(): void {
+
+    this.deposits.forEach(d => {
+      d.products.forEach(p => {
+        const companyBranchProduct = this.productsTotals.find(x => x.product.id == p.companyBranchProduct.id);
+
+        if (!companyBranchProduct && p.quantity > 0) {
+          this.productsTotals.push({
+            product: p.companyBranchProduct,
+            quantity: p.quantity
+          });
+        } else if(p.quantity > 0) {
+          companyBranchProduct.quantity += p.quantity;
+        }
+
+      });
+    });
+
   }
 }
