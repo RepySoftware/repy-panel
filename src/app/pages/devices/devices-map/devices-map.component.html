@@ -1,7 +1,22 @@
-<button class="btn-list"
-        mat-raised-button
-        color="primary"
-        routerLink="/devices/list">Ir para lista</button>
+<google-map #map
+            width="100%"
+            height="100%"
+            [zoom]="mapZoom"
+            [center]="mapCenter"
+            [options]="mapOptions">
 
-<div [id]="devicesMapId"
-     style="width: 100%; height: calc(100vh - 69px)"></div>
+        <map-marker *ngFor="let m of markers; let i = index"
+                    [position]="m.marker.position"
+                    [title]="m.marker.title"
+                    [label]="m.marker.label"
+                    [options]="m.marker.options"
+                    #marker="mapMarker"
+                    (mapClick)="openInfoWindow(marker, i)">
+
+                <map-info-window #infoWindow>
+                        <app-device-gas-level-map-info *ngIf="m.device.deviceGasLevel"
+                                                       [device]="m.device"></app-device-gas-level-map-info>
+                </map-info-window>
+
+        </map-marker>
+</google-map>

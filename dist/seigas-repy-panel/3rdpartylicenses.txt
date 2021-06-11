@@ -214,9 +214,6 @@ licenses; we recommend you read them, as their terms may differ from the
 terms above.
 
 
-mapbox-gl
-SEE LICENSE IN LICENSE.txt
-
 moment
 MIT
 Copyright (c) JS Foundation and other contributors

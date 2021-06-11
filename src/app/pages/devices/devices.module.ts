@@ -7,18 +7,22 @@ import { DevicesListComponent } from './devices-list/devices-list.component';
 import { DevicesViewService } from './devices-view.service';
 import { DevicesRoutingModule } from './devices.routing';
 import { PipesModule } from '../../pipes/pipes.module';
+import { GoogleMapsModule } from '@angular/google-maps';
+import { DeviceGasLevelMapInfoComponent } from './devices-map/devices-map-info/device-gas-level-map-info/device-gas-level-map-info.component';
 
 @NgModule({
   declarations: [
     DevicesComponent,
     DevicesMapComponent,
-    DevicesListComponent
+    DevicesListComponent,
+    DeviceGasLevelMapInfoComponent
   ],
   imports: [
     CommonModule,
     AngularMaterialModule,
     DevicesRoutingModule,
-    PipesModule
+    PipesModule,
+    GoogleMapsModule
   ],
   providers: [
     DevicesViewService

@@ -1,4 +1,5 @@
-import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { GoogleMap, MapInfoWindow, MapMarker } from '@angular/google-maps';
 import * as mapboxgl from 'mapbox-gl';
 import { environment } from '../../../../environments/environment';
 import { DeviceType } from '../../../enums/device-type';
@@ -7,6 +8,7 @@ import { LoaderService } from '../../../services/loader.service';
 import { TitleService } from '../../../services/title.service';
 import { ToastService } from '../../../services/toast.service';
 import { DevicesViewService } from '../devices-view.service';
+import { DeviceMapMarker } from '../models/device-map-marker';
 
 @Component({
   selector: 'app-devices-map',
@@ -15,21 +17,30 @@ import { DevicesViewService } from '../devices-view.service';
 })
 export class DevicesMapComponent implements OnInit, AfterViewInit, OnDestroy {
 
-  public readonly devicesMapId = 'devicesMap';
+  @ViewChildren(MapInfoWindow) infoWindowsView: QueryList<MapInfoWindow>;
+  @ViewChild('map') public map: GoogleMap;
+
+  public markers: DeviceMapMarker[] = [];
+
+  public mapZoom = 12;
+
+  public mapCenter: google.maps.LatLngLiteral;
+
+  public mapOptions: google.maps.MapOptions = {
+    // mapTypeId: 'hybrid',
+    // zoomControl: false,
+    // scrollwheel: false,
+    // disableDoubleClickZoom: true,
+    // maxZoom: 15,
+    // minZoom: 8,
+  }
+
+  private _firstLoading = true;
 
   public readonly refreshInterval = {
     interval: null,
     time: 3000
   };
-
-  private _map: mapboxgl.Map;
-
-  private _markers: {
-    id: any,
-    popup: mapboxgl.Popup,
-    marker: mapboxgl.Marker,
-    html: string
-  }[] = [];
 
   constructor(
     private _loader: LoaderService,
@@ -44,7 +55,6 @@ export class DevicesMapComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit() {
-    this.initMap();
     this.initDevicesData();
   }
 
@@ -52,119 +62,60 @@ export class DevicesMapComponent implements OnInit, AfterViewInit, OnDestroy {
     clearInterval(this.refreshInterval.interval);
   }
 
-  private initMap(): void {
-    this._map = new mapboxgl.Map({
-      accessToken: environment.mapbox.accessToken,
-      container: this.devicesMapId,
-      style: 'mapbox://styles/mapbox/streets-v11',
-      center: [-53.8530664, -29.8264536],
-      zoom: 6
-    });
-
-    this._map.addControl(new mapboxgl.NavigationControl());
-  }
-
   private initDevicesData(): void {
 
     this._devicesViewService.refreshDevices({ showLoader: true }).then(devices => {
+
       devices.forEach(d => {
 
-        this.createMarker({
-          id: `deviceMarker_${d.id}`,
-          lngLat: [d.address.longitude, d.address.latitude],
-          html: this.buildMarkerHtml(d)
+        this.markers.push({
+          device: d,
+          marker: {
+            position: {
+              lat: d.address.latitude,
+              lng: d.address.longitude
+            },
+            title: d.name,
+            label: {
+              text: d.name,
+              className: 'map-marker-label',
+            },
+            options: {
+              icon: this.pinSymbol('blue')
+            }
+          }
         });
-
       });
 
-      window.addEventListener('wheel', e => {
-        this._markers.forEach(x => {
-          // if (x.popup.isOpen())
-          //   x.popup._onClickClose();
-        });
-      });
+      if (this._firstLoading && devices.length) {
+        this.mapCenter = {
+          lat: devices[0].address.latitude,
+          lng: devices[0].address.longitude
+        }
 
-      const bounds = new mapboxgl.LngLatBounds();
-      this._markers.forEach(x => bounds.extend(x.marker.getLngLat()));
-      this._map.fitBounds(bounds, { padding: 100 });
+        this._firstLoading = false;
+      }
 
-      // this.refreshInterval.interval = setInterval(() => {
-      //   this._devicesViewService.refreshDevices().then(devices => {
-      //     devices.forEach(d => {
-      //       const marker = this._markers.find(x => x.id == `deviceMarker_${d.id}`);
-      //       marker.popup.setHTML(this.buildMarkerHtml(d));
-      //     });
-      //   });
-      // }, this.refreshInterval.time);
     });
   }
 
-  private buildMarkerHtml(device: Device): string {
-    let html = '';
+  public openInfoWindow(marker: MapMarker, index: number): void {
+    const infoWindow = Array.from(this.infoWindowsView)[index];
 
-    html += /*html*/`<div>`;
-
-    html += /*html*/`
-        <span>${device.address.description}</span>
-        <br>
-        <strong>${device.name}</strong>
-        <a style="float: right" class="btn btn-primary btn-sm" href="/devices/${device.id}/details">Ver detalhes</a>
-    `;
-
-    switch (device.type) {
-      case DeviceType.GAS_LEVEL:
-        html += /*html*/`
-                <strong>${device.deviceGasLevel.percentage}%</strong>
-            `;
-        break;
-    }
-
-    html += /*html*/`</div>`;
-
-    return html;
+    try {
+      infoWindow.open({ getAnchor: () => marker.getAnchor() });
+    } catch { }
   }
 
-  private createMarker(options: {
-    id: string;
-    lngLat: [number, number];
-    html: string;
-  }): void {
-    const popup = new mapboxgl.Popup({ maxWidth: '320px' })
-      .setLngLat(options.lngLat)
-      .setHTML(options.html);
-
-    const el = document.createElement('div');
-    el.style.background = 'var(--primary-color)';
-    el.style.width = '20px';
-    el.style.height = '20px';
-    el.style.borderRadius = '50%';
-    el.style.cursor = 'pointer';
-
-    const marker = new mapboxgl.Marker(el)
-      .setLngLat(options.lngLat)
-      .setPopup(popup)
-      .addTo(this._map);
-
-    const markerElement = marker.getElement();
-    markerElement.id = options.id;
-
-    // markerElement.addEventListener('mouseover', e => {
-    //   if (!popup.isOpen()) {
-    //     this._markers.forEach(x => x.popup._onClickClose());
-    //     marker.togglePopup();
-    //   }
-    // });
-
-    //markerElement.addEventListener('mouseout', e => {
-    //    marker.togglePopup();
-    //});
-
-    this._markers.push({
-      id: options.id,
-      popup,
-      marker,
-      html: options.html
-    });
+  private pinSymbol(color: string): google.maps.Symbol {
+    return {
+      path: 'M 0,0 C -2,-20 -10,-22 -10,-30 A 10,10 0 1,1 10,-30 C 10,-22 2,-20 0,0 z',
+      fillColor: color,
+      fillOpacity: 1,
+      strokeColor: '#444',
+      strokeWeight: 1,
+      scale: 1
+    };
   }
 
 }
