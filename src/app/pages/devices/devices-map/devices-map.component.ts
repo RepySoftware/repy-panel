@@ -2,6 +2,7 @@ import { AfterViewInit, Component, OnDestroy, OnInit, QueryList, ViewChild, View
 import { GoogleMap, MapInfoWindow, MapMarker } from '@angular/google-maps';
 import * as mapboxgl from 'mapbox-gl';
 import { environment } from '../../../../environments/environment';
+import { DeviceGasLevelStatusColor } from '../../../enums/device-gas-level-status';
 import { DeviceType } from '../../../enums/device-type';
 import { Device } from '../../../models/api/device';
 import { LoaderService } from '../../../services/loader.service';
@@ -75,13 +76,8 @@ export class DevicesMapComponent implements OnInit, AfterViewInit, OnDestroy {
               lat: d.address.latitude,
               lng: d.address.longitude
             },
-            title: d.name,
-            label: {
-              text: d.name,
-              className: 'map-marker-label',
-            },
             options: {
-              icon: this.pinSymbol('blue')
+              icon: this.pinSymbol(DeviceGasLevelStatusColor(d.deviceGasLevel.status))
             }
           }
         });
