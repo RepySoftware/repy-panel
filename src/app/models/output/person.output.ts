@@ -19,5 +19,6 @@ export interface PersonOutput {
     stateRegistration: string;
     municipalRegistration: string;
     isActive: boolean;
+    observation?: string;
     personPhones: PersonPhoneOutput[];
 }

@@ -25,6 +25,7 @@ export interface Person extends ApiModel, TimeStamps {
     municipalRegistration: string;
     isGasCustomer: boolean;
     isActive: boolean;
+    observation?: string;
     devices: Device[];
     createdAt: string;
     updatedAt: string;

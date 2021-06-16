@@ -88,7 +88,8 @@ export class PersonFormComponent implements OnInit {
       icmsContributorType: new FormControl(null),
       stateRegistration: new FormControl(null),
       municipalRegistration: new FormControl(null),
-      isActive: new FormControl(true)
+      isActive: new FormControl(true),
+      observation: new FormControl(null)
     });
   }
 
@@ -105,6 +106,7 @@ export class PersonFormComponent implements OnInit {
     this.personForm.get('stateRegistration').setValue(this.person.stateRegistration);
     this.personForm.get('municipalRegistration').setValue(this.person.municipalRegistration);
     this.personForm.get('isActive').setValue(this.person.isActive);
+    this.personForm.get('observation').setValue(this.person.observation);
 
     this._addressConfigService.address = this.person.address;
     this._addressConfigService.setFormValues();
@@ -214,6 +216,7 @@ export class PersonFormComponent implements OnInit {
       stateRegistration: this.personForm.get('stateRegistration').value,
       municipalRegistration: this.personForm.get('municipalRegistration').value,
       isActive: this.personForm.get('isActive').value,
+      observation: this.personForm.get('observation').value,
       personPhones: this.phones
     }
 
