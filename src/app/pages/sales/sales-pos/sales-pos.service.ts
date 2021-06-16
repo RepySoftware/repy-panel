@@ -84,7 +84,7 @@ export class SalesPosService {
 
   public set personCustomer(value: Person) {
     this._personCustomer = value;
-    this.deliveryAddressMapUrl = this.addressToMapUrl(this._personCustomer.address.description);
+    this.deliveryAddressMapUrl = this._personCustomer?.address ? this.addressToMapUrl(this._personCustomer.address.description) : null;
   }
 
   public get productsTotalPrice(): number {

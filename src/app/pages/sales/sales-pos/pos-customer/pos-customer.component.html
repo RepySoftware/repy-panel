@@ -71,6 +71,12 @@
                 </a>
             </div>
 
+            <div *ngIf="salesPosService.personCustomer.observation">
+                <span style="color: var(--color-carrot); font-weight: bold;">
+                    {{ salesPosService.personCustomer.observation }}
+                </span>
+            </div>
+
             <div>
                 <button mat-stroked-button
                         (click)="unselectPersonCustomer()">Cancelar seleção</button>
