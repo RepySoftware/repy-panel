@@ -45,6 +45,6 @@ export class UserService {
         let nameSplited = name.split('.');
         text += nameSplited[nameSplited.length - 1][0];
 
-        return `https://dummyimage.com/1:1x500/${color}/ffffff?text=${text}`;
+        return `https://dummyimage.com/500/${color}/ffffff?text=${text}`;
     }
 }

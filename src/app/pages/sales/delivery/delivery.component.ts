@@ -8,9 +8,11 @@ import { DeliveryExtraCardType } from '../../../enums/delivery-extra-card-type';
 import { DeliveryType } from '../../../enums/delivery-type';
 import { Delivery } from '../../../models/api/delivery';
 import { Employee } from '../../../models/api/employee';
+import { SaleOrder } from '../../../models/api/sale-order';
 import { EmployeeFilter } from '../../../models/output/filters/employee.filter';
 import { AutocompleteItem } from '../../../models/ui/autocomplete-item';
 import { AutocompleteOptions } from '../../../models/ui/autocomplete-options';
+import { AlertMessageService } from '../../../services/alert-message.service';
 import { DeliveryService } from '../../../services/delivery.service';
 import { EmployeeService } from '../../../services/employee.service';
 import { LoaderService } from '../../../services/loader.service';
@@ -69,7 +71,8 @@ export class DeliveryComponent implements OnInit, OnDestroy {
     private _dialog: MatDialog,
     private _loader: LoaderService,
     private _salesDeliveryService: SalesDeliveryService,
-    private _title: TitleService
+    private _title: TitleService,
+    private _alert: AlertMessageService
   ) { }
 
   ngOnInit(): void {
@@ -434,6 +437,35 @@ export class DeliveryComponent implements OnInit, OnDestroy {
 
     this._deliveryService.updateShowObservationToDriver({ saleOrderId, value }).subscribe(response => response, error => {
       this._toast.showHttpError(error);
+    });
+  }
+
+  public approveSaleOrder(saleOrder: SaleOrder): void {
+
+    this._alert.open({
+      message: 'Aprovar pedido?',
+      buttons: [
+        {
+          text: 'Cancelar',
+          color: 'basic',
+          closeOnClick: true
+        },
+        {
+          text: 'Aprovar',
+          color: 'primary',
+          onClick: () => {
+            this._loader.show();
+            this._deliveryService.approve(saleOrder.id).subscribe(response => {
+              this._loader.dismiss();
+              this._toast.open('Aprovado!', 'success');
+              this.refreshDeliveries({ force: true });
+            }, error => {
+              this._loader.dismiss();
+              this._toast.showHttpError(error);
+            });
+          }
+        }
+      ]
     });
   }
 }

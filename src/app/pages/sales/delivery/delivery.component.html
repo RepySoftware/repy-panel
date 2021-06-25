@@ -87,6 +87,7 @@
                                                    (openDeliveryFinalize)="openConfirmDelivery($event)"
                                                    (updateShowObservationToDriver)="updateShowObservationToDriver($event)"
                                                    (refreshDeliveries)="refreshDeliveries({ force: true, showLoader: true })"
+                                                   (saleOrderApprove)="approveSaleOrder($event)"
                                                    [inputData]="{
                                                    delivery: card.delivery,
                                                    column: column

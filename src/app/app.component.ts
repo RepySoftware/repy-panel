@@ -79,6 +79,11 @@ export class AppComponent implements OnInit, AfterViewInit {
         route: '/employees'
       },
       {
+        title: 'Produtos',
+        icon: 'category',
+        route: '/products'
+      },
+      {
         title: 'Veículos',
         icon: 'local_shipping',
         route: '/vehicles'

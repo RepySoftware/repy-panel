@@ -45,4 +45,8 @@ export class DeliveryService {
     public updateShowObservationToDriver(params: { saleOrderId: number, value: boolean }): Observable<void> {
         return this._http.patch<void>(`${URLS.api.deliveries}/updateShowObservationToDriver`, params);
     }
+
+    public approve(saleOrderId: number): Observable<void> {
+        return this._http.patch<void>(`${URLS.api.deliveries}/approve`, { saleOrderId });
+    }
 }

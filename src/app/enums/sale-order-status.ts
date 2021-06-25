@@ -1,4 +1,5 @@
 export enum SaleOrderStatus {
+    WAITING_FOR_APPROVAL = 'WAITING_FOR_APPROVAL',
     PENDING = 'PENDING',
     ON_DELIVERY = 'ON_DELIVERY',
     FINISHED = 'FINISHED',
@@ -10,6 +11,7 @@ export function SaleOrderStatusList(): string[] {
 }
 
 const labels = {
+    [SaleOrderStatus.WAITING_FOR_APPROVAL]: 'Aguardando aprovação',
     [SaleOrderStatus.PENDING]: 'Pendente',
     [SaleOrderStatus.ON_DELIVERY]: 'Em Entrega',
     [SaleOrderStatus.FINISHED]: 'Finalizado',
@@ -21,6 +23,7 @@ export function SaleOrderStatusLabel(value: SaleOrderStatus | string): string {
 }
 
 const colors = {
+    [SaleOrderStatus.WAITING_FOR_APPROVAL]: 'var(--color-wisteria)',
     [SaleOrderStatus.PENDING]: 'var(--color-orange)',
     [SaleOrderStatus.ON_DELIVERY]: 'var(--color-peterriver)',
     [SaleOrderStatus.FINISHED]: 'var(--color-nephritis)',

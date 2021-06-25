@@ -1,10 +1,17 @@
 <div *ngIf="inputData"
      class="content">
 
-    <div class="id">
-        <a href="javascript:;"
-           (click)="openSaleOrderForm()">#{{ inputData.delivery.saleOrder.id }}</a>
+    <div class="header">
+        <div class="id">
+            <a href="javascript:;"
+            (click)="openSaleOrderForm()">#{{ inputData.delivery.saleOrder.id }}</a>
+        </div>
+        <div>-</div>
+        <div class="source">
+            {{ inputData.delivery.saleOrder.source }}
+        </div>
     </div>
+
     <div class="status"
          [style.background]="inputData.delivery.saleOrder.status | saleOrderStatusColor">
         {{ inputData.delivery.saleOrder.status | saleOrderStatus }}
@@ -42,6 +49,14 @@
     </div>
 
     <div style="width: 100%; margin-top: 8px;">
+
+        <button mat-stroked-button
+                color="primary"
+                (click)="saleOrderApprove(inputData.delivery.saleOrder)"
+                *ngIf="inputData.delivery.saleOrder?.status == 'WAITING_FOR_APPROVAL'">
+            Aprovar
+        </button>
+        
         <button mat-stroked-button
                 color="primary"
                 (click)="copySaleOrderToClipboard(inputData.delivery.saleOrder)"

@@ -46,6 +46,11 @@ const routes: Routes = [
     path: 'employees',
     loadChildren: () => import('./pages/employees/employees.module').then(x => x.EmployeesModule),
     canActivate: [OnlyLoggedGuard]
+  },
+  {
+    path: 'products',
+    loadChildren: () => import('./pages/products/products.module').then(x => x.ProductsModule),
+    canActivate: [OnlyLoggedGuard]
   }
 ];
 

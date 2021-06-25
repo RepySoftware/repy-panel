@@ -19,6 +19,7 @@ export interface SaleOrder extends ApiModel {
     index: number;
     observation?: string;
     showObservationToDriver: boolean;
+    source: string;
     dateOfIssue: string;
     scheduledAt?: string;
     deliveredAt?: string;

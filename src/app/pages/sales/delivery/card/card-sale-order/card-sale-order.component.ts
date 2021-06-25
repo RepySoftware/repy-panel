@@ -35,6 +35,9 @@ export class CardSaleOrderComponent implements OnInit {
   @Output('updateShowObservationToDriver')
   public updateShowObservationToDriverEmitter: EventEmitter<DeliverySaleOrderUpdateShowObservationToDriverEvent> = new EventEmitter();
 
+  @Output('saleOrderApprove')
+  public saleOrderApproveEmitter: EventEmitter<SaleOrder> = new EventEmitter();
+
   @Output('refreshDeliveries')
   public refreshDeliveriesEmitter: EventEmitter<void> = new EventEmitter();
 
@@ -124,6 +127,10 @@ export class CardSaleOrderComponent implements OnInit {
         this.refreshDeliveriesEmitter.emit();
       }
     });
+  }
+
+  public saleOrderApprove(saleOrder: SaleOrder): void {
+    this.saleOrderApproveEmitter.emit(saleOrder);
   }
 
 }

@@ -4,8 +4,14 @@
     align-items: baseline;
     justify-content: space-between;
 
-    .id {
+    .header {
+        display: flex;
+        gap: 5px;
         font-weight: bold;
+
+        .source {
+            color: #777;
+        }
     }
 
     .status {

@@ -68,6 +68,7 @@ export class SaleOrdersComponent implements OnInit {
 
   public tableColumns: string[] = [
     'id',
+    'source',
     'datetime',
     'customer',
     'driver',
