@@ -20,9 +20,9 @@
                 <mat-label>Tipo</mat-label>
                 <mat-select #type
                             formControlName="type">
-                    <mat-option *ngFor="let t of postTypes.list"
-                                [value]="t.id">
-                        {{ t.label }}
+                    <mat-option *ngFor="let t of stockPostTypes"
+                                [value]="t">
+                        {{ t | stockPostType }}
                     </mat-option>
                 </mat-select>
                 <mat-error *ngIf="!stockForm.get('type').valid">

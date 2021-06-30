@@ -13,6 +13,8 @@ import { AddressPipe } from './address.pipe';
 import { DeliveryInstructionStatusColorPipe } from './delivery-instruction-status-color.pipe';
 import { SaleOrderStatusPipe } from './sale-order-status.pipe';
 import { DeliveryExtraCardTypePipe } from './delivery-extra-card-type.pipe';
+import { StockPostTypePipe } from './stock-post-type.pipe';
+import { StockPostTypeColorPipe } from './stock-post-type-color.pipe';
 
 @NgModule({
     declarations: [
@@ -29,7 +31,9 @@ import { DeliveryExtraCardTypePipe } from './delivery-extra-card-type.pipe';
         AddressPipe,
         DeliveryInstructionStatusColorPipe,
         DeliveryInstructionStatusPipe,
-        DeliveryExtraCardTypePipe
+        DeliveryExtraCardTypePipe,
+        StockPostTypePipe,
+        StockPostTypeColorPipe
     ],
     exports: [
         MoneyPipe,
@@ -45,7 +49,9 @@ import { DeliveryExtraCardTypePipe } from './delivery-extra-card-type.pipe';
         AddressPipe,
         DeliveryInstructionStatusColorPipe,
         DeliveryInstructionStatusPipe,
-        DeliveryExtraCardTypePipe
+        DeliveryExtraCardTypePipe,
+        StockPostTypePipe,
+        StockPostTypeColorPipe
     ]
 })
 export class PipesModule { }

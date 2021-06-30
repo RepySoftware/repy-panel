@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { CompanyBranchProduct } from '../../../../models/api/company-branch-product';
 import { Deposit } from '../../../../models/api/deposit';
+import { DepositProduct } from '../../../../models/api/deposit-product';
 import { StockPost } from '../../../../models/api/stock-post';
 import { ProductFilter } from '../../../../models/output/filters/product.filter';
 import { StockPostFilter } from '../../../../models/output/filters/stock-post.filter';
@@ -224,5 +225,39 @@ export class StockPostsComponent implements OnInit {
         }
       ]
     });
+  }
+
+  public clearDeposit(): void {
+    this._alert.open({
+      message: `Você tem certeza que deseja limpar este depósito?`,
+      title: `Limpar depósito`,
+      buttons: [
+        {
+          text: 'Cancelar',
+          closeOnClick: true
+        },
+        {
+          text: 'Limpar',
+          color: 'warn',
+          onClick: () => {
+            this._loader.show();
+            this._stockService.clearDeposit(this.deposit.id).subscribe(response => {
+              this._loader.dismiss();
+              this._toast.open('Depósito limpo', 'success');
+
+              this.refresh();
+
+            }, error => {
+              this._loader.dismiss();
+              this._toast.showHttpError(error);
+            });
+          }
+        }
+      ]
+    });
+  }
+
+  public get depositProducts(): DepositProduct[] {
+    return this.deposit.products.filter(dp => dp.quantity != 0);
   }
 }

@@ -1,7 +1,10 @@
+import { StockPostType } from "../../enums/stock-post-type";
+
 export interface StockPostOutput {
     depositId: number;
     companyBranchProductId: number;
-    quantity: number;
+    type: StockPostType;
+    quantity?: number;
     observation?: string;
     dateOfIssue: string;
 }

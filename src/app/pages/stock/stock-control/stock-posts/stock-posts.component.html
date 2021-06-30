@@ -39,8 +39,8 @@
                 <td mat-cell
                     *matCellDef="let element"
                     style="font-weight: bold;"
-                    [style.color]="element.quantity > 0 ? 'var(--color-nephritis)' : 'var(--color-peterriver)'">
-                    {{element.quantity > 0 ? 'Entrada' : 'Saída'}}
+                    [style.color]="element.type | stockPostTypeColor">
+                    {{ element.type | stockPostType }}
                 </td>
             </ng-container>
 
@@ -117,7 +117,7 @@
             </thead>
             <tbody>
 
-                <tr *ngFor="let p of deposit.products">
+                <tr *ngFor="let p of depositProducts">
                     <td>
                         {{ p.companyBranchProduct.product.name }} ({{ p.companyBranchProduct.product.code }})
                     </td>
@@ -126,6 +126,11 @@
 
             </tbody>
         </table>
+
+        <button mat-stroked-button
+                style="margin-top: 8px;"
+                color="warn"
+                (click)="clearDeposit()">Limpar depósito</button>
     </div>
 
 </div>

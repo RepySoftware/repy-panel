@@ -32,6 +32,10 @@ export class StockService {
         return this._http.post<void>(`${URLS.api.stock}/depositTransfer`, params);
     }
 
+    public clearDeposit(depositId: number): Observable<void> {
+        return this._http.post<void>(`${URLS.api.stock}/deposits/clear`, { depositId });
+    }
+
     public createPosts(params: StockPostOutput[]): Observable<StockPost[]> {
         return this._http.post<StockPost[]>(`${URLS.api.stock}/posts`, params);
     }

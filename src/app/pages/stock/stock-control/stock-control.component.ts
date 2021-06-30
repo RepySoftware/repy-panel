@@ -110,6 +110,8 @@ export class StockControlComponent implements OnInit {
 
   public calculeProductsTotals(): void {
 
+    this.productsTotals = [];
+
     this.deposits.forEach(d => {
       d.products.forEach(p => {
         const companyBranchProduct = this.productsTotals.find(x => x.product.id == p.companyBranchProduct.id);

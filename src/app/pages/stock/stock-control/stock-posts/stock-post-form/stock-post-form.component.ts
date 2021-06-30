@@ -4,6 +4,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { StockPostType, StockPostTypeList } from '../../../../../enums/stock-post-type';
 import { CompanyBranchProduct } from '../../../../../models/api/company-branch-product';
 import { RelatedProduct } from '../../../../../models/api/related-product';
 import { ProductFilter } from '../../../../../models/output/filters/product.filter';
@@ -43,20 +44,7 @@ export class StockPostFormComponent implements OnInit {
 
   public selectedProduct: CompanyBranchProduct;
 
-  public postTypes = {
-    types: {
-      in: 'in',
-      out: 'out'
-    },
-    factor: {
-      in: 1,
-      out: -1
-    },
-    list: [
-      { id: 'in', label: 'Entrada' },
-      { id: 'out', label: 'Saída' },
-    ]
-  }
+  public stockPostTypes = StockPostTypeList();
 
   constructor(
     private _loader: LoaderService,
@@ -75,8 +63,8 @@ export class StockPostFormComponent implements OnInit {
   private initForm(): void {
     this.stockForm = new FormGroup({
       companyBranchProduct: new FormControl(null, Validators.required),
-      type: new FormControl(this.postTypes.types.in, Validators.required),
-      quantity: new FormControl(null, [Validators.required, Validators.min(1)]),
+      type: new FormControl(StockPostType.BALANCE, Validators.required),
+      quantity: new FormControl(null, [Validators.required, Validators.min(0)]),
       observation: new FormControl(null),
       dateOfIssue: new FormControl(moment().format('YYYY-MM-DDTHH:mm'), Validators.required)
     });
@@ -134,8 +122,8 @@ export class StockPostFormComponent implements OnInit {
       throw new Error('Invalid form');
     }
 
-    const type = this.postTypes.types[this.stockForm.get('type').value];
-    const quantity = Number(this.stockForm.get('quantity').value) * this.postTypes.factor[type];
+    const type = this.stockForm.get('type').value;
+    const quantity = this.stockForm.get('quantity').value;
     const depositId = this.inputData.depositId;
     const dateOfIssue = moment(this.stockForm.get('dateOfIssue').value).toISOString();
     const observation = this.stockForm.get('observation').value;
@@ -144,6 +132,7 @@ export class StockPostFormComponent implements OnInit {
       {
         companyBranchProductId: this.selectedProduct.id,
         depositId,
+        type,
         quantity,
         dateOfIssue,
         observation
@@ -152,6 +141,7 @@ export class StockPostFormComponent implements OnInit {
         return {
           companyBranchProductId: rp.product.id,
           depositId,
+          type,
           quantity,
           dateOfIssue,
           observation: `[Rel.] ${observation || ''}`
