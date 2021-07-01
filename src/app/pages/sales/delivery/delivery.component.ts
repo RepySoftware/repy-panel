@@ -299,7 +299,8 @@ export class DeliveryComponent implements OnInit, OnDestroy {
 
       this._deliveryService.updateEmployeeDriver({
         saleOrderId: delivery.saleOrder.id,
-        employeeDriverId: currentColum.employeeDriverId
+        employeeDriverId: currentColum.employeeDriverId,
+        firstPosition: event.currentIndex == 0
       }).subscribe(response => {
         resolve();
       }, error => {

@@ -38,7 +38,7 @@ export class DeliveryService {
         return this._http.patch<void>(`${URLS.api.deliveries}/updateIndex`, items);
     }
 
-    public updateEmployeeDriver(params: { saleOrderId: number, employeeDriverId: number }): Observable<void> {
+    public updateEmployeeDriver(params: { saleOrderId: number, employeeDriverId: number, firstPosition: boolean }): Observable<void> {
         return this._http.patch<void>(`${URLS.api.deliveries}/updateEmployeeDriver`, params);
     }
 
