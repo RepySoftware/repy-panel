@@ -83,7 +83,8 @@ export class DeliveryInstructionFormComponent implements OnInit {
       employeeDriverId,
       index,
       description,
-      checkableByDriver
+      checkableByDriver,
+      firstPosition: this.inputData.index == 0
     }
 
     this._loader.show();
