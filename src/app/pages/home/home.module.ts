@@ -5,11 +5,11 @@ import { AngularMaterialModule } from 'src/app/shared/angular-material.module';
 import { RouterModule } from '@angular/router';
 import { PipesModule } from '../../pipes/pipes.module';
 import { SalesByPeriodComponent } from './sales-by-period/sales-by-period.component';
-
+import { PersonsCustomersNextGasSalesComponent } from './persons-customers-next-gas-sales/persons-customers-next-gas-sales.component';
 
 
 @NgModule({
-  declarations: [HomeComponent, SalesByPeriodComponent],
+  declarations: [HomeComponent, SalesByPeriodComponent, PersonsCustomersNextGasSalesComponent],
   imports: [
     CommonModule,
     AngularMaterialModule,

@@ -1,0 +1,36 @@
+.loading-spinner {
+    display: flex;
+    justify-content: center;
+    padding: 6px;
+}
+
+.buttons {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-top: 7px;
+    margin-bottom: 12px;
+
+    mat-spinner {
+        margin-top: 8px;
+    }
+}
+
+.btn-copy-date {
+    cursor: pointer;
+    margin-top: 18px;
+    font-weight: bold;
+}
+
+table {
+    width: 100%;
+
+    tr {
+        border-bottom: 1px solid #ddd;
+    }
+
+    th,
+    td {
+        padding: 6px;
+    }
+}

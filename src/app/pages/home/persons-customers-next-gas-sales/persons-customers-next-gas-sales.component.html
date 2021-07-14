@@ -1,0 +1,154 @@
+<mat-card>
+
+    <div class="row">
+        <div class="col-12">
+            <mat-card-title>Estatísticas de vendas</mat-card-title>
+        </div>
+    </div>
+
+    <!-- <div class="row">
+        <div class="col-12">
+            <mat-card-subtitle>
+                {{ startDateOfIssue.value | momentDate }} - {{ endDateOfIssue.value | momentDate }}
+            </mat-card-subtitle>
+        </div>
+    </div> -->
+
+    <mat-card-content>
+
+        <div class="row">
+
+            <div class="col-12">
+                <mat-form-field>
+                    <input #personCustomer
+                           matInput
+                           placeholder="Cliente"
+                           autocomplete="off">
+                </mat-form-field>
+            </div>
+
+            <div class="col-2">
+                <mat-form-field>
+                    <input #startNextSaleMinDate
+                           matInput
+                           type="date"
+                           placeholder="Início data mínima"
+                           autocomplete="off">
+                </mat-form-field>
+            </div>
+
+            <div class="col-1">
+                <mat-icon class="btn-copy-date no-select"
+                          (click)="endNextSaleMinDate.value = startNextSaleMinDate.value">
+                    arrow_forward
+                </mat-icon>
+            </div>
+
+
+            <div class="col-2">
+                <mat-form-field>
+                    <input #endNextSaleMinDate
+                           matInput
+                           type="date"
+                           placeholder="Final data mínima"
+                           autocomplete="off">
+                </mat-form-field>
+            </div>
+
+            <div class="col-2"></div>
+
+            <div class="col-2">
+                <mat-form-field>
+                    <input #startNextSaleMaxDate
+                           matInput
+                           type="date"
+                           placeholder="Início data máxima"
+                           autocomplete="off">
+                </mat-form-field>
+            </div>
+
+            <div class="col-1">
+                <mat-icon class="btn-copy-date no-select"
+                          (click)="endNextSaleMaxDate.value = startNextSaleMaxDate.value">
+                    arrow_forward
+                </mat-icon>
+            </div>
+
+            <div class="col-2">
+                <mat-form-field>
+                    <input #endNextSaleMaxDate
+                           matInput
+                           type="date"
+                           placeholder="Final data máxima"
+                           autocomplete="off">
+                </mat-form-field>
+            </div>
+
+            <div class="col-12">
+                <div class="buttons">
+
+                    <button mat-stroked-button
+                            color="primary"
+                            (click)="clearFilter()">
+                        Limpar filtros
+                    </button>
+
+                    <button mat-flat-button
+                            color="primary"
+                            (click)="search()">
+                        Buscar
+                    </button>
+
+                    <mat-spinner *ngIf="showButtonSpinner"
+                                 diameter="30"></mat-spinner>
+                </div>
+            </div>
+
+        </div>
+
+        
+        <div class="row">
+            <div class="col-12">
+                <table *ngIf="nextSales.length">
+
+                    <thead>
+                        <tr>
+                            <th>Cliente</th>
+                            <th>Núm. de vendas</th>
+                            <th>Última venda</th>
+                            <th>Data mínima</th>
+                            <th>Data média</th>
+                            <th>Data máxima</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr *ngFor="let ns of nextSales">
+                            <td>{{ ns.personCustomerName }} ({{ ns.personCustomerId }})</td>
+                            <td>{{ ns.salesCount }}</td>
+                            <td>{{ ns.lastSale | momentDate }}</td>
+                            <td>{{ ns.nextSaleMinDate | momentDate }}</td>
+                            <td>{{ ns.nextSaleAverageDate | momentDate }}</td>
+                            <td>{{ ns.nextSaleMaxDate | momentDate }}</td>
+                        </tr>
+
+                        <tr *ngIf="!nextSales.length">
+                            <td colspan="5">Nenhum produto</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+
+
+                <div style="text-align: center; padding: 10px;">
+                    <button mat-flat-button
+                            *ngIf="nextSales.length >= nextSalesFilter.limit"
+                            color="primary"
+                            (click)="loadMore()">Mais...</button>
+                </div>
+
+            </div>
+        </div>
+
+    </mat-card-content>
+</mat-card>
