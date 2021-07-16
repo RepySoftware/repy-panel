@@ -15,6 +15,7 @@ import { SaleOrderStatusPipe } from './sale-order-status.pipe';
 import { DeliveryExtraCardTypePipe } from './delivery-extra-card-type.pipe';
 import { StockPostTypePipe } from './stock-post-type.pipe';
 import { StockPostTypeColorPipe } from './stock-post-type-color.pipe';
+import { RoundPipe } from './round.pipe';
 
 @NgModule({
     declarations: [
@@ -33,7 +34,8 @@ import { StockPostTypeColorPipe } from './stock-post-type-color.pipe';
         DeliveryInstructionStatusPipe,
         DeliveryExtraCardTypePipe,
         StockPostTypePipe,
-        StockPostTypeColorPipe
+        StockPostTypeColorPipe,
+        RoundPipe
     ],
     exports: [
         MoneyPipe,
@@ -51,7 +53,8 @@ import { StockPostTypeColorPipe } from './stock-post-type-color.pipe';
         DeliveryInstructionStatusPipe,
         DeliveryExtraCardTypePipe,
         StockPostTypePipe,
-        StockPostTypeColorPipe
+        StockPostTypeColorPipe,
+        RoundPipe
     ]
 })
 export class PipesModule { }

@@ -22,6 +22,12 @@
 
 <strong style="color: var(--color-asbestos)">Cilindro {{ deviceGasLevel?.cylinder?.name || ' - ' }}</strong>
 
+<div style="margin-top: 12px;">
+    <button mat-flat-button
+            (click)="openHistoryReads()"
+            color="primary">Histórico de leituras</button>
+</div>
+
 <h4 style="text-align: center; margin: 12px 0 22px;">Nível atual</h4>
 
 <div class="box">
