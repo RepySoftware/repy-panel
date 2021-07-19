@@ -1,6 +1,7 @@
+@use '~@angular/material' as mat;
 @import "~@angular/material/theming";
 
-@include mat-core();
+@include mat.core();
 
 $custom-color: (
   200: #152B50,
@@ -11,17 +12,17 @@ $custom-color: (
   ),
 );
 
-$primary: mat-palette($custom-color, 200);
-$accent: mat-palette($custom-color, 500);
+$primary: mat.define-palette($custom-color, 200);
+$accent: mat.define-palette($custom-color, 500);
 
-$theme: mat-light-theme($primary, $accent);
+$theme: mat.define-light-theme($primary, $accent);
 
-$custom-typography: mat-typography-config(
+$custom-typography: mat.define-typography-config(
   $font-family: "Open Sans",
 );
 
-@include angular-material-typography($custom-typography);
-@include angular-material-theme($theme);
+@include mat.all-component-typographies($custom-typography);
+@include mat.all-component-themes($theme);
 
 :root {
   --primary-color: #152B50;
