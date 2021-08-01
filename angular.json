@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "seigas-repy-panel": {
+    "repy-panel": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/seigas-repy-panel",
+            "outputPath": "dist/repy-panel",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -71,18 +71,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "seigas-repy-panel:build"
+            "browserTarget": "repy-panel:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "seigas-repy-panel:build:production"
+              "browserTarget": "repy-panel:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "seigas-repy-panel:build"
+            "browserTarget": "repy-panel:build"
           }
         },
         "test": {
@@ -119,18 +119,18 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "seigas-repy-panel:serve"
+            "devServerTarget": "repy-panel:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "seigas-repy-panel:serve:production"
+              "devServerTarget": "repy-panel:serve:production"
             }
           }
         }
       }
     }
   },
-  "defaultProject": "seigas-repy-panel",
+  "defaultProject": "repy-panel",
   "cli": {
     "analytics": false
   }
