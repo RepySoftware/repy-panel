@@ -9,13 +9,15 @@ import { DevicesRoutingModule } from './devices.routing';
 import { PipesModule } from '../../pipes/pipes.module';
 import { GoogleMapsModule } from '@angular/google-maps';
 import { DeviceGasLevelMapInfoComponent } from './devices-map/devices-map-info/device-gas-level-map-info/device-gas-level-map-info.component';
+import { ListDeviceGasLevelComponent } from './devices-list/list-device-gas-level/list-device-gas-level.component';
 
 @NgModule({
   declarations: [
     DevicesComponent,
     DevicesMapComponent,
     DevicesListComponent,
-    DeviceGasLevelMapInfoComponent
+    DeviceGasLevelMapInfoComponent,
+    ListDeviceGasLevelComponent
   ],
   imports: [
     CommonModule,

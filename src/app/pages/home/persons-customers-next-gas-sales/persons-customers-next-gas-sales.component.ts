@@ -71,13 +71,13 @@ export class PersonsCustomersNextGasSalesComponent implements OnInit {
 
     this.nextSalesFilter.personCustomer = this.personCustomerElement.nativeElement.value ? this.personCustomerElement.nativeElement.value : null;
 
-    this.nextSalesFilter.startNextSaleMinDate = this.startNextSaleMinDateElement.nativeElement.value ? moment(this.startNextSaleMinDateElement.nativeElement.value).startOf('day').toISOString() : null;
+    this.nextSalesFilter.startNextSaleMinDate = this.startNextSaleMinDateElement.nativeElement.value ? moment(this.startNextSaleMinDateElement.nativeElement.value, 'DD/MM/YYYY').startOf('day').toISOString() : null;
 
-    this.nextSalesFilter.endNextSaleMinDate = this.endNextSaleMinDateElement.nativeElement.value ? moment(this.endNextSaleMinDateElement.nativeElement.value).endOf('day').toISOString() : null;
+    this.nextSalesFilter.endNextSaleMinDate = this.endNextSaleMinDateElement.nativeElement.value ? moment(this.endNextSaleMinDateElement.nativeElement.value, 'DD/MM/YYYY').endOf('day').toISOString() : null;
 
-    this.nextSalesFilter.startNextSaleMaxDate = this.startNextSaleMaxDateElement.nativeElement.value ? moment(this.startNextSaleMaxDateElement.nativeElement.value).startOf('day').toISOString() : null;
+    this.nextSalesFilter.startNextSaleMaxDate = this.startNextSaleMaxDateElement.nativeElement.value ? moment(this.startNextSaleMaxDateElement.nativeElement.value, 'DD/MM/YYYY').startOf('day').toISOString() : null;
 
-    this.nextSalesFilter.endNextSaleMaxDate = this.endNextSaleMaxDateElement.nativeElement.value ? moment(this.endNextSaleMaxDateElement.nativeElement.value).endOf('day').toISOString() : null;
+    this.nextSalesFilter.endNextSaleMaxDate = this.endNextSaleMaxDateElement.nativeElement.value ? moment(this.endNextSaleMaxDateElement.nativeElement.value, 'DD/MM/YYYY').endOf('day').toISOString() : null;
 
     this.getNextSales({ reset: true });
   }

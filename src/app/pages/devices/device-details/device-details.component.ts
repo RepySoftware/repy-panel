@@ -1,10 +1,12 @@
 import { Component, ComponentFactoryResolver, OnDestroy, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DeviceType } from '../../../enums/device-type';
 import { Device } from '../../../models/api/device';
 import { LoaderService } from '../../../services/loader.service';
 import { TitleService } from '../../../services/title.service';
 import { ToastService } from '../../../services/toast.service';
+import { PersonFormComponent, PersonFormInputData } from '../../persons/person-form/person-form.component';
 import { DeviceDetailsService } from './device-details.service';
 import { DeviceGasLevelComponent } from './device-gas-level/device-gas-level.component';
 
@@ -32,7 +34,9 @@ export class DeviceDetailsComponent implements OnInit, OnDestroy {
     private _toast: ToastService,
     public deviceDetailsService: DeviceDetailsService,
     private _componentFactoryResolver: ComponentFactoryResolver,
-    private _title: TitleService
+    private _title: TitleService,
+    private _dialog: MatDialog,
+    private _router: Router
   ) { }
 
   ngOnInit(): void {
@@ -75,5 +79,29 @@ export class DeviceDetailsComponent implements OnInit, OnDestroy {
 
   public get device(): Device {
     return this.deviceDetailsService.device;
+  }
+
+  public openPerson(): void {
+    const data: PersonFormInputData = { personId: this.device.person.id };
+
+    const dialog = this._dialog.open(PersonFormComponent, {
+      width: '90%',
+      height: '90%',
+      data
+    });
+
+    dialog.afterClosed().subscribe(result => {
+      if (result && result.hasUpdate) {
+        this.deviceDetailsService.getDevice();
+      }
+    });
+  }
+
+  public createSale(): void {
+    this._router.navigate(['/sales/pos'], {
+      queryParams: {
+        personCustomerId: this.device.person.id
+      }
+    });
   }
 }

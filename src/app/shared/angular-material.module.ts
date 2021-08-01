@@ -29,6 +29,8 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTreeModule } from '@angular/material/tree';
 import { CdkTreeModule } from '@angular/cdk/tree';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { NgxMatDatetimePickerModule, NgxMatNativeDateModule, NgxMatTimepickerModule } from '@angular-material-components/datetime-picker';
+import { NgxMatMomentModule } from '@angular-material-components/moment-adapter';
 
 @NgModule({
     declarations: [
@@ -64,7 +66,11 @@ import { MatTooltipModule } from '@angular/material/tooltip';
         MatTreeModule,
         MatTableModule,
         CdkTreeModule,
-        MatTooltipModule
+        MatTooltipModule,
+        NgxMatDatetimePickerModule,
+        NgxMatTimepickerModule,
+        // NgxMatNativeDateModule
+        NgxMatMomentModule
     ],
     exports: [
         MatToolbarModule,
@@ -97,7 +103,11 @@ import { MatTooltipModule } from '@angular/material/tooltip';
         MatTreeModule,
         MatTableModule,
         CdkTreeModule,
-        MatTooltipModule
+        MatTooltipModule,
+        NgxMatDatetimePickerModule,
+        NgxMatTimepickerModule,
+        // NgxMatNativeDateModule
+        NgxMatMomentModule
     ],
     entryComponents: [
     ]

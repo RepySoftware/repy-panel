@@ -3,11 +3,16 @@
 
     <div class="col-md-2 datetime">
         <mat-form-field>
-            <input #startDateOfIssue
-                   matInput
+            <input matInput
+                   #startDateOfIssue
+                   [ngxMatDatetimePicker]="startDateOfIssuePicker"
                    placeholder="Data (início)"
-                   autocomplete="off"
-                   type="datetime-local">
+                   autocomplete="off">
+            <mat-datepicker-toggle matSuffix
+                                   [for]="startDateOfIssuePicker"></mat-datepicker-toggle>
+            <ngx-mat-datetime-picker #startDateOfIssuePicker
+                                     [showSpinners]="true"
+                                     [showSeconds]="false"></ngx-mat-datetime-picker>
         </mat-form-field>
 
         <mat-icon style="cursor: pointer; margin-top: 24px;"
@@ -110,7 +115,8 @@
         <th mat-header-cell
             *matHeaderCellDef>Origem</th>
         <td mat-cell
-            *matCellDef="let element" style="font-weight: bold">
+            *matCellDef="let element"
+            style="font-weight: bold">
             {{element.source}}
         </td>
     </ng-container>

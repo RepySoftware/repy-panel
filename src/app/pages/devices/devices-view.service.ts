@@ -27,6 +27,10 @@ export class DevicesViewService {
                     this._loader.dismiss();
 
                 this.devices = response;
+
+                // TODO: passar isso para a api
+                this.devices.sort((a, b) => a.deviceGasLevel?.percentage - b.deviceGasLevel?.percentage);
+
                 resolve(response);
 
             }, error => {

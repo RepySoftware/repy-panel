@@ -29,8 +29,8 @@ export class SalesByPeriodComponent implements AfterViewInit {
     const startDate = moment().startOf('day');
     const endDate = moment().endOf('day');
 
-    this.startDateOfIssueElement.nativeElement.value = startDate.format('YYYY-MM-DD');
-    this.endDateOfIssueElement.nativeElement.value = endDate.format('YYYY-MM-DD');
+    this.startDateOfIssueElement.nativeElement.value = startDate.format('DD/MM/YYYY');
+    this.endDateOfIssueElement.nativeElement.value = endDate.format('DD/MM/YYYY');
 
     this._cdRef.detectChanges();
 
@@ -39,11 +39,11 @@ export class SalesByPeriodComponent implements AfterViewInit {
 
   public refreshSales(): void {
 
-    const startDate = moment(this.startDateOfIssueElement.nativeElement.value)
+    const startDate = moment(this.startDateOfIssueElement.nativeElement.value, 'DD/MM/YYYY')
       .startOf('day')
       .toISOString();
 
-    const endDate = moment(this.endDateOfIssueElement.nativeElement.value)
+    const endDate = moment(this.endDateOfIssueElement.nativeElement.value, 'DD/MM/YYYY')
       .endOf('day')
       .toISOString();
 

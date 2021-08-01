@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ComponentFactory, ComponentFactoryResolver, Injector, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
+import { DeviceType, DeviceTypeLabel } from '../../../enums/device-type';
 import { Device } from '../../../models/api/device';
 import { TitleService } from '../../../services/title.service';
 import { DevicesViewService } from '../devices-view.service';
+import { ListDeviceGasLevelComponent } from './list-device-gas-level/list-device-gas-level.component';
 
 @Component({
   selector: 'app-devices-list',
@@ -9,8 +11,6 @@ import { DevicesViewService } from '../devices-view.service';
   styleUrls: ['./devices-list.component.scss']
 })
 export class DevicesListComponent implements OnInit {
-
-  public devices: Device[] = [];
 
   constructor(
     public devicesViewService: DevicesViewService,
@@ -22,4 +22,7 @@ export class DevicesListComponent implements OnInit {
     this.devicesViewService.refreshDevices({ showLoader: true });
   }
 
+  public getDeviceTypeLabel(device: Device): string {
+    return DeviceTypeLabel(device.type);
+  }
 }

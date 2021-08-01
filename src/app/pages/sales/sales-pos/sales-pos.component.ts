@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { TitleService } from '../../../services/title.service';
 import { SalesPosService } from './sales-pos.service';
 

@@ -8,6 +8,7 @@ import { StorageService } from './services/storage.service';
 import { AuthService } from './services/auth.service';
 import { User } from './models/api/user';
 import { SidenavService } from './services/sidenav.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-root',
@@ -33,6 +34,8 @@ export class AppComponent implements OnInit, AfterViewInit {
   ) { }
 
   ngOnInit() {
+
+    moment.locale('pt-br');
 
     this._loaderService.loaderEmitter.subscribe(
       state => {

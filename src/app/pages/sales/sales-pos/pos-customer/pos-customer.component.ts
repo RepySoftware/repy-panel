@@ -1,5 +1,6 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { ActivatedRoute } from '@angular/router';
 import { copyToClipboard } from '../../../../functions/copy-to-clipboard';
 import { Person } from '../../../../models/api/person';
 import { PersonSearch } from '../../../../models/api/person-search';
@@ -16,7 +17,7 @@ import { PosCustomerSalesComponent, PosCustomerSalesInputData } from './pos-cust
   templateUrl: './pos-customer.component.html',
   styleUrls: ['./pos-customer.component.scss']
 })
-export class PosCustomerComponent implements OnInit {
+export class PosCustomerComponent implements OnInit, AfterViewInit {
 
   @ViewChild('generalSearch') public generalSearchElement: ElementRef;
   @ViewChild('nameSearch') public nameSearchElement: ElementRef;
@@ -42,10 +43,21 @@ export class PosCustomerComponent implements OnInit {
     private _loader: LoaderService,
     private _toast: ToastService,
     private _dialog: MatDialog,
-    public salesPosService: SalesPosService
+    public salesPosService: SalesPosService,
+    private _activatedRoute: ActivatedRoute,
+    private _cdRef: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
+  }
+
+  ngAfterViewInit() {
+    const personCustomerId = this._activatedRoute.snapshot.queryParams.personCustomerId;
+    if (personCustomerId){
+      this.generalSearchElement.nativeElement.value = `id:${personCustomerId}`;
+      this._cdRef.detectChanges();
+      this.search();
+    }
   }
 
   private getPersons(options: { reset?: boolean } = {}): Promise<void> {

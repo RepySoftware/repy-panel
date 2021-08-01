@@ -5,6 +5,9 @@ export abstract class AddressHelper {
 
     public static format(address: Address | PersonSearch): string {
 
+        if (!address)
+            return null;
+
         let addressStr = '';
 
         if ((<Address>address).description) {

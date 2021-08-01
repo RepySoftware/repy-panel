@@ -4,8 +4,23 @@
         color: var(--color-asbestos);
     }
 
+    .person {
+        font-weight: bold;
+    }
+
+    .address {
+    }
+
     .device-id,
     .is-online {
         font-weight: bold;
+    }
+
+    .btn-create-sale {
+        button {
+            padding: 5px;
+            line-height: 1;
+            margin: 6px 0;
+        }
     }
 }

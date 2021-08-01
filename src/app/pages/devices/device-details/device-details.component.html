@@ -7,6 +7,21 @@
 
             <span class="device-id">#{{ device?.id || '-' }}</span>
 
+            <div class="person">
+                <a href="javascript:;"
+                   (click)="openPerson()">
+                    {{ device?.person?.name }} ({{ device?.person?.id }})
+                </a>
+            </div>
+
+            <div class="address">{{ device?.address | address }}</div>
+
+            <div class="btn-create-sale">
+                <button mat-stroked-button
+                        (click)="createSale()"
+                        color="primary">Criar pedido</button>
+            </div>
+
             <!-- <span class="last-update">Última atualização {{ device ? ((device.deviceGasLevel.lastWeightUpdate |
                 momentCalendar) | lowercase) : '-' }}</span> -->
 

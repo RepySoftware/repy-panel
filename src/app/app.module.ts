@@ -35,6 +35,10 @@ import { DepositService } from './services/deposit.service';
 import { VehicleService } from './services/vehicle.service';
 import { StockService } from './services/stock.service';
 import { SidenavService } from './services/sidenav.service';
+import { DateAdapter, MatDateFormats, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { NgxMatDateAdapter, NgxMatDateFormats, NGX_MAT_DATE_FORMATS } from '@angular-material-components/datetime-picker';
+import { NGX_MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular-material-components/moment-adapter';
+import { CustomDateAdapter } from './adapters/custom-date-adapter';
 
 @NgModule({
   declarations: [
@@ -51,6 +55,19 @@ import { SidenavService } from './services/sidenav.service';
     NgMaterialMultilevelMenuModule
   ],
   providers: [
+
+    // ui/browser services
+    LoaderService,
+    ToastService,
+    TitleService,
+    StorageService,
+    AlertMessageService,
+    SidenavService,
+
+    // guards
+    OnlyLoggedGuard,
+
+    // app services
     UserService,
     AuthService,
     DeviceService,
@@ -68,18 +85,27 @@ import { SidenavService } from './services/sidenav.service';
     DepositService,
     VehicleService,
     StockService,
-    
-    LoaderService,
-    ToastService,
-    TitleService,
-    StorageService,
-    AlertMessageService,
-    SidenavService,
 
     { provide: MAT_DIALOG_DATA, useValue: {} },
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
 
-    OnlyLoggedGuard
+    {provide: MAT_DATE_LOCALE, useValue: 'pt-br'},
+    {
+      provide: NgxMatDateAdapter,
+      useClass: CustomDateAdapter,
+      deps: [MAT_DATE_LOCALE, NGX_MAT_MOMENT_DATE_ADAPTER_OPTIONS]
+    },
+    { provide: NGX_MAT_DATE_FORMATS, useValue: {
+      parse: {
+        dateInput: "DD/MM/YYYY HH:mm"
+      },
+      display: {
+        dateInput: "DD/MM/YYYY HH:mm",
+        monthYearLabel: "MMM YYYY",
+        dateA11yLabel: "LL",
+        monthYearA11yLabel: "MMMM YYYY"
+      }
+    } as NgxMatDateFormats }
   ],
   bootstrap: [AppComponent]
 })
