@@ -6,48 +6,31 @@
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-12">
-            <mat-card-subtitle>
-                {{ startDateOfIssue.value | momentDate }} - {{ endDateOfIssue.value | momentDate }}
-            </mat-card-subtitle>
-        </div>
-    </div>
-
     <mat-card-content>
 
         <div class="row">
 
             <div class="col-3">
                 <mat-form-field>
-                    <input #startDateOfIssue
-                           matInput
-                           [matDatepicker]="startDateOfIssuePicker"
-                           placeholder="Data inicial"
-                           autocomplete="off">
-                    <mat-datepicker-toggle matSuffix
-                                           [for]="startDateOfIssuePicker"></mat-datepicker-toggle>
-                    <mat-datepicker #startDateOfIssuePicker></mat-datepicker>
-                </mat-form-field>
-            </div>
 
-            <div class="col-1">
-                <mat-icon class="btn-copy-date no-select"
-                          (click)="endDateOfIssue.value = startDateOfIssue.value">
-                    arrow_forward
-                </mat-icon>
-            </div>
+                    <mat-date-range-input (click)="dateOfIssuePicker.open()"
+                                          [rangePicker]="dateOfIssuePicker">
+                        <input matStartDate
+                               disabled
+                               #startDateOfIssue
+                               placeholder="Data inicial">
 
-            <div class="col-3">
-                <mat-form-field>
-                    <input #endDateOfIssue
-                           matInput
-                           [matDatepicker]="endDateOfIssuePicker"
-                           placeholder="Data final"
-                           autocomplete="off">
+                        <input matEndDate
+                               disabled
+                               #endDateOfIssue
+                               placeholder="Data final">
+                    </mat-date-range-input>
+
                     <mat-datepicker-toggle matSuffix
-                                           [for]="endDateOfIssuePicker"></mat-datepicker-toggle>
-                    <mat-datepicker #endDateOfIssuePicker></mat-datepicker>
+                                           [for]="dateOfIssuePicker"></mat-datepicker-toggle>
+                    <mat-date-range-picker #dateOfIssuePicker
+                                           disabled="false"></mat-date-range-picker>
+
                 </mat-form-field>
             </div>
 

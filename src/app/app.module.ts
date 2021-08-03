@@ -37,8 +37,18 @@ import { StockService } from './services/stock.service';
 import { SidenavService } from './services/sidenav.service';
 import { DateAdapter, MatDateFormats, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { NgxMatDateAdapter, NgxMatDateFormats, NGX_MAT_DATE_FORMATS } from '@angular-material-components/datetime-picker';
-import { NGX_MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular-material-components/moment-adapter';
-import { CustomDateAdapter } from './adapters/custom-date-adapter';
+
+const DATE_FORMAT: MatDateFormats = {
+  parse: {
+    dateInput: "DD/MM/YYYY HH:mm"
+  },
+  display: {
+    dateInput: "DD/MM/YYYY HH:mm",
+    monthYearLabel: "MMM YYYY",
+    dateA11yLabel: "LL",
+    monthYearA11yLabel: "MMMM YYYY"
+  }
+};
 
 @NgModule({
   declarations: [
@@ -89,23 +99,9 @@ import { CustomDateAdapter } from './adapters/custom-date-adapter';
     { provide: MAT_DIALOG_DATA, useValue: {} },
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
 
-    {provide: MAT_DATE_LOCALE, useValue: 'pt-br'},
-    {
-      provide: NgxMatDateAdapter,
-      useClass: CustomDateAdapter,
-      deps: [MAT_DATE_LOCALE, NGX_MAT_MOMENT_DATE_ADAPTER_OPTIONS]
-    },
-    { provide: NGX_MAT_DATE_FORMATS, useValue: {
-      parse: {
-        dateInput: "DD/MM/YYYY HH:mm"
-      },
-      display: {
-        dateInput: "DD/MM/YYYY HH:mm",
-        monthYearLabel: "MMM YYYY",
-        dateA11yLabel: "LL",
-        monthYearA11yLabel: "MMMM YYYY"
-      }
-    } as NgxMatDateFormats }
+    { provide: MAT_DATE_LOCALE, useValue: 'pt-BR' },
+    { provide: MAT_DATE_FORMATS, useValue: DATE_FORMAT },
+    { provide: NGX_MAT_DATE_FORMATS, useValue: DATE_FORMAT },
   ],
   bootstrap: [AppComponent]
 })

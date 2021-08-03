@@ -143,3 +143,13 @@ a[mat-stroked-button] {
   border: 1px solid #444;
   margin-bottom: 60px;
 }
+
+mat-date-range-input {
+  input[disabled] {
+    color: #000 !important;
+  }
+
+  .mat-date-range-input-start-wrapper {
+    padding: 0 2px !important;
+  }
+}

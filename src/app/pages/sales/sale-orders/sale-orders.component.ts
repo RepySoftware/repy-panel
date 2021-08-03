@@ -130,8 +130,19 @@ export class SaleOrdersComponent implements OnInit {
   public search(): void {
     this.saleOrderFilter.index = 0;
     this.saleOrderFilter.employeeDriverId = this.employeeDriverSelected?.id;
-    this.saleOrderFilter.startDateOfIssue = this.startDateOfIssueElement.nativeElement.value ? moment(this.startDateOfIssueElement.nativeElement.value).toISOString() : null;
-    this.saleOrderFilter.endDateOfIssue = this.endDateOfIssueElement.nativeElement.value ? moment(this.endDateOfIssueElement.nativeElement.value).toISOString() : null;
+
+    this.saleOrderFilter.startDateOfIssue = this.startDateOfIssueElement.nativeElement.value
+      ? moment(this.startDateOfIssueElement.nativeElement.value)
+        .startOf('day')
+        .toISOString()
+      : null;
+
+    this.saleOrderFilter.endDateOfIssue = this.endDateOfIssueElement.nativeElement.value
+      ? moment(this.endDateOfIssueElement.nativeElement.value)
+        .endOf('day')
+        .toISOString()
+      : null;
+
     this.saleOrderFilter.status = this.saleOrderStatusElement.value;
     this.saleOrderFilter.personCustomerId = this.personCustomerSelected?.id;
     this.saleOrderFilter.paymentMethodId = this.paymentMethodElement.value;
