@@ -2,9 +2,11 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs';
 import { MeasurementUnit, MeasurementUnitList } from '../../../enums/measurement-unit';
 import { Product } from '../../../models/api/product';
 import { ProductCategory } from '../../../models/api/product-category';
+import { ProductOutput } from '../../../models/output/product.output';
 import { AlertMessageService } from '../../../services/alert-message.service';
 import { LoaderService } from '../../../services/loader.service';
 import { ProductService } from '../../../services/product.service';
@@ -44,7 +46,7 @@ export class ProductFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.productId = this._activatedRoute.snapshot.params.personId || this.inputData.productId;
+    this.productId = this._activatedRoute.snapshot.params.productId || this.inputData.productId;
 
     this.isModal = !!this.inputData.productId;
 
@@ -65,11 +67,17 @@ export class ProductFormComponent implements OnInit {
       name: new FormControl(null, Validators.required),
       description: new FormControl(null),
       measurementUnit: new FormControl(null, Validators.required),
+      isGas: new FormControl(null)
     });
   }
 
   private setFormValues(): void {
-
+    this.productForm.get('category').setValue(this.product.category.id);
+    this.productForm.get('code').setValue(this.product.code);
+    this.productForm.get('name').setValue(this.product.name);
+    this.productForm.get('description').setValue(this.product.description);
+    this.productForm.get('measurementUnit').setValue(this.product.measurementUnit);
+    this.productForm.get('isGas').setValue(this.product.isGas);
   }
 
   private getCategories(): void {
@@ -96,4 +104,46 @@ export class ProductFormComponent implements OnInit {
     });
   }
 
+  public save(): void {
+
+    if (!this.productForm.valid) {
+      this._toast.open('Preencha todos os campos obrigatórios', 'error');
+      this.productForm.markAllAsTouched();
+      throw new Error('Invalid form');
+    }
+
+    const productOutput: ProductOutput = {
+      categoryId: this.productForm.get('category').value,
+      code: this.productForm.get('code').value,
+      name: this.productForm.get('name').value,
+      description: this.productForm.get('description').value,
+      measurementUnit: this.productForm.get('measurementUnit').value,
+      isGas: this.productForm.get('isGas').value
+    }
+
+    let apiCall: Observable<Product>;
+
+    if (this.product) {
+      productOutput.id = this.product.id;
+      apiCall = this._productService.update(productOutput);
+    } else {
+      apiCall = this._productService.create(productOutput);
+    }
+
+    this._loader.show();
+    apiCall.subscribe(response => {
+      this._loader.dismiss();
+      this._toast.open('Salvo com sucesso!', 'success');
+
+      this.product = response;
+
+      this.initForm();
+      this.setFormValues();
+
+      this._dialogRef.close({ hasUpdate: true });
+    }, error => {
+      this._loader.dismiss();
+      this._toast.showHttpError(error);
+    });
+  }
 }

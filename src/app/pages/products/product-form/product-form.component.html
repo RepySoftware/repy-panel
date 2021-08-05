@@ -1,1 +1,106 @@
-<p>product-form works!</p>
+<button-dialog-close *ngIf="isModal"></button-dialog-close>
+
+<div class="row">
+    <div class="col-sm-12">
+        <h3 class="title"
+            *ngIf="!product">Novo produto</h3>
+        <h3 class="title"
+            *ngIf="product">Edição {{ product.name }}</h3>
+    </div>
+</div>
+
+<form [formGroup]="productForm">
+
+    <div class="row">
+
+        <div class="col-7">
+            <mat-form-field>
+                <input #name
+                       matInput
+                       placeholder="Nome"
+                       autocomplete="off"
+                       formControlName="name">
+
+                <mat-error *ngIf="!name.valid">
+                    Este campo é obrigatório
+                </mat-error>
+            </mat-form-field>
+        </div>
+
+        <div class="col-5">
+            <mat-form-field>
+                <input #code
+                       matInput
+                       placeholder="Código"
+                       autocomplete="off"
+                       formControlName="code">
+
+                <mat-error *ngIf="!code.valid">
+                    Este campo é obrigatório
+                </mat-error>
+            </mat-form-field>
+        </div>
+
+        <div class="col-12">
+            <mat-form-field>
+                <input #description
+                       matInput
+                       placeholder="Descrição (opcional)"
+                       autocomplete="off"
+                       formControlName="description">
+            </mat-form-field>
+        </div>
+
+        <div class="col-5">
+            <mat-form-field>
+                <mat-label>Categoria</mat-label>
+                <mat-select #category
+                            formControlName="category">
+
+                    <mat-option *ngFor="let c of categories"
+                                [value]="c.id">{{ c.name }} </mat-option>
+                </mat-select>
+
+                <mat-error *ngIf="!productForm.get('category').valid">
+                    Este campo é obrigatório
+                </mat-error>
+            </mat-form-field>
+        </div>
+
+        <div class="col-5">
+            <mat-form-field>
+                <mat-label>Unidade de medida</mat-label>
+                <mat-select #measurementUnit
+                            formControlName="measurementUnit">
+
+                    <mat-option *ngFor="let mu of measurementUnits"
+                                [value]="mu">{{ mu }} </mat-option>
+                </mat-select>
+
+                <mat-error *ngIf="!productForm.get('measurementUnit').valid">
+                    Este campo é obrigatório
+                </mat-error>
+            </mat-form-field>
+        </div>
+
+        <div class="col-2">
+            <mat-slide-toggle style="margin-top: 24px;"
+                              formControlName="isGas">Gás</mat-slide-toggle>
+        </div>
+
+    </div>
+
+    <hr>
+
+    <div class="row">
+
+        <div class="col-sm-12">
+            <button mat-flat-button
+                    color="primary"
+                    (click)="save()"
+                    style="margin: 24px 0;">Salvar</button>
+        </div>
+
+    </div>
+
+</form>

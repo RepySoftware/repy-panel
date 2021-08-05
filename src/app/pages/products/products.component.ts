@@ -6,6 +6,8 @@ import { LoaderService } from '../../services/loader.service';
 import { ProductService } from '../../services/product.service';
 import { TitleService } from '../../services/title.service';
 import { ToastService } from '../../services/toast.service';
+import { ProductFormComponent, ProductFormInputData } from './product-form/product-form.component';
+import { ProductPricesComponent, ProductPricesInputData } from './product-prices/product-prices.component';
 
 @Component({
   selector: 'app-products',
@@ -78,21 +80,32 @@ export class ProductsComponent implements OnInit {
     this.getProducts({ reset: true });
   }
 
-  public openForm(personId?: number): void {
+  public openForm(productId?: number): void {
 
-    // const data: PersonFormInputData = { personId };
+    const data: ProductFormInputData = { productId };
 
-    // const dialog = this._dialog.open(PersonFormComponent, {
-    //   width: '90%',
-    //   height: '90%',
-    //   data
-    // });
+    const dialog = this._dialog.open(ProductFormComponent, {
+      width: '60%',
+      height: '90%',
+      data
+    });
 
-    // dialog.afterClosed().subscribe(result => {
-    //   if (result && result.hasUpdate) {
-    //     this.getProducts({ reset: true });
-    //   }
-    // });
+    dialog.afterClosed().subscribe(result => {
+      if (result && result.hasUpdate) {
+        this.getProducts({ reset: true });
+      }
+    });
+  }
+
+  public openPrices(product: Product): void {
+
+    const data: ProductPricesInputData = { product };
+
+    this._dialog.open(ProductPricesComponent, {
+      width: '50%',
+      height: '90%',
+      data
+    });
   }
 
 }

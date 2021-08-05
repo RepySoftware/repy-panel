@@ -8,6 +8,9 @@ import { CompanyBranchProduct } from '../models/api/company-branch-product';
 import { RelatedProduct } from '../models/api/related-product';
 import { Product } from '../models/api/product';
 import { ProductCategory } from '../models/api/product-category';
+import { ProductOutput } from '../models/output/product.output';
+import { CompanyBranchProductPrice } from '../models/api/company-branch-product-price';
+import { CompanyBranchProductPriceOutput } from '../models/output/company-branch-product-price.output';
 
 @Injectable()
 export class ProductService {
@@ -42,5 +45,31 @@ export class ProductService {
 
     public getCategories(): Observable<ProductCategory[]> {
         return this._http.get<ProductCategory[]>(`${URLS.api.products}/categories`);
+    }
+
+    public update(model: ProductOutput): Observable<Product> {
+        return this._http.put<Product>(`${URLS.api.products}`, model);
+    }
+
+    public create(model: ProductOutput): Observable<Product> {
+        return this._http.post<Product>(`${URLS.api.products}`, model);
+    }
+
+    public getPrices(productId: number): Observable<CompanyBranchProductPrice[]> {
+        return this._http.get<CompanyBranchProductPrice[]>(`${URLS.api.products}/${productId}/prices`);
+    }
+
+    public getPriceById(productId: number, companyBranchProductPriceId: number): Observable<CompanyBranchProductPrice> {
+        return this._http.get<CompanyBranchProductPrice>(
+            `${URLS.api.products}/${productId}/prices/${companyBranchProductPriceId}`
+        );
+    }
+
+    public priceCreate(model: CompanyBranchProductPriceOutput): Observable<CompanyBranchProductPrice> {
+        return this._http.post<CompanyBranchProductPrice>(`${URLS.api.products}/prices`, model);
+    }
+
+    public priceUpdate(model: CompanyBranchProductPriceOutput): Observable<CompanyBranchProductPrice> {
+        return this._http.put<CompanyBranchProductPrice>(`${URLS.api.products}/prices`, model);
     }
 }

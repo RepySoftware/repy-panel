@@ -35,7 +35,8 @@
         <th mat-header-cell
             *matHeaderCellDef>Nome</th>
         <td mat-cell
-            *matCellDef="let element">
+            *matCellDef="let element"
+            style="font-weight: bold;">
             {{element.name}}
         </td>
     </ng-container>
@@ -63,10 +64,21 @@
             *matHeaderCellDef></th>
         <td mat-cell
             *matCellDef="let element">
-            <a href="javascript:;"
-               (click)="openForm(element.id)">
-                <mat-icon>edit</mat-icon>
-            </a>
+
+            <div class="options-actions">
+                <div>
+                    <button mat-stroked-button
+                            (click)="openPrices(element)"
+                            color="primary">Preços</button>
+                </div>
+
+                <div>
+                    <a href="javascript:;"
+                       (click)="openForm(element.id)">
+                        <mat-icon>edit</mat-icon>
+                    </a>
+                </div>
+            </div>
         </td>
     </ng-container>
 

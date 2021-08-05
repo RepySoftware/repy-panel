@@ -1,0 +1,51 @@
+<button-dialog-close></button-dialog-close>
+
+<div class="row">
+    <div class="col-sm-12">
+        <h3 class="title">
+            Lista de preços
+            <span *ngIf="inputData.product"> - {{ inputData.product.name }}</span>
+        </h3>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+
+        <table class="prices-table">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Preço</th>
+                    <th>Padrão</th>
+                    <th>Ativo</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let p of prices; let i = index">
+                    <td>{{ p.name }}</td>
+                    <td style="font-weight: bold; color: var(--color-alizarin);">
+                        {{ p.salePrice | money }}
+                    </td>
+                    <td> {{ p.isDefault ? '✅' : '❌' }} </td>
+                    <td> {{ p.isActive ? '✅' : '❌' }} </td>
+                    <td>
+                        <a href="javascript:;"
+                           (click)="openPriceForm(p)">
+                            <mat-icon>edit</mat-icon>
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+    <div class="col-12">
+        <button style="margin-top: 12px"
+                mat-flat-button
+                color="primary"
+                (click)="openPriceForm()">Novo preço</button>
+    </div>
+</div>

@@ -1,17 +1,22 @@
 table {
-    width: 100%;
-  
-    th {
-      position: sticky;
-      top: 64px;
-      background: #eee;
-      z-index: 10;
-    }
+  width: 100%;
+
+  th {
+    position: sticky;
+    top: 64px;
+    background: #eee;
+    z-index: 10;
   }
-  
-  .btn-add {
-    position: fixed;
-    bottom: 26px;
-    right: 30px;
+
+  .options-actions {
+    display: flex;
+    align-items: center;
+    gap: 5px;
   }
-  
+}
+
+.btn-add {
+  position: fixed;
+  bottom: 26px;
+  right: 30px;
+}
