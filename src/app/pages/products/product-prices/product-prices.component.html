@@ -17,6 +17,7 @@
                 <tr>
                     <th>Nome</th>
                     <th>Preço</th>
+                    <th>Última atualização</th>
                     <th>Padrão</th>
                     <th>Ativo</th>
                     <th></th>
@@ -28,8 +29,9 @@
                     <td style="font-weight: bold; color: var(--color-alizarin);">
                         {{ p.salePrice | money }}
                     </td>
-                    <td> {{ p.isDefault ? '✅' : '❌' }} </td>
-                    <td> {{ p.isActive ? '✅' : '❌' }} </td>
+                    <td>{{ p.updatedAt | momentCalendar }}</td>
+                    <td>{{ p.isDefault ? '✅' : '❌' }}</td>
+                    <td>{{ p.isActive ? '✅' : '❌' }}</td>
                     <td>
                         <a href="javascript:;"
                            (click)="openPriceForm(p)">

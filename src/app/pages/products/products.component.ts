@@ -102,7 +102,7 @@ export class ProductsComponent implements OnInit {
     const data: ProductPricesInputData = { product };
 
     this._dialog.open(ProductPricesComponent, {
-      width: '50%',
+      width: '60%',
       height: '90%',
       data
     });
