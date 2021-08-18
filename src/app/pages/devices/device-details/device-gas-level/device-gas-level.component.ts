@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { DeviceGasLevel } from '../../../../models/api/device-gas-level';
 import { DeviceDetailsService } from '../device-details.service';
 import { DeviceGasLevelHistoryReadsComponent, DeviceGasLevelHistoryReadsInputData } from './device-gas-level-history-reads/device-gas-level-history-reads.component';
@@ -13,7 +14,8 @@ export class DeviceGasLevelComponent implements OnInit {
 
   constructor(
     private _deviceDetailsService: DeviceDetailsService,
-    private _dialog: MatDialog
+    private _dialog: MatDialog,
+    private _router: Router
   ) { }
 
   ngOnInit(): void {
@@ -28,6 +30,14 @@ export class DeviceGasLevelComponent implements OnInit {
       width: '60%',
       height: '90%',
       data
+    });
+  }
+
+  public createSale(): void {
+    this._router.navigate(['/sales/pos'], {
+      queryParams: {
+        personCustomerId: this._deviceDetailsService.device.person.id
+      }
     });
   }
 

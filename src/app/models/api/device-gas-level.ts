@@ -14,4 +14,7 @@ export interface DeviceGasLevel extends ApiModel {
     lastWeightUpdate: string;
     percentage: number;
     status: DeviceGasLevelStatus;
+    daysToDangerPercentage: number;
+    dangerDate: string;
+    consumptionDays: number;
 }

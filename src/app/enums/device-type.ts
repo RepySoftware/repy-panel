@@ -7,7 +7,7 @@ export function DeviceTypeList(): string[] {
 }
 
 const labels = {
-    [DeviceType.GAS_LEVEL]: 'Medidor do nível do gás'
+    [DeviceType.GAS_LEVEL]: 'T-Level | Medidor de gás'
 }
 
 export function DeviceTypeLabel(value: DeviceType | string): string {

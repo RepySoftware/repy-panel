@@ -96,12 +96,4 @@ export class DeviceDetailsComponent implements OnInit, OnDestroy {
       }
     });
   }
-
-  public createSale(): void {
-    this._router.navigate(['/sales/pos'], {
-      queryParams: {
-        personCustomerId: this.device.person.id
-      }
-    });
-  }
 }

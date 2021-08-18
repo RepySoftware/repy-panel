@@ -17,7 +17,7 @@ export class DevicesComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this._title.set('Dispositivos');
-    this.devicesViewService.refreshDevices();
+    // this.devicesViewService.refreshDevices();
   }
 
   ngOnDestroy() {

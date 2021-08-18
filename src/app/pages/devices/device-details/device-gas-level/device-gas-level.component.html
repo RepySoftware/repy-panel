@@ -22,47 +22,99 @@
 
 <strong style="color: var(--color-asbestos)">Cilindro {{ deviceGasLevel?.cylinder?.name || ' - ' }}</strong>
 
+<div class="btn-create-sale">
+    <button mat-stroked-button
+            (click)="createSale()"
+            color="primary">Criar pedido</button>
+</div>
+
 <div style="margin-top: 12px;">
     <button mat-flat-button
             (click)="openHistoryReads()"
             color="primary">Histórico de leituras</button>
 </div>
 
-<h4 style="text-align: center; margin: 12px 0 22px;">Nível atual</h4>
+<div class="row"
+     style="padding: 20px 0 100px;">
 
-<div class="box">
-    <div class="percent">
-        <div class="percentNum"
-             id="count">{{ currentPercentage }}</div>
-        <div class="percentB">%</div>
-    </div>
-    <div id="water"
-         class="water"
-         [style.transform]="'translate(0,' + (100 - currentPercentage) + '%)'">
-        <svg viewBox="0 0 560 20"
-             class="water_wave water_wave_back">
-            <use xlink:href="#wave"></use>
-        </svg>
-        <svg viewBox="0 0 560 20"
-             class="water_wave water_wave_front">
-            <use xlink:href="#wave"></use>
-        </svg>
-    </div>
-</div>
+    <div class="col-md-4"
+         style="padding-left: 0;">
 
-<div class="infos">
-    <div class="row">
-        <div class="col-md-6">
-            <mat-card class="card-info">
-                <h5>{{ deviceGasLevel?.cylinderWeight }}Kg</h5>
-                <span>Peso do cilindro vazio</span>
-            </mat-card>
-        </div>
-        <div class="col-md-6">
-            <mat-card class="card-info">
-                <h5>{{ deviceGasLevel?.contentWeight }}Kg</h5>
-                <span>Peso do conteúdo</span>
-            </mat-card>
+        <mat-card class="card-percentage">
+            <h4>Nível atual</h4>
+
+            <div class="box">
+                <div class="percent">
+                    <div class="percentNum"
+                         id="count">{{ currentPercentage }}</div>
+                    <div class="percentB">%</div>
+                </div>
+                <div id="water"
+                     class="water"
+                     [style.transform]="'translate(0,' + (100 - currentPercentage) + '%)'">
+                    <svg viewBox="0 0 560 20"
+                         class="water_wave water_wave_back">
+                        <use xlink:href="#wave"></use>
+                    </svg>
+                    <svg viewBox="0 0 560 20"
+                         class="water_wave water_wave_front">
+                        <use xlink:href="#wave"></use>
+                    </svg>
+                </div>
+            </div>
+        </mat-card>
+    </div>
+
+    <div class="col-md-8"
+         style="padding-right: 0;">
+
+        <div class="infos">
+
+            <div class="row danger-day">
+                <div class="col-md-6">
+                    <mat-card class="card-info">
+                        <h5>
+                            {{ deviceGasLevel.dangerDate | momentDate }}
+                        </h5>
+                        <span>Data da próxima troca</span>
+                    </mat-card>
+                </div>
+                <div class="col-md-6">
+                    <mat-card class="card-info">
+                        <h5>{{ deviceGasLevel.consumptionDays }} dias</h5>
+                        <span>Média de consumo</span>
+                    </mat-card>
+                </div>
+            </div>
+
+            <div class="row weights">
+                <div class="col-md-6">
+                    <mat-card class="card-info">
+                        <h5>{{ deviceGasLevel?.cylinderWeight }}Kg</h5>
+                        <span>Tara do cilindro</span>
+                    </mat-card>
+                </div>
+                <div class="col-md-6">
+                    <mat-card class="card-info">
+                        <h5>{{ deviceGasLevel?.contentWeight }}Kg</h5>
+                        <span>Peso do conteúdo (cheio)</span>
+                    </mat-card>
+                </div>
+                <div class="col-md-6">
+                    <mat-card class="card-info">
+                        <h5>{{ deviceGasLevel?.currentWeight }}Kg</h5>
+                        <span>Peso bruto</span>
+                    </mat-card>
+                </div>
+                <div class="col-md-6">
+                    <mat-card class="card-info">
+                        <h5>{{ (deviceGasLevel?.currentWeight - deviceGasLevel?.cylinderWeight) | round:2 }}Kg</h5>
+                        <span>Peso líquido</span>
+                    </mat-card>
+                </div>
+            </div>
+
         </div>
     </div>
+
 </div>

@@ -1,3 +1,12 @@
-<h3 [style.color]="getStatusColor()">
+<h3 class="percentage" [style.color]="getStatusColor()" >
     {{ device.deviceGasLevel.percentage | round:2 }}%
 </h3>
+
+<div class="danger-date" *ngIf="device.deviceGasLevel.dangerDate">
+    <div class="danger-date-title">
+        Data da próxima troca
+    </div>
+    <div class="danger-date-value">
+        {{ device.deviceGasLevel.dangerDate | momentDate }} - {{ device.deviceGasLevel.dangerDate | momentFromNow }}
+    </div>
+</div>

@@ -1,7 +1,14 @@
-<div class="container">
+<div class="container-fluid">
 
     <div class="row">
         <div class="col-12 header default-margin-top">
+
+            <button mat-stroked-button
+                    color="primary"
+                    routerLink="/devices"
+                    class="btn-back">
+                <mat-icon>arrow_back</mat-icon>
+            </button>
 
             <h1 class="title">{{ device?.name || 'Dispositivo' }}</h1>
 
@@ -15,12 +22,6 @@
             </div>
 
             <div class="address">{{ device?.address | address }}</div>
-
-            <div class="btn-create-sale">
-                <button mat-stroked-button
-                        (click)="createSale()"
-                        color="primary">Criar pedido</button>
-            </div>
 
             <!-- <span class="last-update">Última atualização {{ device ? ((device.deviceGasLevel.lastWeightUpdate |
                 momentCalendar) | lowercase) : '-' }}</span> -->

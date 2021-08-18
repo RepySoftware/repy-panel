@@ -7,7 +7,7 @@ import * as moment from 'moment';
 export class MomentCalendarPipe implements PipeTransform {
 
     transform(value: string, format: string = 'L') {
-        return moment(value).calendar();
+        return value ? moment(value).calendar() : '-';
     }
 
 }

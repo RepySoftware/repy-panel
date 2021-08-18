@@ -1,4 +1,10 @@
 .header {
+    .btn-back {
+        mat-icon {
+            font-weight: bold;
+        }
+    }
+
     span {
         display: block;
         color: var(--color-asbestos);
@@ -14,13 +20,5 @@
     .device-id,
     .is-online {
         font-weight: bold;
-    }
-
-    .btn-create-sale {
-        button {
-            padding: 5px;
-            line-height: 1;
-            margin: 6px 0;
-        }
     }
 }
