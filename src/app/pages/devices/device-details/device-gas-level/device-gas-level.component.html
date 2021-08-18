@@ -41,13 +41,22 @@
          style="padding-left: 0;">
 
         <mat-card class="card-percentage">
-            <h4>Nível atual</h4>
 
-            <div class="box">
+            <div class="level-title">Nível atual</div>
+
+            <div class="status"
+                 [style.color]="getStatusColor()">{{ getStatus() }}</div>
+
+            <div class="box"
+                 [style.border-color]="getStatusColor()">
+
                 <div class="percent">
+
                     <div class="percentNum"
-                         id="count">{{ currentPercentage }}</div>
-                    <div class="percentB">%</div>
+                         id="count">
+                        {{ currentPercentage }}%
+                    </div>
+
                 </div>
                 <div id="water"
                      class="water"

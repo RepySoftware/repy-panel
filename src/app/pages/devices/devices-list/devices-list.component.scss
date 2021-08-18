@@ -3,5 +3,26 @@
 
     mat-card {
         height: 100%;
+
+        .card-content {
+
+            display: flex;
+            flex-direction: column;
+            gap: 1px;
+            
+            .device-title {
+                font-size: 20px;
+                font-weight: bold;
+            }
+    
+            .device-type {
+                font-size: 14px;
+                color: #666;
+            }
+    
+            .is-online {
+                font-weight: bold;
+            }
+        }
     }
 }

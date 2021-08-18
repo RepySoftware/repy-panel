@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { DeviceGasLevelStatusColor, DeviceGasLevelStatusLabel } from '../../../../enums/device-gas-level-status';
 import { DeviceGasLevel } from '../../../../models/api/device-gas-level';
 import { DeviceDetailsService } from '../device-details.service';
 import { DeviceGasLevelHistoryReadsComponent, DeviceGasLevelHistoryReadsInputData } from './device-gas-level-history-reads/device-gas-level-history-reads.component';
@@ -42,10 +43,18 @@ export class DeviceGasLevelComponent implements OnInit {
   }
 
   public get currentPercentage(): number {
-    return Math.round(this._deviceDetailsService?.device?.deviceGasLevel?.percentage || 0);
+    return Number(this._deviceDetailsService?.device?.deviceGasLevel?.percentage?.toFixed(2));
   }
 
   public get deviceGasLevel(): DeviceGasLevel {
     return this._deviceDetailsService.device?.deviceGasLevel;
+  }
+
+  public getStatusColor(): string {
+    return DeviceGasLevelStatusColor(this._deviceDetailsService.device.deviceGasLevel?.status);
+  }
+
+  public getStatus(): string {
+    return DeviceGasLevelStatusLabel(this._deviceDetailsService.device.deviceGasLevel?.status);
   }
 }

@@ -126,16 +126,7 @@ export class AppComponent implements OnInit, AfterViewInit {
       {
         title: 'Dispositivos',
         icon: 'devices_other',
-        subMenus: [
-          {
-            title: 'Lista',
-            route: '/devices/list'
-          },
-          {
-            title: 'Mapa',
-            route: '/devices/map'
-          }
-        ]
+        route: '/devices'
       },
       {
         title: 'Sair',

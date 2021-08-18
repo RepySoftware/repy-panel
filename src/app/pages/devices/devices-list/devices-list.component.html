@@ -22,10 +22,15 @@
            style="text-decoration: none;">
 
             <mat-card>
-                <mat-card-content>
+                <mat-card-content class="card-content">
 
-                    <mat-card-title>{{ d.name }}</mat-card-title>
-                    <mat-card-subtitle>{{ getDeviceTypeLabel(d) }}</mat-card-subtitle>
+                    <div class="device-title">{{ d.name }}</div>
+                    <div class="device-type">{{ getDeviceTypeLabel(d) }}</div>
+
+                    <div class="is-online"
+                         [style.color]="d.isOnline ? 'var(--color-nephritis)' : 'var(--color-pomegranate)'">
+                        {{d.isOnline ? 'Online' : 'Offline' }}
+                    </div>
 
                     <app-list-device-gas-level *ngIf="d.type == 'GAS_LEVEL'"
                                                [device]="d"></app-list-device-gas-level>

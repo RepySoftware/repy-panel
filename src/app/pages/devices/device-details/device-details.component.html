@@ -23,8 +23,10 @@
 
             <div class="address">{{ device?.address | address }}</div>
 
-            <!-- <span class="last-update">Última atualização {{ device ? ((device.deviceGasLevel.lastWeightUpdate |
-                momentCalendar) | lowercase) : '-' }}</span> -->
+            <span class="last-update">
+                Última atualização {{ device ? ((device.deviceGasLevel.lastWeightUpdate | momentCalendar) | lowercase) :
+                '-' }}
+            </span>
 
             <span *ngIf="device"
                   class="is-online"

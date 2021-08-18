@@ -1,15 +1,19 @@
-.percentage {
-    font-weight: bold;
-    font-size: 26px;
-}
-
-.danger-date {
-    .danger-date-title {
-        font-size: 14px;
+.content {
+    .percentage {
+        line-height: normal;
+        font-weight: bold;
+        font-size: 26px;
     }
 
-    .danger-date-value {
-        font-size: 14px;
-        font-weight: bold;
+    .danger-date {
+        .danger-date-title {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .danger-date-value {
+            font-size: 14px;
+            font-weight: bold;
+        }
     }
 }

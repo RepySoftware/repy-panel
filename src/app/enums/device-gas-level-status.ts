@@ -13,3 +13,13 @@ const colors = {
 export function DeviceGasLevelStatusColor(status: DeviceGasLevelStatus): string {
     return colors[status];
 }
+
+const labels = {
+    [DeviceGasLevelStatus.SAFE]: 'SEGURO',
+    [DeviceGasLevelStatus.WARNING]: 'ATENÇÃO',
+    [DeviceGasLevelStatus.DANGER]: 'RISCO'
+}
+
+export function DeviceGasLevelStatusLabel(value: DeviceGasLevelStatus | string): string {
+    return labels[value];
+}
