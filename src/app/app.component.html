@@ -72,7 +72,7 @@
               <mat-list-item *ngFor="let subMenu of menu.subMenus"
                              class="sub-menu"
                              [routerLink]="subMenu.route"
-                             (click)="menuClick(subMenu.onClick)">
+                             (click)="$event.stopPropagation(); menuClick(subMenu.onClick)">
                 {{ subMenu.title }}
               </mat-list-item>
             </mat-list>

@@ -61,8 +61,9 @@
         <div class="col-4">
             <mat-form-field>
                 <mat-label>Veículo (opcional)</mat-label>
-                <mat-select #type
-                            formControlName="vehicle">
+                <mat-select #vehicle
+                            formControlName="vehicle"
+                            (selectionChange)="getEmployeesByVehicle()">
 
                     <mat-option>-</mat-option>
 
@@ -72,6 +73,16 @@
                     </mat-option>
                 </mat-select>
             </mat-form-field>
+
+            <small *ngIf="employeesUsingVehicles.length"
+                   style="color: var(--color-carrot);">
+                <div>
+                    Funcionários com o mesmo veículo vinculado:
+                </div>
+                <strong>
+                    {{ employeesUsingVehicles | map:'name' }}
+                </strong>
+            </small>
         </div>
 
         <div class="col-12">

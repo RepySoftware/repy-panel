@@ -6,6 +6,7 @@ import { EmployeesRoutingModule } from './employees.routing';
 import { AngularMaterialModule } from '../../shared/angular-material.module';
 import { SharedModule } from '../../shared/shared.module';
 import { ReactiveFormsModule } from '@angular/forms';
+import { PipesModule } from '../../pipes/pipes.module';
 
 @NgModule({
   declarations: [EmployeeFormComponent, EmployeesComponent],
@@ -14,7 +15,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     EmployeesRoutingModule,
     AngularMaterialModule,
     SharedModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    PipesModule
   ]
 })
 export class EmployeesModule { }

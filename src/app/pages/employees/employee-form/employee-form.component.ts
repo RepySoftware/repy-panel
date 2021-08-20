@@ -26,6 +26,8 @@ export class EmployeeFormComponent implements OnInit {
 
   public employeeForm: FormGroup;
 
+  public employeesUsingVehicles: Employee[] = [];
+
   constructor(
     private _loader: LoaderService,
     private _toast: ToastService,
@@ -70,6 +72,8 @@ export class EmployeeFormComponent implements OnInit {
     this.employeeForm.get('isAgent').setValue(this.employee.isAgent);
     this.employeeForm.get('isDriver').setValue(this.employee.isDriver);
     this.employeeForm.get('isActive').setValue(this.employee.isActive);
+
+    this.getEmployeesByVehicle();
   }
 
   private getEmployee(): Promise<Employee> {
@@ -144,4 +148,18 @@ export class EmployeeFormComponent implements OnInit {
     return !!this.inputData;
   }
 
+  public getEmployeesByVehicle(): void {
+
+    this.employeesUsingVehicles = [];
+
+    const vehicleId: number = this.employeeForm.get('vehicle').value;
+
+    if (vehicleId) {
+      this._employeeService.getByVehicle({ vehicleId }).subscribe(response => {
+        this.employeesUsingVehicles = response;
+      }, error => {
+        this._toast.showHttpError(error);
+      });
+    }
+  }
 }

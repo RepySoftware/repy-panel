@@ -39,4 +39,8 @@ export class EmployeeService {
             params: HttpQueryParamsHelper.objectToParams(params)
         });
     }
+
+    public getByVehicle(params: { vehicleId: number }): Observable<Employee[]> {
+        return this._http.get<Employee[]>(`${URLS.api.employees}/vehicle/${params.vehicleId}`);
+    }
 }
