@@ -131,14 +131,19 @@ export class SaleOrdersComponent implements OnInit {
     this.saleOrderFilter.index = 0;
     this.saleOrderFilter.employeeDriverId = this.employeeDriverSelected?.id;
 
+    console.log(
+      this.startDateOfIssueElement.nativeElement.value,
+      this.endDateOfIssueElement.nativeElement.value
+    );
+
     this.saleOrderFilter.startDateOfIssue = this.startDateOfIssueElement.nativeElement.value
-      ? moment(this.startDateOfIssueElement.nativeElement.value)
+      ? moment(this.startDateOfIssueElement.nativeElement.value, 'DD/MM/YYYY')
         .startOf('day')
         .toISOString()
       : null;
 
     this.saleOrderFilter.endDateOfIssue = this.endDateOfIssueElement.nativeElement.value
-      ? moment(this.endDateOfIssueElement.nativeElement.value)
+      ? moment(this.endDateOfIssueElement.nativeElement.value, 'DD/MM/YYYY')
         .endOf('day')
         .toISOString()
       : null;
