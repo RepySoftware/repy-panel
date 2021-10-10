@@ -10,6 +10,14 @@
         {{ inputData.delivery.deliveryInstruction.description }}
     </div>
 
+    <div class="address"
+         *ngIf="inputData.delivery.deliveryInstruction.address">
+        <a href="javascript:;"
+           (click)="copyAddressToClipboard(inputData.delivery.deliveryInstruction.address)">
+            {{ inputData.delivery.deliveryInstruction.address | address }}
+        </a>
+    </div>
+
     <div style="width: 100%; margin-top: 8px;">
 
         <button mat-stroked-button

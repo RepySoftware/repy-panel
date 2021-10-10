@@ -1,4 +1,7 @@
 import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
+import { copyToClipboard } from '../../../../../functions/copy-to-clipboard';
+import { AddressHelper } from '../../../../../helpers/address.helper';
+import { Address } from '../../../../../models/api/address';
 import { Delivery } from '../../../../../models/api/delivery';
 import { AlertMessageService } from '../../../../../services/alert-message.service';
 import { DeliveryInstructionService } from '../../../../../services/delivery-instruction.service';
@@ -67,5 +70,15 @@ export class CardDeliveryInstructionComponent implements OnInit {
         }
       ]
     });
+  }
+
+  public copyAddressToClipboard(address: Address): void {
+
+    const copyResult = copyToClipboard(AddressHelper.format(address));
+    if (copyResult)
+      this._toast.open('Copiado para sua área de transferência!');
+    else {
+      this._toast.open('Erro ao copiar :(');
+    }
   }
 }

@@ -3,10 +3,12 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSelect } from '@angular/material/select';
 import { MatSlideToggle } from '@angular/material/slide-toggle';
 import { DefaultDeliveryInstruction } from '../../../../models/api/default-delivery-instruction';
+import { AddressOutput } from '../../../../models/output/address.output';
 import { DeliveryInstructionOutput } from '../../../../models/output/delivery-instruction.output';
 import { DeliveryInstructionService } from '../../../../services/delivery-instruction.service';
 import { LoaderService } from '../../../../services/loader.service';
 import { ToastService } from '../../../../services/toast.service';
+import { AddressConfigService } from '../../../../shared/address-config/address-config.service';
 
 export interface DeliveryInstructionFormInputData {
   index: number;
@@ -33,6 +35,7 @@ export class DeliveryInstructionFormComponent implements OnInit {
     private _toast: ToastService,
     private _loader: LoaderService,
     private _dialogRef: MatDialogRef<DeliveryInstructionFormComponent>,
+    private _addressConfigService: AddressConfigService,
     @Inject(MAT_DIALOG_DATA) public inputData: DeliveryInstructionFormInputData
   ) { }
 
@@ -83,6 +86,7 @@ export class DeliveryInstructionFormComponent implements OnInit {
       employeeDriverId,
       index,
       description,
+      address: this._addressConfigService.address as AddressOutput,
       checkableByDriver,
       firstPosition: this.inputData.index == 0
     }
