@@ -67,29 +67,48 @@ export class DeliveryMapComponent implements OnInit {
 
   private refreshDeliveriesMarkers(deliveries: Delivery[]): void {
 
+    const markerParams = {
+      [DeliveryType.saleOrder]: {
+        position: {
+          lat: (d: Delivery) => d.saleOrder.deliveryAddress.latitude,
+          lng: (d: Delivery) => d.saleOrder.deliveryAddress.longitude
+        },
+        title: (d: Delivery) => `#${d.saleOrder.id}`,
+        icon: (d: Delivery) => this.pinSymbol(d.saleOrder.employeeDriver?.color || '#000')
+      },
+      [DeliveryType.deliveryInstruction]: {
+        position: {
+          lat: (d: Delivery) => d.deliveryInstruction.address.latitude,
+          lng: (d: Delivery) => d.deliveryInstruction.address.longitude
+        },
+        title: (d: Delivery) => `#${d.deliveryInstruction.id}`,
+        icon: (d: Delivery) => this.pinSymbol(d.deliveryInstruction.employee?.color || '#000')
+      }
+    }
+
     this.markers = this.markers.filter(m => m.employeeDriverCoordinates);
 
     _(deliveries)
       .groupBy(d => d.employeeDriver?.id)
       .forEach(deliveriesByDriver => {
         deliveriesByDriver
-          .filter(x => x.type == DeliveryType.saleOrder)
+          .filter(x => x.type == DeliveryType.saleOrder || x.deliveryInstruction.address)
           .sort((a, b) => a.index - b.index)
           .forEach((d, i) => {
             this.markers.push({
               delivery: d,
               marker: {
                 position: {
-                  lat: d.saleOrder.deliveryAddress.latitude,
-                  lng: d.saleOrder.deliveryAddress.longitude
+                  lat: markerParams[d.type].position.lat(d),
+                  lng: markerParams[d.type].position.lng(d)
                 },
-                title: `#${d.saleOrder.id}`,
+                title: markerParams[d.type].title(d),
                 label: {
                   text: (i + 1).toString(),
                   className: 'map-marker-label',
                 },
                 options: {
-                  icon: this.pinSymbol(d.saleOrder.employeeDriver?.color || '#000')
+                  icon: markerParams[d.type].icon(d)
                 }
               }
             });
@@ -98,8 +117,8 @@ export class DeliveryMapComponent implements OnInit {
 
     if (this._firstLoading && deliveries.filter(d => d.type == DeliveryType.saleOrder).length) {
       this.mapCenter = {
-        lat: deliveries[0].saleOrder.deliveryAddress.latitude,
-        lng: deliveries[0].saleOrder.deliveryAddress.longitude
+        lat: markerParams[deliveries[0].type].position.lat(deliveries[0]),
+        lng: markerParams[deliveries[0].type].position.lng(deliveries[0])
       }
 
       this._firstLoading = false;

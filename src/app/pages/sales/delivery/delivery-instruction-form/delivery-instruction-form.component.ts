@@ -82,11 +82,13 @@ export class DeliveryInstructionFormComponent implements OnInit {
 
     const { employeeDriverId, index } = this.inputData;
 
+    const address = this._addressConfigService.address?.description ? this._addressConfigService.address as AddressOutput : null;
+
     const output: DeliveryInstructionOutput = {
       employeeDriverId,
       index,
       description,
-      address: this._addressConfigService.address as AddressOutput,
+      address,
       checkableByDriver,
       firstPosition: this.inputData.index == 0
     }
