@@ -24,19 +24,6 @@
         </mat-form-field>
     </div>
 
-    <div class="col-12">
-        <mat-expansion-panel>
-            <mat-expansion-panel-header>
-                <mat-panel-title>
-                    Incluir endereço
-                </mat-panel-title>
-            </mat-expansion-panel-header>
-
-            <app-address-config></app-address-config>
-
-        </mat-expansion-panel>
-    </div>
-
     <div class="col-12"
          *ngIf="deliveryInstruction.value == deliveryInstructionOtherValue">
         <div>
@@ -49,6 +36,19 @@
                       rows="5"
                       autocomplete="off"></textarea>
         </div>
+    </div>
+
+    <div class="col-12">
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    Incluir endereço
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <app-address-config></app-address-config>
+
+        </mat-expansion-panel>
     </div>
 
     <div class="col-12"
