@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://repy-api.seigas.com',
+  apiUrl: 'https://api.repy.net.br',
   forceHttps: true,
   googleMaps: {
     embedApiKey: 'AIzaSyB9UXCahHhhaMul9X3SF76aBgWDUUAwdPE'
